@@ -1,0 +1,91 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.Login {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(180deg, #613b3b 0%, #c77979 100%);
+  position: relative;
+  min-width: 1024px; /* Evita que la ventana sea demasiado pequeña */
+  min-height: 768px;
+}
+
+.Background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0.4;
+}
+
+.LogoRectangle,
+.LoginRectangle {
+  width: 35%;
+  max-width: 516px;
+  height: 483px;
+  border-radius: 50px;
+  background: linear-gradient(180deg, #f0b2b3 22%, #ff0004 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
+  padding: 20px;
+  position: relative;
+}
+
+.LogoRectangle {
+  margin-right: 5%;
+}
+
+.LoginRectangle {
+  margin-left: 5%;
+}
+
+.IniciarSesion {
+  font-size: 2rem;
+  font-family: "Inter", sans-serif;
+  color: black;
+}
+
+.Rectangle3,
+.Rectangle5 {
+  width: 80%;
+  height: 75px;
+  background: #d9d9d9;
+  margin: 10px 0;
+}
+
+.Ingresar {
+  width: 152px;
+  height: 42px;
+  background: #d9d9d9;
+  font-size: 20px;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.Logo {
+  width: 90%;
+  max-width: 465px;
+}
+
+/* 📱 Modo responsive */
+@media (max-width: 1200px) {
+  .Login {
+    flex-direction: column;
+  }
+
+  .LogoRectangle,
+  .LoginRectangle {
+    width: 80%;
+    max-width: 400px;
+    margin: 20px 0;
+  }
+}
