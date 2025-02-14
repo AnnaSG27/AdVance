@@ -56,6 +56,7 @@
 .Rectangle3,
 .Rectangle5 {
   width: 80%;
+  border-radius: 50px;
   height: 75px;
   background: #d9d9d9;
   margin: 10px 0;
@@ -64,11 +65,26 @@
 .Ingresar {
   width: 152px;
   height: 42px;
-  background: #d9d9d9;
+  background: linear-gradient(90deg, #ff7e5f, #feb47b);
   font-size: 20px;
   border: none;
+  border-radius: 25px;
+  color: white;
   cursor: pointer;
   margin-top: 20px;
+  transition: background 0.3s, transform 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Ingresar:hover {
+  background: linear-gradient(90deg, #feb47b, #ff7e5f);
+  transform: scale(1.05);
+}
+
+.Ingresar:active {
+  transform: scale(0.95);
 }
 
 .Logo {
@@ -88,4 +104,21 @@
     max-width: 400px;
     margin: 20px 0;
   }
+}
+.StyledInput {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-family: "Inter", sans-serif;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.StyledInput:focus {
+  border-color: #ff0004;
+  box-shadow: 0 4px 6px rgba(255, 0, 4, 0.3);
+  outline: none;
 }
