@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+import MySQLdb
 
 @csrf_exempt
 def login_view(request):
@@ -11,8 +12,19 @@ def login_view(request):
             password = data.get('password')
             print(f"Email: {email}, Password: {password}")
             
-            # Aquí puedes agregar la lógica para autenticar al usuario
-            if email == "test@example.com" and password == "password123":
+            db = MySQLdb.connect(
+                host = "localhost",
+                user = "root",
+                passwd = "Pastel112233",
+                db = "advance_db"
+            )
+            cursor = db.cursor()
+            
+            query = "SELECT * FROM user WHERE email = %s AND password = %s"
+            cursor.execute(query, (email, password))
+            result = cursor.fetchone()
+            
+            if result:
                 return JsonResponse({"message": "Login successful"}, status=200)
             else:
                 return JsonResponse({"message": "Invalid credentials"}, status=400)
@@ -22,6 +34,9 @@ def login_view(request):
         except Exception as e:
             print(f"Unexpected error: {e}")
             return JsonResponse({"message": "Internal server error"}, status=500)
+        finally:
+            if db:
+                db.close()
     
     print("Invalid request method")
     return JsonResponse({"message": "Invalid request method"}, status=405)
