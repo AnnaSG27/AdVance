@@ -46,7 +46,7 @@ const Dashboard = () => {
                 <img data-layer="foto" className="foto" src="/images/foto_usuario.jpg" alt="Preview" />
               </div>
               <div data-layer="usuario" className="usuario">
-                <h2>{email}</h2>
+                <h2>{userEmail}</h2>
               </div>
             </div>
             <div data-layer="div_derecha" className="DivDerecha">
@@ -59,7 +59,7 @@ const Dashboard = () => {
                     </div>
                     <div className="email_ver_editar">
                         <div data-layer="email" className="Email">
-                            {email}
+                            {userEmail}
                         </div>
                         <div data-layer="editar_email" className="EditarEmail">
                             <button className="editar_button">
@@ -73,7 +73,9 @@ const Dashboard = () => {
                         <h2>Contraseña</h2>
                     </div>
                     <div className="contrasena_ver_editar">
-                        <div data-layer="contraseña" className="ContraseA" />
+                        <div data-layer="contraseña" className="ContraseA">
+                            {userPassword}
+                        </div>
                         <div data-layer="editar_contraseña" className="EditarContraseA" />
                     </div>
                 </div>
@@ -82,7 +84,9 @@ const Dashboard = () => {
                         <h2>Descripción</h2>
                     </div>
                     <div className="descripcion_ver_editar">
-                        <div data-layer="Descripción" className="DescripciN" />
+                        <div data-layer="Descripción" className="DescripciN">
+                            {userDescription}
+                        </div>
                         <div data-layer="editar_descripcion"className="EditarDescripcion" />
                     </div>            
                 </div>
