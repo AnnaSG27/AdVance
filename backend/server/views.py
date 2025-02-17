@@ -25,7 +25,7 @@ def login_view(request):
             result = cursor.fetchone()
             
             if result:
-                return JsonResponse({"message": "Login successful"}, status=200)
+                return JsonResponse({"message": "Login successful", "email": result[1], "password": result[2], "description": result[3]}, status=200)
             else:
                 return JsonResponse({"message": "Invalid credentials"}, status=400)
         except json.JSONDecodeError as e:

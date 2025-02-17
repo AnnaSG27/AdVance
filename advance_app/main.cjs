@@ -31,6 +31,8 @@ function createWindow() {
 
     // Abre las herramientas de desarrollo (opcional)
     win.webContents.openDevTools();
+    win.setMenuBarVisibility(false);
+    win.removeMenu();
 }
 
 app.whenReady().then(createWindow);

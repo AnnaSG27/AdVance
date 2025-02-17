@@ -4,6 +4,12 @@
   box-sizing: border-box;
 }
 
+body, html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
 .Login {
   width: 100vw;
   height: 100vh;
@@ -12,8 +18,7 @@
   align-items: center;
   background: linear-gradient(180deg, #613b3b 0%, #c77979 100%);
   position: relative;
-  min-width: 1024px; /* Evita que la ventana sea demasiado pequeña */
-  min-height: 768px;
+  flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas pequeñas */
 }
 
 .Background {
@@ -25,9 +30,10 @@
 
 .LogoRectangle,
 .LoginRectangle {
-  width: 35%;
+  width: 35vw; /* Se ajusta proporcionalmente */
   max-width: 516px;
-  height: 483px;
+  height: 50vh; /* Se adapta dinámicamente */
+  max-height: 483px;
   border-radius: 50px;
   background: linear-gradient(180deg, #f0b2b3 22%, #ff0004 100%);
   display: flex;
@@ -35,20 +41,20 @@
   align-items: center;
   justify-content: center;
   opacity: 0.7;
-  padding: 20px;
+  padding: 2vw;
   position: relative;
 }
 
 .LogoRectangle {
-  margin-right: 5%;
+  margin-right: 2vw;
 }
 
 .LoginRectangle {
-  margin-left: 5%;
+  margin-left: 2vw;
 }
 
 .IniciarSesion {
-  font-size: 2rem;
+  font-size: 2vw; /* Escala el tamaño de la fuente según la pantalla */
   font-family: "Inter", sans-serif;
   color: black;
 }
@@ -57,21 +63,39 @@
 .Rectangle5 {
   width: 80%;
   border-radius: 50px;
-  height: 75px;
+  height: 6vh; /* Tamaño adaptable */
   background: #d9d9d9;
-  margin: 10px 0;
+  margin: 1vh 0;
+}
+
+.StyledInput {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-family: "Inter", sans-serif;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.StyledInput:focus {
+  border-color: #ff0004;
+  box-shadow: 0 4px 6px rgba(255, 0, 4, 0.3);
+  outline: none;
 }
 
 .Ingresar {
-  width: 152px;
-  height: 42px;
+  width: 15vw;
+  height: 6vh;
   background: linear-gradient(90deg, #ff7e5f, #feb47b);
-  font-size: 20px;
+  font-size: 1.5vw;
   border: none;
   border-radius: 25px;
   color: white;
   cursor: pointer;
-  margin-top: 20px;
+  margin-top: 2vh;
   transition: background 0.3s, transform 0.3s;
   display: flex;
   justify-content: center;
@@ -102,23 +126,37 @@
   .LoginRectangle {
     width: 80%;
     max-width: 400px;
-    margin: 20px 0;
+    margin: 2vh 0;
   }
 }
-.StyledInput {
-  width: 100%;
-  height: 100%;
-  padding: 10px;
-  border: 2px solid #ccc;
-  border-radius: 10px;
-  font-size: 1rem;
-  font-family: "Inter", sans-serif;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: border-color 0.3s, box-shadow 0.3s;
+
+/* 📱 Responsive para móviles */
+@media (max-width: 768px) {
+  .Login {
+    flex-direction: column;
+  }
+
+  .LogoRectangle,
+  .LoginRectangle {
+    width: 90%;
+    max-width: 300px;
+    height: auto;
+    padding: 5%;
+  }
+
+  .IniciarSesion {
+    font-size: 1.8rem;
+  }
+
+  .Ingresar {
+    font-size: 1rem;
+    width: 80%;
+  }
 }
 
-.StyledInput:focus {
-  border-color: #ff0004;
-  box-shadow: 0 4px 6px rgba(255, 0, 4, 0.3);
-  outline: none;
+/* 📱 Extra pequeño (menos de 500px) */
+@media (max-width: 500px) {
+  .Login {
+    transform: scale(0.85); /* Reduce todo el contenido en pantallas pequeñas */
+  }
 }

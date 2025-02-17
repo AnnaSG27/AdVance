@@ -1,12 +1,17 @@
 import React from "react";
-import Login from "./components/Login";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Login from './components/Login';
+import Dashboard from './components/Dashboard';
 
-function App() {
+const App = () => {
   return (
-    <div style={{ height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <Login />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;

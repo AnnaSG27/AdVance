@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./Login.css";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Evitar que la ventana de Electron se haga demasiado pequeña
@@ -24,8 +26,12 @@ const Login = () => {
   
       if (response.ok) {
         const data = await response.json();
-        console.log("Login successful:", data);
-        // Manejar el éxito del login
+        sessionStorage.setItem("userEmail", data.email);
+        sessionStorage.setItem("userPassword", data.password);
+        sessionStorage.setItem("userDescription", data.description);
+        console.log("Login successful:", email, password, description);
+        
+        navigate("/dashboard");
       } else {
         const errorData = await response.json();
         console.error("Login failed:", errorData);

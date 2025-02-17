@@ -1,0 +1,283 @@
+.Desktop1 {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    position: fixed;
+    opacity: 0.40;
+    background: linear-gradient(180deg, #C77979 0%, #613B3B 100%);
+  }
+  
+  .BarraMenu {
+    width: 100%;
+    height: 15vh;
+    position: relative;
+    left: 0;
+    top: 0;
+    background: transparent; /* Hacer el fondo transparente */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 -2px 10px rgba(0, 0, 0, 0.25); /* Sombra solo en el borde inferior */
+    z-index: 10; /* Asegúrate de que esté por encima de otros elementos */
+  }
+
+  .MenuLogo {
+    position:absolute;
+    left: 0; 
+    top: 0;
+    height: 100%;
+    width: 15vw;
+  }
+
+  .logo {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  
+  .MenuMiPerfil {
+    width: 15vw;
+    height: 100%;
+    right: 0;
+    top: 0;
+    position: absolute;     
+    background: transparent;
+  }
+  
+  .MenuMisAnuncios {
+    width: 15vw;
+    height: 100%;
+    right: 15vw;
+    top: 0;
+    position: absolute;     
+    background: transparent;
+  }
+
+  .MiPerfilButton,
+  .MisAnunciosButton {
+    width: 100%; /* Ocupa todo el ancho del div */
+    height: 100%; /* Ocupa todo el alto del div */
+    padding: 10px 20px;
+    font-size: 1.5em; /* Tamaño de letra más grande */
+    background-color: transparent; /* Fondo transparente */
+    color: white; /* Color de la letra */
+    border: none; /* Borde transparente */
+    cursor: pointer;
+    font-family: 'Copperplate', sans-serif; /* Cambia la fuente a Arial o cualquier otra fuente que prefieras */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+  }
+
+  .MiPerfilButton:hover,
+.MisAnunciosButton:hover {
+  background-color: rgb(253, 0, 0); /* Fondo semitransparente al pasar el cursor */
+  color: white;
+}
+
+.MiPerfilButton:active,
+.MiPerfilButton.active,
+.MisAnunciosButton:active,
+.MisAnunciosButton.active {
+  background-color: rgba(209, 49, 49, 0.4); /* Color de fondo cuando el botón está activo */
+  color: #613B3B; /* Color de la letra cuando el botón está activo */
+  outline: none;
+}
+
+.cuerpo_ventana {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 15vh); /* Ajusta la altura para que ocupe el espacio restante debajo de la barra de menú */
+    background: transparent; /* Fondo transparente */
+  }
+  
+  .welcome-message {
+    font-size: 3em; /* Tamaño de letra grande */
+    color: #613B3B; /* Color de la letra */
+    font-family: 'Poppins', sans-serif; /* Fuente Poppins */
+    text-align: center;
+  }
+
+  .CuerpoVentana {
+    align-self: stretch;
+    height: 833px;
+    padding-top: 5px;
+    justify-content: center;
+    align-items: flex-start;
+    display: inline-flex;
+  }
+  
+  .DivIzquierda {
+    width: 405px;
+    align-self: stretch;
+    padding-top: 35px;
+    padding-bottom: 381px;
+    padding-left: 61px;
+    padding-right: 58px;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 62px;
+    display: inline-flex;
+  }
+  
+  .foto_usuario {
+    width: 286px;
+    height: 286px;
+    background: #D9D9D9;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  .foto{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: relative;
+  }
+  
+  
+  .usuario {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    background: #c91d1d;
+  }
+  
+  .usuario h2 {
+    font-size: 1em; /* Tamaño de letra */
+    color: #613B3B; /* Color de la letra */
+    font-family: 'Poppins', sans-serif; /* Fuente Poppins */
+    font-weight: 600; /* Peso de la fuente */
+    text-align: center; /* Alinear el texto al centro */
+    margin: 0; /* Eliminar márgenes */
+    padding: 10px 20px; /* Añadir relleno */
+    background-color: rgba(255, 255, 255, 0.8); /* Fondo semitransparente */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para efecto 3D */
+  }
+  
+  .DivDerecha {
+    width: 1035px;
+    align-self: stretch;
+    padding-top: 99px;
+    padding-bottom: 158px;
+    padding-left: 95px;
+    padding-right: 160px;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    display: inline-flex;
+    overflow-y: auto; /* Permitir desplazamiento vertical */
+    max-height: 100%;
+    gap:70px;
+    margin-bottom: 20vh;
+  }
+  
+  .CampoEmail,
+  .CampoContraseA,
+  .CampoDescripcion {
+    width: 780px;
+    height: 137px;
+    position: relative;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    display: flex;
+    gap: 10px;
+  }
+  .email_ver_editar,
+  .contrasena_ver_editar,
+  .descripcion_ver_editar{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    
+  }
+  
+  .EmailTitulo,
+  .ConstraseATitulo,
+  .DescripcionTitulo {
+    width: 228px;
+    height: 27px;
+    background: #D9D9D9;
+    border-radius: 8px;
+  }
+  
+  .EditarEmail,
+  .EditarContraseA,
+  .EditarDescripcion {
+    width: 50px;
+    height: 50px;
+    background: #D9D9D9;
+    border-radius: 50%;
+    cursor: pointer;
+    overflow: hidden;
+    transition: background-color 0.3s ease;
+  }
+  .EditarEmail:hover,
+  .EditarContraseA:hover,
+  .EditarDescripcion:hover {
+    background-color: #c0c0c0;
+  }
+  
+  .editar_button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+  .editar_button img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .Email,
+  .ContraseA,
+  .DescripciN {
+    width: 643px;
+  height: 62px;
+  background: #D9D9D9;
+  border-radius: 8px;
+  padding: 10px; /* Añadir relleno */
+  font-family: 'Poppins', sans-serif; /* Fuente Poppins */
+  font-size: 1em; /* Tamaño de letra */
+  color: #333; /* Color de la letra */
+  display: flex;
+  align-items: center; /* Alinear verticalmente al centro */
+  justify-content: flex-start; /* Alinear horizontalmente a la izquierda */
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra interna para efecto 3D */
+  overflow: hidden; /* Ocultar desbordamiento */
+  text-overflow: ellipsis; /* Añadir puntos suspensivos si el texto es demasiado largo */
+  white-space: nowrap; /* Evitar que el texto se envuelva */
+  }
+  
+  .CampoDescripcion .DescripciN {
+    height: 197px;
+  white-space: normal; /* Permitir que el texto se envuelva */
+  overflow: auto; /* Permitir desplazamiento si el contenido es demasiado grande */
+  }
+
+
+  @media (max-width: 768px) {
+    .Desktop1 {
+      opacity: 0.5; /* Opción para ajustar la opacidad en pantallas pequeñas */
+    }
+  
+    .BarraMenu {
+      height: 20vh; /* Aumentar la altura de la barra en pantallas pequeñas */
+    }
+  
+    .MenuLogo {
+      width: 30vw; /* Hacer el logo un poco más grande en pantallas pequeñas */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .MenuLogo {
+      width: 50vw; /* Hacer el logo aún más grande en pantallas muy pequeñas */
+    }
+  }
+  
