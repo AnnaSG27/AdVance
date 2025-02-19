@@ -5,7 +5,14 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [nit, setNit] = useState("");
+  const [password_confirmation, setPassword_confirmation] = useState("");
+  const [activeButton, setActiveButton] = useState(null);
   const navigate = useNavigate();
+
+  const handleButtonClick = (buttonName) => {
+    setActiveButton(buttonName);
+  };
 
   useEffect(() => {
     // Evitar que la ventana de Electron se haga demasiado pequeña
@@ -29,7 +36,6 @@ const Login = () => {
         sessionStorage.setItem("userEmail", data.email);
         sessionStorage.setItem("userPassword", data.password);
         sessionStorage.setItem("userDescription", data.description);
-        console.log("Login successful:", email, password, description);
         
         navigate("/dashboard");
       } else {
@@ -49,28 +55,84 @@ const Login = () => {
         <img className="Logo" src="/images/logo.png" alt="Logo" />
       </div>
       <div className="LoginRectangle">
-        <h1 className="IniciarSesion">Iniciar Sesión</h1>
-        <div className="Rectangle3">
-          <input
-            className="StyledInput"
-            type="text"
-            placeholder="Ingrese su email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+        <div className="head_login"> {activeButton === 'login' ? (
+            <h1 className="IniciarSesion">Iniciar Sesión</h1>) : (
+            <h1 className="IniciarSesion">Registrar</h1>
+            )}
+            <div className="register_buttons">
+              <button className={`login_button ${activeButton === 'login' ? 'active' : ''}`} onClick={() => handleButtonClick('login')} >Iniciar Sesión</button>
+              <button className={`register_button ${activeButton === 'register' ? 'active' : ''}`} onClick={() => handleButtonClick('register')}>Registrar</button>
+            </div>
+            
         </div>
-        <div className="Rectangle5">
-          <input
-            className="StyledInput"
-            type="password"
-            placeholder="Ingrese su contraseña"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+        <div className="session_rectangle"> {activeButton === 'login' ? (
+          <div className="login_rectangle">
+            <div className="email_rectangle">
+              <input
+                className="StyledInput"
+                type="text"
+                placeholder="Ingrese su email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="password_rectangle">
+              <input
+                className="StyledInput"
+                type="password"
+                placeholder="Ingrese su contraseña"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <button className="Ingresar" onClick={handleLogin}>
+              Ingresar
+            </button>
+          </div>
+        ) : (
+          <div className="register_rectangle">
+            <div className="email_rectangle">
+              <input
+                className="StyledInput"
+                type="text"
+                placeholder="Ingrese su email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="password_rectangle">
+              <input
+                className="StyledInput"
+                type="password"
+                placeholder="Ingrese su contraseña"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <div className="password_confirmation_rectangle">
+              <input
+                className="StyledInput"
+                type="password"
+                placeholder="Confirme su contraseña"
+                value={password_confirmation}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <div className="nit_rectangle">
+              <input
+                className="StyledInput"
+                type="text"
+                placeholder="Ingrese el NIT de su empresa"
+                value={nit}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <button className="Ingresar" onClick={handleLogin}>
+              Ingresar
+            </button>
+          </div>
+        )}
         </div>
-        <button className="Ingresar" onClick={handleLogin}>
-          Ingresar
-        </button>
       </div>
       <div className="Line1"></div>
     </div>

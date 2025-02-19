@@ -49,19 +49,69 @@ body, html {
   margin-right: 2vw;
 }
 
-.LoginRectangle {
-  margin-left: 2vw;
+.head_login {
+  width: 80%;
+  height: 10vh;
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
 }
-
 .IniciarSesion {
-  font-size: 2vw; /* Escala el tamaño de la fuente según la pantalla */
+  font-size: 2vw; 
   font-family: "Inter", sans-serif;
+  left: 0;
   color: black;
 }
+.register_buttons {
+  width: 50%;
+  height: 10vh;
+  display: flex;
+  align-items: center;
+}
+.login_button,
+.register_button {
+  margin-right: 0;
+  position: relative;
+  width: 50%;
+  height: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5vw;
+}
+.login_button {
+  border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px;
+}
+.register_button {
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+}
+.session_rectangle {
+  width: 80%
 
-.Rectangle3,
-.Rectangle5 {
-  width: 80%;
+}
+.login_rectangle, 
+.register_rectangle {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.register_rectangle {
+  overflow-y: auto; 
+}
+
+.email_rectangle,
+.password_rectangle,
+.password_confirmation_rectangle,
+.nit_rectangle {
+  width: 100%;
   border-radius: 50px;
   height: 6vh; /* Tamaño adaptable */
   background: #d9d9d9;

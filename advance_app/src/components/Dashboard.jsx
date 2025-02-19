@@ -11,9 +11,9 @@ const Dashboard = () => {
     console.log("Email: ", userEmail, "Password: ", userPassword, "Description: ", userDescription);
 
 
-  const handleButtonClick = (buttonName) => {
-    setActiveButton(buttonName);
-  };
+    const handleButtonClick = (buttonName) => {
+      setActiveButton(buttonName);
+    };
 
   return (
     <div data-layer="Desktop - 1" className="Desktop1">
