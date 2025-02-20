@@ -7,6 +7,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [nit, setNit] = useState("");
   const [password_confirmation, setPassword_confirmation] = useState("");
+  const [userType, setUserType] = useState("");
   const [activeButton, setActiveButton] = useState(null);
   const navigate = useNavigate();
 
@@ -14,13 +15,7 @@ const Login = () => {
     setActiveButton(buttonName);
   };
 
-  useEffect(() => {
-    // Evitar que la ventana de Electron se haga demasiado pequeña
-    if (window.electron) {
-      window.electron.setMinSize(1024, 768);
-    }
-  }, []);
-
+  // handle login
   const handleLogin = async () => {
     try {
       const response = await fetch("http://localhost:8000/api/login/", {
@@ -36,12 +31,54 @@ const Login = () => {
         sessionStorage.setItem("userEmail", data.email);
         sessionStorage.setItem("userPassword", data.password);
         sessionStorage.setItem("userDescription", data.description);
+        sessionStorage.setItem("userType", data.userType);
+        if(data.userType === 'reclutador') {
+          sessionStorage.setItem("userNit", data.nit);
+        }
+
         
         navigate("/dashboard");
       } else {
         const errorData = await response.json();
         console.error("Login failed:", errorData);
         // Manejar el error del login
+      }
+    } catch (error) {
+      console.error("Error during fetch:", error);
+    }
+  };
+
+  // handle register
+  const handleRegister = async() => {
+    if(password !== password_confirmation) {
+      alert("Las contraseñas no coinciden");
+      return;
+    }
+
+    try {
+      const response = await fetch ("http://localhost:8000/api/register/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password, userType, nit: userType === 'reclutador' ? nit : null }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("data", data);
+        sessionStorage.setItem("userEmail", data.email);
+        sessionStorage.setItem("userPassword", data.password);
+        sessionStorage.setItem("userType", data.userType);
+        if(data.userType === 'reclutador') {
+        sessionStorage.setItem("userNit", data.nit);
+        }
+
+        navigate("/dashboard");
+      } else {
+        const errorData = await response.json();
+        console.error("Register failed:", errorData);
+        // Manejar el error del registro
       }
     } catch (error) {
       console.error("Error during fetch:", error);
@@ -63,7 +100,6 @@ const Login = () => {
               <button className={`login_button ${activeButton === 'login' ? 'active' : ''}`} onClick={() => handleButtonClick('login')} >Iniciar Sesión</button>
               <button className={`register_button ${activeButton === 'register' ? 'active' : ''}`} onClick={() => handleButtonClick('register')}>Registrar</button>
             </div>
-            
         </div>
         <div className="session_rectangle"> {activeButton === 'login' ? (
           <div className="login_rectangle">
@@ -115,8 +151,18 @@ const Login = () => {
                 type="password"
                 placeholder="Confirme su contraseña"
                 value={password_confirmation}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => setPassword_confirmation(e.target.value)}
               />
+            </div>
+            <div className="type_user_rectangle">
+              <select
+                className="StyledSelect"
+                value={userType}
+                onChange={(e) => setUserType(e.target.value)}>
+                <option value="" disabled>Seleccione el tipo de usuario</option>
+                <option value="magneto">Magneto</option>
+                <option value="reclutador">Reclutador</option>
+              </select>
             </div>
             <div className="nit_rectangle">
               <input
@@ -124,11 +170,11 @@ const Login = () => {
                 type="text"
                 placeholder="Ingrese el NIT de su empresa"
                 value={nit}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => setNit(e.target.value)}
               />
             </div>
-            <button className="Ingresar" onClick={handleLogin}>
-              Ingresar
+            <button className="Ingresar" onClick={handleRegister}>
+              Registrar
             </button>
           </div>
         )}

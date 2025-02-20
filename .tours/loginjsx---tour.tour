@@ -1,0 +1,22 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "login.jsx - tour",
+  "steps": [
+    {
+      "file": "advance_app/src/components/Login.jsx",
+      "description": "declaro las variables que voy a utilizar para el login/registro\r\n",
+      "line": 5
+    },
+    {
+      "file": "advance_app/src/components/Login.jsx",
+      "description": "función para manejar lo que haga cualquier botón",
+      "line": 13
+    },
+    {
+      "file": "advance_app/src/components/Login.jsx",
+      "description": "aquí se maneja la verificación del login",
+      "line": 24
+    }
+  ],
+  "ref": "master"
+}

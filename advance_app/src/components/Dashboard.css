@@ -36,6 +36,14 @@
   .MenuMiPerfil {
     width: 15vw;
     height: 100%;
+    right: 15vw;
+    top: 0;
+    position: absolute;     
+    background: transparent;
+  }
+  .menuSalir {
+    width: 15vw;
+    height: 100%;
     right: 0;
     top: 0;
     position: absolute;     
@@ -45,14 +53,15 @@
   .MenuMisAnuncios {
     width: 15vw;
     height: 100%;
-    right: 15vw;
+    right: 30vw;
     top: 0;
     position: absolute;     
     background: transparent;
   }
 
   .MiPerfilButton,
-  .MisAnunciosButton {
+  .MisAnunciosButton,
+  .salirButton {
     width: 100%; /* Ocupa todo el ancho del div */
     height: 100%; /* Ocupa todo el alto del div */
     padding: 10px 20px;
@@ -69,15 +78,18 @@
   }
 
   .MiPerfilButton:hover,
-.MisAnunciosButton:hover {
-  background-color: rgb(253, 0, 0); /* Fondo semitransparente al pasar el cursor */
-  color: white;
-}
+  .MisAnunciosButton:hover,
+  .salirButton:hover {
+    background-color: rgb(253, 0, 0); /* Fondo semitransparente al pasar el cursor */
+    color: white;
+  }
 
 .MiPerfilButton:active,
 .MiPerfilButton.active,
 .MisAnunciosButton:active,
-.MisAnunciosButton.active {
+.MisAnunciosButton.active,
+.salirButton:active,
+.salirButton.active {
   background-color: rgba(209, 49, 49, 0.4); /* Color de fondo cuando el botón está activo */
   color: #613B3B; /* Color de la letra cuando el botón está activo */
   outline: none;

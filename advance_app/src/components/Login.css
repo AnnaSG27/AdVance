@@ -43,6 +43,9 @@ body, html {
   opacity: 0.7;
   padding: 2vw;
   position: relative;
+  overflow-y: auto;
+  padding-top: 4vh;
+  padding-bottom: 4vh;
 }
 
 .LogoRectangle {
@@ -57,6 +60,7 @@ body, html {
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
+  margin-top: 10vh;
 }
 .IniciarSesion {
   font-size: 2vw; 
@@ -81,7 +85,7 @@ body, html {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
 }
 .login_button {
   border-top-left-radius: 50px;
@@ -103,13 +107,16 @@ body, html {
   align-items: center;
   flex-direction: column;
 }
-.register_rectangle {
-  overflow-y: auto; 
+.LoginRectangle::-webkit-scrollbar {
+  width: 0px; /* Ancho de la barra de desplazamiento */
+  background: transparent; /* Fondo de la barra de desplazamiento */
 }
+
 
 .email_rectangle,
 .password_rectangle,
 .password_confirmation_rectangle,
+.type_user_rectangle,
 .nit_rectangle {
   width: 100%;
   border-radius: 50px;
@@ -118,7 +125,8 @@ body, html {
   margin: 1vh 0;
 }
 
-.StyledInput {
+.StyledInput,
+.StyledSelect {
   width: 100%;
   height: 100%;
   padding: 10px;
@@ -135,6 +143,7 @@ body, html {
   box-shadow: 0 4px 6px rgba(255, 0, 4, 0.3);
   outline: none;
 }
+
 
 .Ingresar {
   width: 15vw;
@@ -176,7 +185,11 @@ body, html {
   .LoginRectangle {
     width: 80%;
     max-width: 400px;
-    margin: 2vh 0;
+    margin: 2vh auto;
+    display: flex;
+    overflow-y: auto; 
+    margin-top: 2vh;
+    padding-top: 10vh;
   }
 }
 

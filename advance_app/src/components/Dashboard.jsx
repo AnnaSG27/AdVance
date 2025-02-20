@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Dashboard.css';
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
 
@@ -8,11 +9,20 @@ const Dashboard = () => {
     const userEmail = sessionStorage.getItem('userEmail');
     const userPassword = sessionStorage.getItem('userPassword');
     const userDescription = sessionStorage.getItem('userDescription');
-    console.log("Email: ", userEmail, "Password: ", userPassword, "Description: ", userDescription);
-
+    const userType = sessionStorage.getItem('userType');
+    const navigate = useNavigate();
+    console.log("email", userEmail, "password", userPassword, "description", userDescription, "type", userType);
+    if(userType === 'reclutador') {
+        const userNit = sessionStorage.getItem('userNit');
+    }
 
     const handleButtonClick = (buttonName) => {
       setActiveButton(buttonName);
+    };
+
+    const handleLogout = () => {
+      sessionStorage.clear();
+      navigate("/");
     };
 
   return (
@@ -20,6 +30,13 @@ const Dashboard = () => {
       <div data-layer="Barra_menu" className="BarraMenu">
         <div data-layer="menu_logo" className="MenuLogo">
           <img data-layer="logo" className="logo" src="/images/logo.png" alt="Preview" />
+        </div>
+        <div data-layer="salir" className="menuSalir">
+          <button
+            className= "salirButton" onClick={handleLogout}
+          >
+            Salir
+          </button>
         </div>
         <div data-layer="menu_mi_perfil" className="MenuMiPerfil">
           <button
