@@ -22,7 +22,7 @@ const Dashboard = () => {
 
     const handleLogout = () => {
       sessionStorage.clear();
-      navigate("/");
+      navigate("/", { state: { activeButton: 'login' } });
     };
 
   return (

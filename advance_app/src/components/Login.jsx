@@ -92,7 +92,7 @@ const Login = () => {
         <img className="Logo" src="/images/logo.png" alt="Logo" />
       </div>
       <div className="LoginRectangle">
-        <div className="head_login"> {activeButton === 'login' ? (
+        <div className="head_session"> {activeButton === 'login' ? (
             <h1 className="IniciarSesion">Iniciar Sesión</h1>) : (
             <h1 className="IniciarSesion">Registrar</h1>
             )}

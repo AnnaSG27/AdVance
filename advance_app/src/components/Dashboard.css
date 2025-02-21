@@ -4,8 +4,7 @@
     top: 0;
     left: 0;
     position: fixed;
-    opacity: 0.40;
-    background: linear-gradient(180deg, #C77979 0%, #613B3B 100%);
+    background: linear-gradient(180deg, #613b3b 0%, #c77979 100%);
   }
   
   .BarraMenu {
@@ -80,7 +79,7 @@
   .MiPerfilButton:hover,
   .MisAnunciosButton:hover,
   .salirButton:hover {
-    background-color: rgb(253, 0, 0); /* Fondo semitransparente al pasar el cursor */
+    background-color:  rgba(209, 49, 49, 0.4); /* Fondo semitransparente al pasar el cursor */
     color: white;
   }
 
@@ -90,16 +89,16 @@
 .MisAnunciosButton.active,
 .salirButton:active,
 .salirButton.active {
-  background-color: rgba(209, 49, 49, 0.4); /* Color de fondo cuando el botón está activo */
+  background-color: rgb(253, 0, 0); /* Color de fondo cuando el botón está activo */
   color: #613B3B; /* Color de la letra cuando el botón está activo */
   outline: none;
 }
 
 .cuerpo_ventana {
+    height: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: calc(100vh - 15vh); /* Ajusta la altura para que ocupe el espacio restante debajo de la barra de menú */
+    align-items: center; /* Ajusta la altura para que ocupe el espacio restante debajo de la barra de menú */
     background: transparent; /* Fondo transparente */
   }
   
@@ -112,7 +111,6 @@
 
   .CuerpoVentana {
     align-self: stretch;
-    height: 833px;
     padding-top: 5px;
     justify-content: center;
     align-items: flex-start;
@@ -120,22 +118,23 @@
   }
   
   .DivIzquierda {
-    width: 405px;
+    height: 100%;
+    width: 80vw;
     align-self: stretch;
     padding-top: 35px;
     padding-bottom: 381px;
     padding-left: 61px;
     padding-right: 58px;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     gap: 62px;
     display: inline-flex;
   }
   
   .foto_usuario {
-    width: 286px;
-    height: 286px;
+    width: 15vw;
+    height: 20vh;
     background: #D9D9D9;
     border-radius: 50%;
     overflow: hidden;
@@ -174,9 +173,9 @@
     width: 1035px;
     align-self: stretch;
     padding-top: 99px;
-    padding-bottom: 158px;
     padding-left: 95px;
     padding-right: 160px;
+    padding-bottom: 20px;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
