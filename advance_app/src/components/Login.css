@@ -148,7 +148,7 @@ body, html {
 .password_rectangle,
 .password_confirmation_rectangle,
 .type_user_rectangle,
-.nit_rectangle {
+.nombreEmpresa_rectangle {
   width: 100%;
   border-radius: 50px;
   height: 6vh; /* Tamaño adaptable */

@@ -1,19 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import './Dashboard.css';
 import { useNavigate } from "react-router-dom";
+import Modal from "react-modal";
+import { ToastContainer, toast } from 'react-toastify';
+
+Modal.setAppElement("#root");
 
 const Dashboard = () => {
 
     const [activeButton, setActiveButton] = useState(null);
     const [email, setEmail] = useState('');
+    const [userId, setUserId] = sessionStorage.getItem('userId');
     const userEmail = sessionStorage.getItem('userEmail');
     const userPassword = sessionStorage.getItem('userPassword');
     const userDescription = sessionStorage.getItem('userDescription');
     const userType = sessionStorage.getItem('userType');
     const navigate = useNavigate();
-    console.log("email", userEmail, "password", userPassword, "description", userDescription, "type", userType);
+    const [newValue, setNewvalue] = useState('');
+    const [fieldToEdit, setFieldToEdit] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    let userNombreEmpresa = "";
     if(userType === 'reclutador') {
-        const userNit = sessionStorage.getItem('userNit');
+        userNombreEmpresa = sessionStorage.getItem('userNombreEmpresa');
     }
 
     const handleButtonClick = (buttonName) => {
@@ -25,8 +34,62 @@ const Dashboard = () => {
       navigate("/", { state: { activeButton: 'login' } });
     };
 
+    const openModal = (field) => {
+      setFieldToEdit(field);
+      if (field === 'email') {
+        setNewvalue(userEmail);
+      } else if (field === 'password') {
+        setNewvalue(userPassword);
+      } else if (field === 'description') {
+        setNewvalue(userDescription);
+      }
+
+      setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+      setIsModalOpen(false);
+    };
+
+    const handleEdit = async() => {
+      try {
+        const response = await fetch("http://localhost:8000/api/edit_profile/", {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userId, fieldToEdit, newValue }),
+        });
+    
+        if (response.ok) {
+          const data = await response.json();
+          if (data.field === "email") {
+            sessionStorage.setItem("userEmail", data.change); 
+          } else if (data.field === "password") {
+            sessionStorage.setItem("userPassword", data.change);
+          } else if (data.field === "description") {
+            sessionStorage.setItem("userDescription", data.change);
+          }
+          toast.success("Campo actualizado correctamente");
+          closeModal();
+        } else {
+          const errorData = await response.json();
+          if(errorData.message === "This email already exists") {
+            toast.error("Este email ya existe");
+          }
+        }
+      } catch (error) {
+        console.error("Error during fetch:", error);
+      }
+    };
+
+    const togglePasswordVisibility = () => {
+      setShowPassword(!showPassword);
+    };
+
   return (
     <div data-layer="Desktop - 1" className="Desktop1">
+      <ToastContainer />
       <div data-layer="Barra_menu" className="BarraMenu">
         <div data-layer="menu_logo" className="MenuLogo">
           <img data-layer="logo" className="logo" src="/images/logo.png" alt="Preview" />
@@ -65,6 +128,11 @@ const Dashboard = () => {
               <div data-layer="usuario" className="usuario">
                 <h2>{userEmail}</h2>
               </div>
+              {userType === 'reclutador' && (
+                <div data-layer="nombreEmpresa" className="nombreEmpresa">
+                  <h2>{userNombreEmpresa}</h2>
+                </div>
+              )}
             </div>
             <div data-layer="div_derecha" className="DivDerecha">
                 <div className="mi_perfil_titulo">
@@ -79,7 +147,7 @@ const Dashboard = () => {
                             {userEmail}
                         </div>
                         <div data-layer="editar_email" className="EditarEmail">
-                            <button className="editar_button">
+                            <button className="editar_button" onClick={() => openModal('email', userEmail)}>
                                 <img data-layer="editar" className="editar" src="/images/editar.jpg" alt="Preview" />
                             </button>
                         </div>
@@ -90,10 +158,19 @@ const Dashboard = () => {
                         <h2>Contraseña</h2>
                     </div>
                     <div className="contrasena_ver_editar">
-                        <div data-layer="contraseña" className="ContraseA">
+                        <div data-layer="contraseña" className={`ContraseA ${showPassword ? '' : 'password-mask'}`}>
                             {userPassword}
+                            <div className="togglePassword">
+                              <button className="toggle_button" onClick={togglePasswordVisibility}>
+                                <img data-layer="toggle" className="toggle" src={showPassword ? "/images/hidePassword.jpg" : "/images/showPassword.jpg"} alt="Toggle Password Visibility" />
+                              </button>
+                            </div>
                         </div>
-                        <div data-layer="editar_contraseña" className="EditarContraseA" />
+                        <div data-layer="editar_contraseña" className="EditarContraseA">
+                            <button className="editar_button" onClick={() => openModal('password')}>
+                                <img data-layer="editar" className="editar" src="/images/editar.jpg" alt="Preview" />
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div data-layer="campo_descripcion" className="CampoDescripcion">
@@ -104,7 +181,11 @@ const Dashboard = () => {
                         <div data-layer="Descripción" className="DescripciN">
                             {userDescription}
                         </div>
-                        <div data-layer="editar_descripcion"className="EditarDescripcion" />
+                        <div data-layer="editar_descripcion"className="EditarDescripcion">
+                            <button className="editar_button" onClick={() => openModal('description')}>
+                                <img data-layer="editar" className="editar" src="/images/editar.jpg" alt="Preview" />
+                            </button>
+                        </div>
                     </div>            
                 </div>
                 </div>
@@ -113,6 +194,27 @@ const Dashboard = () => {
           <h1 className="welcome-message">Bienvenido a AdVance</h1>
         )}
       </div>
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        contentLabel="Editar Campo"
+        className="Modal"
+        overlayClassName="Overlay">
+          <ToastContainer />
+        <h2>Editar {fieldToEdit === "password" ? "Contraseña" : fieldToEdit}</h2>
+        <input
+          className= "StyledInput"
+          type= "text"
+          value={newValue}
+          onChange={(e) => setNewvalue(e.target.value)}
+        />
+        <button className="saveButton" onClick={handleEdit}>
+          Guardar
+        </button>
+        <button className="cancelButton" onClick={closeModal}>
+          Cancelar
+        </button>
+      </Modal>
     </div>
   );
 };

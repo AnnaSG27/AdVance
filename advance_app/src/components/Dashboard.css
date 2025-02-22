@@ -95,7 +95,8 @@
 }
 
 .cuerpo_ventana {
-    height: 100%;
+    height: 85vh;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center; /* Ajusta la altura para que ocupe el espacio restante debajo de la barra de menú */
@@ -112,51 +113,56 @@
   .CuerpoVentana {
     align-self: stretch;
     padding-top: 5px;
+    width: 100%;
+    height: 85vh;
     justify-content: center;
     align-items: flex-start;
     display: inline-flex;
   }
   
   .DivIzquierda {
-    height: 100%;
-    width: 80vw;
+    height: 85vh;
+    width: 30vw;
     align-self: stretch;
-    padding-top: 35px;
-    padding-bottom: 381px;
-    padding-left: 61px;
-    padding-right: 58px;
+    padding-top: 5vh;
+    padding-bottom: 5vh;
+    padding-left: 5vw;
+    padding-right: 5vw;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    gap: 62px;
     display: inline-flex;
   }
   
   .foto_usuario {
-    width: 15vw;
-    height: 20vh;
+    width: 150px;
+    aspect-ratio: 1 / 1;
     background: #D9D9D9;
     border-radius: 50%;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .foto{
     width: 100%;
     height: 100%;
     object-fit: cover;
-    position: relative;
   }
   
   
-  .usuario {
+  .usuario,
+  .nombreEmpresa {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     margin-top: 20px;
-    background: #c91d1d;
+    background: transparent;
   }
   
-  .usuario h2 {
+  .usuario h2,
+  .nombreEmpresa h2 {
     font-size: 1em; /* Tamaño de letra */
     color: #613B3B; /* Color de la letra */
     font-family: 'Poppins', sans-serif; /* Fuente Poppins */
@@ -170,12 +176,12 @@
   }
   
   .DivDerecha {
-    width: 1035px;
+    width: 70vw;
     align-self: stretch;
-    padding-top: 99px;
+    padding-top: 6vh;
     padding-left: 95px;
     padding-right: 160px;
-    padding-bottom: 20px;
+    padding-bottom: 20vh;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
@@ -183,28 +189,27 @@
     overflow-y: auto; /* Permitir desplazamiento vertical */
     max-height: 100%;
     gap:70px;
-    margin-bottom: 20vh;
   }
   
   .CampoEmail,
   .CampoContraseA,
   .CampoDescripcion {
-    width: 780px;
-    height: 137px;
+    width: 55vw;
+    height: 25vh;
     position: relative;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
     display: flex;
-    gap: 10px;
+    gap: 2vh;
   }
   .email_ver_editar,
   .contrasena_ver_editar,
   .descripcion_ver_editar{
+    width: 100%;
     display: flex;
     align-items: center;
-    gap: 10px;
-    
+    gap: 2vw;
   }
   
   .EmailTitulo,
@@ -220,7 +225,7 @@
   .EditarContraseA,
   .EditarDescripcion {
     width: 50px;
-    height: 50px;
+    aspect-ratio: 1 / 1; /* Mantiene la proporción cuadrada */
     background: #D9D9D9;
     border-radius: 50%;
     cursor: pointer;
@@ -248,47 +253,103 @@
   .Email,
   .ContraseA,
   .DescripciN {
-    width: 643px;
-  height: 62px;
-  background: #D9D9D9;
-  border-radius: 8px;
-  padding: 10px; /* Añadir relleno */
-  font-family: 'Poppins', sans-serif; /* Fuente Poppins */
-  font-size: 1em; /* Tamaño de letra */
-  color: #333; /* Color de la letra */
-  display: flex;
-  align-items: center; /* Alinear verticalmente al centro */
-  justify-content: flex-start; /* Alinear horizontalmente a la izquierda */
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra interna para efecto 3D */
-  overflow: hidden; /* Ocultar desbordamiento */
-  text-overflow: ellipsis; /* Añadir puntos suspensivos si el texto es demasiado largo */
-  white-space: nowrap; /* Evitar que el texto se envuelva */
-  }
-  
-  .CampoDescripcion .DescripciN {
-    height: 197px;
-  white-space: normal; /* Permitir que el texto se envuelva */
-  overflow: auto; /* Permitir desplazamiento si el contenido es demasiado grande */
+    width: 70vw;
+    height: 8vh;
+    background: #D9D9D9;
+    border-radius: 8px;
+    position: relative;
+    padding: 10px; /* Añadir relleno */
+    font-family: 'Poppins', sans-serif; /* Fuente Poppins */
+    font-size: 1em; /* Tamaño de letra */
+    color: #333; /* Color de la letra */
+    display: flex;
+    align-items: center; /* Alinear verticalmente al centro */
+    justify-content: space-between; /* Alinear horizontalmente a la izquierda */
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra interna para efecto 3D */
+    overflow: hidden; /* Ocultar desbordamiento */
+    text-overflow: ellipsis; /* Añadir puntos suspensivos si el texto es demasiado largo */
+    white-space: nowrap; /* Evitar que el texto se envuelva */
   }
 
+  .password-mask{
+    -webkit-text-security: disc;
+  }
 
-  @media (max-width: 768px) {
-    .Desktop1 {
-      opacity: 0.5; /* Opción para ajustar la opacidad en pantallas pequeñas */
-    }
-  
-    .BarraMenu {
-      height: 20vh; /* Aumentar la altura de la barra en pantallas pequeñas */
-    }
-  
-    .MenuLogo {
-      width: 30vw; /* Hacer el logo un poco más grande en pantallas pequeñas */
-    }
+  .togglePassword {
+    width: 3vw;
+    height: 3vh;
+    background: #D9D9D9;
+    cursor: pointer;
+    overflow: hidden;
+    transition: background-color 0.3s ease;
+    position: relative;
   }
   
-  @media (max-width: 480px) {
-    .MenuLogo {
-      width: 50vw; /* Hacer el logo aún más grande en pantallas muy pequeñas */
-    }
+  .toggle_button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    outline: none;
+  }
+  
+  .toggle_button:focus,
+  .toggle_button:active {
+    outline: none; 
+    border: none;  
+    box-shadow: none; 
+  }
+  
+  .toggle_button img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    mix-blend-mode: darken; 
+  }
+
+  .Modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    background: #AF7077;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .Overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+  }
+  
+  .saveButton, .cancelButton {
+    margin-top: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .saveButton {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .cancelButton {
+    background-color: #f44336;
+    color: white;
+    margin-left: 10px;
+  }
+
+  .Toastify__toast-container {
+    z-index: 9999;
   }
   

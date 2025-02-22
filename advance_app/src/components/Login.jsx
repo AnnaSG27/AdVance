@@ -1,22 +1,35 @@
 import React, { useState, useEffect } from "react";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [nit, setNit] = useState("");
+  const [nombreEmpresa, setNombreEmpresa] = useState("");
   const [password_confirmation, setPassword_confirmation] = useState("");
   const [userType, setUserType] = useState("");
-  const [activeButton, setActiveButton] = useState(null);
+  const [activeButton, setActiveButton] = useState("login");
   const navigate = useNavigate();
+  const upperCaseLetters = (str) => /[A-Z]/.test(str);
+  const specialCharacters = (str) => /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(str);
 
   const handleButtonClick = (buttonName) => {
     setActiveButton(buttonName);
   };
 
+  const validateEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
+  };
+
   // handle login
   const handleLogin = async () => {
+    if(!validateEmail(email)) {
+      toast.error("Email inválido");
+      return;
+    }
     try {
       const response = await fetch("http://localhost:8000/api/login/", {
         method: "POST",
@@ -28,20 +41,24 @@ const Login = () => {
   
       if (response.ok) {
         const data = await response.json();
+        sessionStorage.setItem("userId", data.id);
         sessionStorage.setItem("userEmail", data.email);
         sessionStorage.setItem("userPassword", data.password);
         sessionStorage.setItem("userDescription", data.description);
         sessionStorage.setItem("userType", data.userType);
         if(data.userType === 'reclutador') {
-          sessionStorage.setItem("userNit", data.nit);
+          sessionStorage.setItem("userNombreEmpresa", data.nombreEmpresa);
         }
 
         
         navigate("/dashboard");
       } else {
         const errorData = await response.json();
-        console.error("Login failed:", errorData);
-        // Manejar el error del login
+        if(errorData.message === "Email does not exists") {
+          toast.error("Email no encontrado");
+        } else if(errorData.message === "Invalid password") {
+          toast.error("Contraseña inválida");
+        }
       }
     } catch (error) {
       console.error("Error during fetch:", error);
@@ -51,7 +68,16 @@ const Login = () => {
   // handle register
   const handleRegister = async() => {
     if(password !== password_confirmation) {
-      alert("Las contraseñas no coinciden");
+      toast.error("Las contraseñas no coinciden");
+      return;
+    } else if(password.length < 8) {
+      toast.error("La contraseña debe tener al menos 8 caracteres");
+      return;
+    } else if(!upperCaseLetters(password)) {
+      toast.error("La contraseña debe tener al menos una letra mayúscula");
+      return;
+    } else if(!specialCharacters(password)) {
+      toast.error("La contraseña debe tener al menos un caracter especial");
       return;
     }
 
@@ -61,23 +87,29 @@ const Login = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password, userType, nit: userType === 'reclutador' ? nit : null }),
+        body: JSON.stringify({ email, password, userType, nombreEmpresa: userType === 'reclutador' ? nombreEmpresa : null }),
       });
 
       if (response.ok) {
         const data = await response.json();
         console.log("data", data);
+        sessionStorage.setItem("userId", data.id);
         sessionStorage.setItem("userEmail", data.email);
         sessionStorage.setItem("userPassword", data.password);
         sessionStorage.setItem("userType", data.userType);
         if(data.userType === 'reclutador') {
-        sessionStorage.setItem("userNit", data.nit);
+        sessionStorage.setItem("userNombreEmpresa", data.nombreEmpresa);
         }
 
         navigate("/dashboard");
       } else {
         const errorData = await response.json();
-        console.error("Register failed:", errorData);
+        if(errorData.message ==="User already exists") {
+          toast.error("El usuario ya existe");
+        } else {
+          console.error("Register failed:", errorData);
+        }
+        
         // Manejar el error del registro
       }
     } catch (error) {
@@ -87,6 +119,7 @@ const Login = () => {
 
   return (
     <div className="Login">
+      <ToastContainer />
       <div className="Background" />
       <div className="LogoRectangle">
         <img className="Logo" src="/images/logo.png" alt="Logo" />
@@ -164,15 +197,17 @@ const Login = () => {
                 <option value="reclutador">Reclutador</option>
               </select>
             </div>
-            <div className="nit_rectangle">
-              <input
-                className="StyledInput"
-                type="text"
-                placeholder="Ingrese el NIT de su empresa"
-                value={nit}
-                onChange={(e) => setNit(e.target.value)}
-              />
-            </div>
+            {userType === 'reclutador' && (
+              <div className="nombreEmpresa_rectangle">
+                <input
+                  className="StyledInput"
+                  type="text"
+                  placeholder="Ingrese el nombre de empresa"
+                  value={nombreEmpresa}
+                  onChange={(e) => setNombreEmpresa(e.target.value)}
+                />
+              </div>
+            )}
             <button className="Ingresar" onClick={handleRegister}>
               Registrar
             </button>
