@@ -173,13 +173,14 @@ const Dashboard = () => {
                         </div>
                     </div>
                 </div>
-                <div data-layer="campo_descripcion" className="CampoDescripcion">
+                {userType === "reclutador" ? (
+                  <div data-layer="campo_descripcion" className="CampoDescripcion">
                     <div data-layer="descripcion_titulo" className="descripcion_titulo">
                         <h2>Descripción</h2>
                     </div>
                     <div className="descripcion_ver_editar">
                         <div data-layer="Descripción" className="DescripciN">
-                            {userDescription}
+                            {userDescription} 
                         </div>
                         <div data-layer="editar_descripcion"className="EditarDescripcion">
                             <button className="editar_button" onClick={() => openModal('description')}>
@@ -188,7 +189,9 @@ const Dashboard = () => {
                         </div>
                     </div>            
                 </div>
-                </div>
+                ) : null}
+                
+              </div>
           </div>
         ) : (
           <h1 className="welcome-message">Bienvenido a AdVance</h1>
@@ -202,12 +205,20 @@ const Dashboard = () => {
         overlayClassName="Overlay">
           <ToastContainer />
         <h2>Editar {fieldToEdit === "password" ? "Contraseña" : fieldToEdit}</h2>
-        <input
-          className= "StyledInput"
-          type= "text"
-          value={newValue}
-          onChange={(e) => setNewvalue(e.target.value)}
-        />
+          {fieldToEdit === "description" ? (
+            <textarea
+              className="StyledTextarea"
+              value={newValue}
+              onChange={(e) => setNewvalue(e.target.value)}
+          />
+          ) : (
+            <input
+              className= "StyledInput"
+              style= {{ backgroundColor: "#fde9eb", color: "black" }}
+              type= "text"
+              value={newValue}
+              onChange={(e) => setNewvalue(e.target.value)}/>
+          )}
         <button className="saveButton" onClick={handleEdit}>
           Guardar
         </button>

@@ -254,21 +254,27 @@
   .ContraseA,
   .DescripciN {
     width: 70vw;
-    height: 8vh;
+    min-height: 8vh;
     background: #D9D9D9;
     border-radius: 8px;
-    position: relative;
-    padding: 10px; /* Añadir relleno */
-    font-family: 'Poppins', sans-serif; /* Fuente Poppins */
-    font-size: 1em; /* Tamaño de letra */
-    color: #333; /* Color de la letra */
+    padding: 10px;
+    font-family: 'Poppins', sans-serif; 
+    font-size: 1em; 
+    color: #333; 
     display: flex;
-    align-items: center; /* Alinear verticalmente al centro */
-    justify-content: space-between; /* Alinear horizontalmente a la izquierda */
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra interna para efecto 3D */
-    overflow: hidden; /* Ocultar desbordamiento */
-    text-overflow: ellipsis; /* Añadir puntos suspensivos si el texto es demasiado largo */
-    white-space: nowrap; /* Evitar que el texto se envuelva */
+    align-items: center; 
+    justify-content: space-between; 
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    word-wrap: break-word;
+  }
+
+  .DescripciN {
+    display: block;
+    height: auto;
+    overflow-y: auto;
+    white-space: pre-wrap;
   }
 
   .password-mask{
@@ -353,3 +359,16 @@
     z-index: 9999;
   }
   
+  .StyledTextarea {
+    width: 100%;
+    height: 150px; /* Ajusta la altura según sea necesario */
+    padding: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1em;
+    color: black;
+    background-color: #fde9eb;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    resize: vertical; /* Permitir que el usuario cambie el tamaño verticalmente */
+  }

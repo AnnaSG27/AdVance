@@ -8,6 +8,7 @@ function createWindow() {
         height: 1200,
         minWidth: 1024, 
         minHeight: 768,
+        icon: path.join(__dirname, 'images/logo.png'),
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false
@@ -33,6 +34,7 @@ function createWindow() {
     win.webContents.openDevTools();
     win.setMenuBarVisibility(false);
     win.removeMenu();
+    win.setBackgroundColor('#AF7077');
 }
 
 app.whenReady().then(createWindow);
