@@ -49,7 +49,7 @@
     background: transparent;
   }
   
-  .MenuMisAnuncios {
+  .menuMisAnuncios {
     width: 15vw;
     height: 100%;
     right: 30vw;
@@ -89,7 +89,7 @@
 .MisAnunciosButton.active,
 .salirButton:active,
 .salirButton.active {
-  background-color: rgb(253, 0, 0); /* Color de fondo cuando el botón está activo */
+  background-color: #f44336; /* Color de fondo cuando el botón está activo */
   color: #613B3B; /* Color de la letra cuando el botón está activo */
   outline: none;
 }
@@ -101,6 +101,7 @@
     justify-content: center;
     align-items: center; /* Ajusta la altura para que ocupe el espacio restante debajo de la barra de menú */
     background: transparent; /* Fondo transparente */
+    position: relative;
   }
   
   .welcome-message {
@@ -217,7 +218,7 @@
   .DescripcionTitulo {
     width: 228px;
     height: 27px;
-    background: #D9D9D9;
+    background: #fde9eb;
     border-radius: 8px;
   }
   
@@ -255,7 +256,7 @@
   .DescripciN {
     width: 70vw;
     min-height: 8vh;
-    background: #D9D9D9;
+    background: #fde9eb;
     border-radius: 8px;
     padding: 10px;
     font-family: 'Poppins', sans-serif; 
@@ -284,7 +285,7 @@
   .togglePassword {
     width: 3vw;
     height: 3vh;
-    background: #D9D9D9;
+    background: #fde9eb;
     cursor: pointer;
     overflow: hidden;
     transition: background-color 0.3s ease;
@@ -372,3 +373,46 @@
     box-sizing: border-box;
     resize: vertical; /* Permitir que el usuario cambie el tamaño verticalmente */
   }
+  
+  .addAd {
+    background-color: transparent;
+    position: absolute;
+    bottom: 1vh;
+    right: 1vw;
+    width: 70px;
+    height: 70px;
+  }
+  
+  .addAd button {
+    border-radius: 50%;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(133, 26, 26, 0.685);
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    border: none;
+    padding: 0;
+    text-align: center;
+    font-size: 3em;
+    padding-bottom: 9px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .addAd button:hover {
+    transform: scale(0.8);
+    background-color: #f44336;
+  }
+
+  .addAd button:active {
+    transform: scale(1);
+    background-color: #f44336;
+    outline: none;
+  }
+
+  .addAd button:focus {
+    outline: none;
+  }
+  
+  

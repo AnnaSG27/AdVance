@@ -18,7 +18,8 @@ const Dashboard = () => {
     const navigate = useNavigate();
     const [newValue, setNewvalue] = useState('');
     const [fieldToEdit, setFieldToEdit] = useState('');
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+    const [isAddVacancyModalOpen, setIsAddVacancyModalOpen] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     let userNombreEmpresa = "";
     if(userType === 'reclutador') {
@@ -34,7 +35,7 @@ const Dashboard = () => {
       navigate("/", { state: { activeButton: 'login' } });
     };
 
-    const openModal = (field) => {
+    const openProfileModal = (field) => {
       setFieldToEdit(field);
       if (field === 'email') {
         setNewvalue(userEmail);
@@ -44,12 +45,22 @@ const Dashboard = () => {
         setNewvalue(userDescription);
       }
 
-      setIsModalOpen(true);
+      setIsProfileModalOpen(true);
     };
 
-    const closeModal = () => {
-      setIsModalOpen(false);
+    const closeProfileModal = () => {
+      setIsProfileModalOpen(false);
     };
+
+    const openAddVacancyModal = () => {
+      setIsAddVacancyModalOpen(true);
+    };
+
+    const closeAddVacancyModal = () => {
+      setIsAddVacancyModalOpen(false);
+    };
+
+    
 
     const handleEdit = async() => {
       try {
@@ -71,7 +82,7 @@ const Dashboard = () => {
             sessionStorage.setItem("userDescription", data.change);
           }
           toast.success("Campo actualizado correctamente");
-          closeModal();
+          closeProfileModal();
         } else {
           const errorData = await response.json();
           if(errorData.message === "This email already exists") {
@@ -109,10 +120,10 @@ const Dashboard = () => {
             Mi Perfil
           </button>
         </div>
-        <div data-layer="menu_mis_anuncios" className="MenuMisAnuncios">
+        <div data-layer="menu_mis_anuncios" className="menuMisAnuncios">
           <button
-            className={`MisAnunciosButton ${activeButton === 'mis_anuncios' ? 'active' : ''}`}
-            onClick={() => handleButtonClick('mis_anuncios')}
+            className={`MisAnunciosButton ${activeButton === 'misAnuncios' ? 'active' : ''}`}
+            onClick={() => handleButtonClick('misAnuncios')}
           >
             Mis Anuncios
           </button>
@@ -147,7 +158,7 @@ const Dashboard = () => {
                             {userEmail}
                         </div>
                         <div data-layer="editar_email" className="EditarEmail">
-                            <button className="editar_button" onClick={() => openModal('email', userEmail)}>
+                            <button className="editar_button" onClick={() => openProfileModal('email', userEmail)}>
                                 <img data-layer="editar" className="editar" src="/images/editar.jpg" alt="Preview" />
                             </button>
                         </div>
@@ -167,7 +178,7 @@ const Dashboard = () => {
                             </div>
                         </div>
                         <div data-layer="editar_contraseña" className="EditarContraseA">
-                            <button className="editar_button" onClick={() => openModal('password')}>
+                            <button className="editar_button" onClick={() => openProfileModal('password')}>
                                 <img data-layer="editar" className="editar" src="/images/editar.jpg" alt="Preview" />
                             </button>
                         </div>
@@ -183,7 +194,7 @@ const Dashboard = () => {
                             {userDescription} 
                         </div>
                         <div data-layer="editar_descripcion"className="EditarDescripcion">
-                            <button className="editar_button" onClick={() => openModal('description')}>
+                            <button className="editar_button" onClick={() => openProfileModal('description')}>
                                 <img data-layer="editar" className="editar" src="/images/editar.jpg" alt="Preview" />
                             </button>
                         </div>
@@ -193,13 +204,49 @@ const Dashboard = () => {
                 
               </div>
           </div>
+        ) : activeButton === "misAnuncios" ? (
+          <div className="addAd">
+            <button className="addAdButton" onClick={() => openAddVacancyModal()}>
+              +
+            </button>
+            <Modal
+              isOpen={isAddVacancyModalOpen}
+              onRequestClose={closeAddVacancyModal}
+              contentLabel="Añadir Vacante"
+              className="Modal"
+              overlayClassName="Overlay">
+              <ToastContainer />
+              <h2>Añadir Vacante</h2>
+                {fieldToEdit === "description" ? (
+                  <textarea
+                    className="StyledTextarea"
+                    value={newValue}
+                    onChange={(e) => setNewvalue(e.target.value)}
+                />
+                ) : (
+                  <input
+                    className= "StyledInput"
+                    style= {{ backgroundColor: "#fde9eb", color: "black" }}
+                    type= "text"
+                    value={newValue}
+                    onChange={(e) => setNewvalue(e.target.value)}/>
+                )}
+              <button className="saveButton" onClick={handleEdit}>
+                Guardar
+              </button>
+              <button className="cancelButton" onClick={closeAddVacancyModal}>
+                Cancelar
+              </button>
+            </Modal>
+          </div>
+          
         ) : (
           <h1 className="welcome-message">Bienvenido a AdVance</h1>
         )}
       </div>
       <Modal
-        isOpen={isModalOpen}
-        onRequestClose={closeModal}
+        isOpen={isProfileModalOpen}
+        onRequestClose={closeProfileModal}
         contentLabel="Editar Campo"
         className="Modal"
         overlayClassName="Overlay">
@@ -222,7 +269,7 @@ const Dashboard = () => {
         <button className="saveButton" onClick={handleEdit}>
           Guardar
         </button>
-        <button className="cancelButton" onClick={closeModal}>
+        <button className="cancelButton" onClick={closeProfileModal}>
           Cancelar
         </button>
       </Modal>
