@@ -415,4 +415,218 @@
     outline: none;
   }
   
-  
+  .StyledTextareaVacancy {
+    width: 100%;
+    height: auto; 
+    padding: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1em;
+    color: black;
+    background-color: #fde9eb;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    resize: vertical; 
+  }
+
+  .vacancyModal {
+  background-color: #b64d4d;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 80vw;
+  max-height: 80vh;
+  width: 90%;
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  top: 50%;
+  transform: translateY(-50%);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.vacancyModalHead {
+  background-color: #b64d4d;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 80vw;
+  height: 10vh;
+  max-height: 10vh;
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.vacancyModalBody {
+  background-color: #b64d4d;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 80vw;
+  width: 90%;
+  height: 70vh;
+  max-height: 70vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.addVacancyName,
+.addVacancyDescription,
+.addVacancyMedia,
+.addVacancyLink,
+.addVacancySocialMedia {
+  background-color: transparent;
+  padding: 10px;
+  width: 100%;
+}
+
+.addVacancyMedia input[type= "file"] {
+  display:none;
+}
+
+.custom-file-upload {
+  background-color: rgba(36, 123, 238, 0.897);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #333;
+  display: inline-block;
+  transition: background-color, transform 0.3s ease;
+}
+
+.custom-file-upload:hover {
+  background-color: rgb(36, 123, 238); 
+  transform: scale(0.8);
+}
+
+.custom-file-upload:active {
+  transform: scale(1);
+}
+
+.social-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-top: 20px;
+  gap: 30px; 
+}
+
+.social-options label {
+  background-color: #f44336;
+  border-radius: 5px;
+  padding: 20px;
+  height: 10vh;
+  width: 10vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* Espacio entre el checkbox y el texto */
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.7s ease;
+  text-align: center;
+  user-select: none;
+}
+
+.social-options label:hover {
+  transform: scale(1.05);
+}
+.social-options label:active {
+  transform: scale(1);
+}
+.social-options label.active{
+  background-color: #02d2f7 ;
+  transform: scale(0.8);
+}
+
+.social-options input[type="checkbox"] {
+  display: none;
+}
+
+
+.vacancyModalFoot {
+  background-color: #b64d4d;
+  border-radius: 10px;
+  padding: 15px 50px;
+  max-width: 80vw;
+  width: 90%;
+  height: 10vh;
+  max-height: 10vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vacancys {
+  background-color: transparent;
+  width: 80%;
+  height: 80%;
+  position: relative;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 25px;
+  overflow-y: auto;
+}
+
+.vacancyCard {
+  width: 100%;
+  height: 20%;
+  min-height: 20%;
+  max-height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgb(214, 205, 205);
+  color: black;
+  border-radius: 10px;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5),
+              -4px -4px 10px rgba(255, 255, 255, 0.1);
+  transition: background 0.3s ease-in-out;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 20px;
+}
+
+.vacancyCard:hover {
+  transform: scale(1.05);
+}
+
+.vacancyCard.expanded {
+  height: auto;
+}
+
+.vacancyHeader {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.vacancyDetails {
+  overflow: hidden;
+  transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  max-height: 0;
+  opacity: 0;
+}
+
+.vacancyDetails img {
+  width: 50%;
+}
+
+.vacancyCard.expanded .vacancyDetails {
+  max-height: 300px; /* Ajusta este valor según el contenido */
+  opacity: 1;
+}

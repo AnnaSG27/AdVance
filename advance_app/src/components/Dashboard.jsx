@@ -3,6 +3,7 @@ import './Dashboard.css';
 import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import { ToastContainer, toast } from 'react-toastify';
+import { CLOUDINARY_UPLOAD_PRESET, CLOUDINARY_URL } from '../cloudinary'; 
 
 Modal.setAppElement("#root");
 
@@ -10,7 +11,7 @@ const Dashboard = () => {
 
     const [activeButton, setActiveButton] = useState(null);
     const [email, setEmail] = useState('');
-    const [userId, setUserId] = sessionStorage.getItem('userId');
+    const userId = sessionStorage.getItem('userId');
     const userEmail = sessionStorage.getItem('userEmail');
     const userPassword = sessionStorage.getItem('userPassword');
     const userDescription = sessionStorage.getItem('userDescription');
@@ -21,20 +22,32 @@ const Dashboard = () => {
     const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
     const [isAddVacancyModalOpen, setIsAddVacancyModalOpen] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const [vacancyName, setVacancyName] = useState();
+    const [vacancyDescription, setVacancyDescription] = useState();
+    const [vacancyLink, setVacancyLink] = useState();
+    const [file, setFile] = useState(null);
+    const [preview, setPreview] = useState(null);
+    const [selectedSocials, setSelectedSocials] = useState([]);
+    const socialNetworks = ['facebook', 'twitter', 'instagram', 'linkedin', 'youtube'];
+    const [userVacancys, setUserVacancys] = useState([]);
+    const [expandedVacancy, setExpandedVacancy] = useState(null);
     let userNombreEmpresa = "";
     if(userType === 'reclutador') {
         userNombreEmpresa = sessionStorage.getItem('userNombreEmpresa');
     }
 
+    // Maneja el boton de la barra de menú
     const handleButtonClick = (buttonName) => {
       setActiveButton(buttonName);
     };
 
+    // Maneja el botón de "Salir"
     const handleLogout = () => {
       sessionStorage.clear();
       navigate("/", { state: { activeButton: 'login' } });
     };
 
+    // Maneja el modal de la edición del perfil
     const openProfileModal = (field) => {
       setFieldToEdit(field);
       if (field === 'email') {
@@ -52,6 +65,7 @@ const Dashboard = () => {
       setIsProfileModalOpen(false);
     };
 
+    // Maneja el modal de añadir una vacante
     const openAddVacancyModal = () => {
       setIsAddVacancyModalOpen(true);
     };
@@ -60,9 +74,18 @@ const Dashboard = () => {
       setIsAddVacancyModalOpen(false);
     };
 
-    
+    // Maneja la selecicón de redes sociales
+    const handleSocialClick = (social) => {
+      if (selectedSocials.includes(social)) {
+        setSelectedSocials(selectedSocials.filter((s) => s !== social));
+      } else {
+        setSelectedSocials([...selectedSocials, social]);
+      }
+    };
 
+    // Maneja la petición de edición del perfil
     const handleEdit = async() => {
+      console.log("userid edit:", userId)
       try {
         const response = await fetch("http://localhost:8000/api/edit_profile/", {
           method: "PATCH",
@@ -94,8 +117,103 @@ const Dashboard = () => {
       }
     };
 
+    // Maneja la visibilidad de la constraseña
     const togglePasswordVisibility = () => {
       setShowPassword(!showPassword);
+    };
+
+    //Maneja el archivo multimedia de la vacante
+    const handleFileChange = (e) => {
+      const selectedFile = e.target.files[0]; 
+      if (selectedFile) {
+        setFile(selectedFile);
+  
+        const fileURL = URL.createObjectURL(selectedFile);
+        setPreview(fileURL);
+      }
+    };
+
+    const uploadToCloudinary = async (file) => {
+      const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/dymdbqdgc/upload";
+      const CLOUDINARY_UPLOAD_PRESET = "ml_default";
+    
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+    
+      try {
+        const response = await fetch(CLOUDINARY_URL, {
+          method: "POST",
+          body: formData,
+        });
+    
+        const data = await response.json();
+        return data.secure_url; // URL de Cloudinary
+      } catch (error) {
+        console.error("Error uploading file:", error);
+        return null;
+      }
+    };
+
+    const handleVacancy = async() => {
+      try {
+        let fileUrl = null;
+        if (file) {
+          fileUrl = await uploadToCloudinary(file);
+          if (!fileUrl) {
+            toast.error("Error al subir archivo a Cloudinary");
+            return;
+          }
+        }
+
+        const response = await fetch("http://localhost:8000/api/handle_vacancy/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userId, vacancyName, vacancyDescription, fileUrl, vacancyLink, selectedSocials }),
+        });
+    
+        if (response.ok) {
+          const data = await response.json();
+          toast.success("Campo actualizado correctamente");
+          closeAddVacancyModal();
+        } else {
+          const errorData = await response.json();
+          if(errorData.message === "This email already exists") {
+            toast.error("Este email ya existe");
+          }
+        }
+      } catch (error) {
+        console.error("Error during fetch:", error);
+      }
+    };  
+
+    const loadVacancys = async() => {
+      try {
+        const response = await fetch(`http://localhost:8000/api/load_vacancys/?userId=${userId}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+    
+        if (response.ok) {
+          const data = await response.json();
+          setUserVacancys(data.vacancys);
+        } else {
+          const errorData = await response.json();
+          if(errorData.message === "This email already exists") {
+            toast.error("Este email ya existe");
+          }
+        }
+      } catch (error) {
+        console.error("Error during fetch:", error);
+      }
+    };  
+
+    const toggleVacancy = (vacancyId) => {
+      setExpandedVacancy(expandedVacancy === vacancyId ? null : vacancyId);
     };
 
   return (
@@ -123,7 +241,7 @@ const Dashboard = () => {
         <div data-layer="menu_mis_anuncios" className="menuMisAnuncios">
           <button
             className={`MisAnunciosButton ${activeButton === 'misAnuncios' ? 'active' : ''}`}
-            onClick={() => handleButtonClick('misAnuncios')}
+            onClick={() => {loadVacancys(); handleButtonClick('misAnuncios')}}
           >
             Mis Anuncios
           </button>
@@ -205,38 +323,133 @@ const Dashboard = () => {
               </div>
           </div>
         ) : activeButton === "misAnuncios" ? (
-          <div className="addAd">
-            <button className="addAdButton" onClick={() => openAddVacancyModal()}>
-              +
-            </button>
+          <div className="cuerpo_ventana">
+            <div className="vacancys">
+            {userVacancys.length > 0 ? (
+              userVacancys.map((vacancy) => (
+                <div
+                  key={vacancy.vacancyId}
+                  className={`vacancyCard ${expandedVacancy === vacancy.vacancyId ? "expanded" : ""}`}
+                  onClick={() => toggleVacancy(vacancy.vacancyId)}
+                >
+                  <div className="vacancyHeader">
+                    <h2>{vacancy.vacancyName}</h2>
+                  </div>
+                  <div className="vacancyDetails">
+                    <p>{vacancy.vacancyDescription}</p>
+                    <p>Contenido del post:</p>
+                    <img src={vacancy.fileUrl} alt="imagen"/>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p>No tienes vacantes disponibles.</p>
+            )}
+            </div>
+            <div className="addAd">
+              <button className="addAdButton" onClick={() => openAddVacancyModal()}>
+                +
+              </button>
+            </div>
             <Modal
               isOpen={isAddVacancyModalOpen}
               onRequestClose={closeAddVacancyModal}
               contentLabel="Añadir Vacante"
-              className="Modal"
+              className="vacancyModal"
               overlayClassName="Overlay">
               <ToastContainer />
-              <h2>Añadir Vacante</h2>
-                {fieldToEdit === "description" ? (
+              <div className="vacancyModalHead">
+                <h1>Añadir Vacante</h1>
+              </div>
+              <div className="vacancyModalBody">
+                <div className="addVacancyName">
+                  <h2>Nombre de la vacante:</h2>
                   <textarea
-                    className="StyledTextarea"
-                    value={newValue}
-                    onChange={(e) => setNewvalue(e.target.value)}
-                />
-                ) : (
+                    className="StyledTextareaVacancy"
+                    value={vacancyName}
+                    onChange={(e) => setVacancyName(e.target.value)}/>
+                </div>
+                <div className="addVacancyDescription">
+                  <h2>Añade la descripción:</h2>
+                  <textarea
+                    className="StyledTextareaVacancy"
+                    value={vacancyDescription}
+                    onChange={(e) => setVacancyDescription(e.target.value)}/>
+                </div>
+                <div className="addVacancyMedia">
+                  <h2>Agrega la foto o video que quisieras publicar:</h2>
+                  <label htmlFor="file-upload" className="custom-file-upload">
+                    Seleccionar archivo
+                  </label>
                   <input
-                    className= "StyledInput"
-                    style= {{ backgroundColor: "#fde9eb", color: "black" }}
-                    type= "text"
-                    value={newValue}
-                    onChange={(e) => setNewvalue(e.target.value)}/>
-                )}
-              <button className="saveButton" onClick={handleEdit}>
-                Guardar
-              </button>
-              <button className="cancelButton" onClick={closeAddVacancyModal}>
-                Cancelar
-              </button>
+                    id="file-upload"
+                    type="file"
+                    accept="image/*, video/*"
+                    onChange= {handleFileChange}/>
+                    {preview && file && (
+                      <div>
+                        <h2 className="">Vista previa: </h2>
+                        {file.type.startsWith("image") ? (
+                          <img src={preview} alt="vista previa" style= {{ maxWidth: "50%", height: "auto"}}/>
+
+                        ) : (
+                          <video controls sytle = {{ maxWidth: "50%", height: "auto"}}>
+                            <source src = {preview} type = {file.type}/>
+                            Tu navegador no soporta la reproducción de videos.
+                          </video>
+                        )}
+                      </div>
+                    )}
+                </div>
+                <div className="addVacancyLink">
+                  <h2>Link:</h2>
+                  <textarea
+                    className="StyledTextareaVacancy"
+                    value={vacancyLink}
+                    onChange={(e) => setVacancyLink(e.target.value)}/>
+                </div>
+                <div className="addVacancySocialMedia">
+                  <h2>Selecciona las redes sociales a las que quieres publicar:</h2>
+                  <div className="social-options">
+                    {socialNetworks.map((social) => (
+                      <label
+                        key={social}
+                        htmlFor={`social-${social}`} // Usamos un ID único para cada input
+                        className={`social-label ${
+                          selectedSocials.includes(social) ? 'active' : ''
+                        }`}
+                      >
+                        <input
+                          id={`social-${social}`} // ID único para cada input
+                          type="checkbox"
+                          name="social"
+                          value={social}
+                          checked={selectedSocials.includes(social)} // Controla el estado del checkbox
+                          onChange={() => handleSocialClick(social)} // Maneja el cambio directamente
+                        />
+                        {social.charAt(0).toUpperCase() + social.slice(1)}{' '}
+                        {/* Muestra el nombre de la red social con la primera letra en mayúscula */}
+                      </label>
+                    ))}
+                  </div>
+                  <div>
+                    <h3>Redes sociales seleccionadas:</h3>
+                    <ul>
+                      {selectedSocials.map((social, index) => (
+                        <li key={index}>{social.charAt(0).toUpperCase() + social.slice(1)}</li> 
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div className="vacancyModalFoot">
+                <button className="saveButton" onClick={handleVacancy}>
+                  Guardar
+                </button>
+                <button className="cancelButton" onClick={closeAddVacancyModal}>
+                  Cancelar
+                </button>
+              </div>
             </Modal>
           </div>
           
@@ -270,6 +483,7 @@ const Dashboard = () => {
           Guardar
         </button>
         <button className="cancelButton" onClick={closeProfileModal}>
+        
           Cancelar
         </button>
       </Modal>

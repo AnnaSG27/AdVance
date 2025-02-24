@@ -81,11 +81,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'advance_db',
-        'USER': 'root',
-        'PASSWORD': 'Pastel112233',
-        'HOST': 'localhost',  # O la IP de tu servidor MySQL si no está en localhost
-        'PORT': '3306',  # El puerto por defecto de MySQL es 3306
+        'NAME': 'b649eojlfsa315mfyobn',
+        'USER': 'uul69zozcc6sfd3a',
+        'PASSWORD': 'syaSc4DaZae1gWQxwQON',
+        'HOST': 'b649eojlfsa315mfyobn-mysql.services.clever-cloud.com', 
+        'PORT': '3306',  
     }
 }
 
@@ -126,8 +126,4 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOW_ALL_ORIGINS = True

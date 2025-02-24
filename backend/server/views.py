@@ -13,10 +13,10 @@ def login_view(request):
             print(f"Email: {email}, Password: {password}")
             
             db = MySQLdb.connect(
-                host="localhost",
-                user="root",
-                passwd="Pastel112233",
-                db="advance_db"
+                host="b649eojlfsa315mfyobn-mysql.services.clever-cloud.com",
+                user="uul69zozcc6sfd3a",
+                passwd="syaSc4DaZae1gWQxwQON",
+                db="b649eojlfsa315mfyobn"
             )
             cursor = db.cursor()
             
@@ -60,10 +60,10 @@ def register_view(request):
             userType = data.get('userType')
             
             db = MySQLdb.connect(
-                host="localhost",
-                user="root",
-                passwd="Pastel112233",
-                db="advance_db"
+                host="b649eojlfsa315mfyobn-mysql.services.clever-cloud.com",
+                user="uul69zozcc6sfd3a",
+                passwd="syaSc4DaZae1gWQxwQON",
+                db="b649eojlfsa315mfyobn"
             )
             cursor = db.cursor()
             
@@ -101,10 +101,10 @@ def edit_profile(request):
     if request.method == 'PATCH':
         try:
             db = MySQLdb.connect(
-                host="localhost",
-                user="root",
-                passwd="Pastel112233",
-                db="advance_db"
+                host="b649eojlfsa315mfyobn-mysql.services.clever-cloud.com",
+                user="uul69zozcc6sfd3a",
+                passwd="syaSc4DaZae1gWQxwQON",
+                db="b649eojlfsa315mfyobn"
             )
             cursor = db.cursor()
 
@@ -129,6 +129,91 @@ def edit_profile(request):
             db.commit()
             
             return JsonResponse({"message": "Field successfully changed", "field": fieldEdit, "change": infoEdit }, status=201)
+        except json.JSONDecodeError as e:
+            print(f"Error decoding JSON: {e}")
+            return JsonResponse({"message": "Invalid JSON"}, status=400)
+        except Exception as e:
+            print(f"Unexpected error: {e}")
+            return JsonResponse({"message": "Internal server error"}, status=500)
+        finally:
+            if db:
+                db.close()
+    
+    print("Invalid request method")
+    return JsonResponse({"message": "Invalid request method"}, status=405)
+
+@csrf_exempt
+def handle_vacancy(request):
+    if request.method == 'POST':
+        try:
+            db = MySQLdb.connect(
+                host="b649eojlfsa315mfyobn-mysql.services.clever-cloud.com",
+                user="uul69zozcc6sfd3a",
+                passwd="syaSc4DaZae1gWQxwQON",
+                db="b649eojlfsa315mfyobn"
+            )
+            cursor = db.cursor()
+
+            data = json.loads(request.body)
+            userId = data.get("userId")
+            vacancyName = data.get('vacancyName')
+            vacancyDescription = data.get("vacancyDescription")
+            fileUrl = data.get("fileUrl")
+            vacancyLink = data.get("vacancyLink")
+            selectedSocials = data.get("selectedSocials")
+            selectedSocials = ', '.join(selectedSocials) if isinstance(selectedSocials, list) else selectedSocials
+            print(data)
+
+            
+            # Insertar el nuevo usuario
+            query = "INSERT INTO vacancy (id_user, vacancyName, vacancyDescription, fileUrl, selectedSocials, vacancyLink) VALUES(%s, %s, %s, %s, %s, %s)"
+            cursor.execute(query, (userId, vacancyName, vacancyDescription, fileUrl, selectedSocials, vacancyLink))
+            db.commit()
+            
+            return JsonResponse({"message": "Vacancy uploaded"}, status=201)
+        except json.JSONDecodeError as e:
+            print(f"Error decoding JSON: {e}")
+            return JsonResponse({"message": "Invalid JSON"}, status=400)
+        except Exception as e:
+            print(f"Unexpected error: {e}")
+            return JsonResponse({"message": "Internal server error"}, status=500)
+        finally:
+            if db:
+                db.close()
+    
+    print("Invalid request method")
+    return JsonResponse({"message": "Invalid request method"}, status=405)
+
+@csrf_exempt
+def load_vacancys(request):
+    if request.method == 'GET':
+        try:
+            db = MySQLdb.connect(
+                host="b649eojlfsa315mfyobn-mysql.services.clever-cloud.com",
+                user="uul69zozcc6sfd3a",
+                passwd="syaSc4DaZae1gWQxwQON",
+                db="b649eojlfsa315mfyobn"
+            )
+            cursor = db.cursor()
+
+            userId = request.GET.get("userId")
+            
+            query = "SELECT * FROM vacancy WHERE id_user = %s"
+            cursor.execute(query, (userId,))
+            result = cursor.fetchall()
+            print(result)
+
+            vacancysList = [
+                {"vacancyId": row[0],
+                 "time": row[1],
+                 "vacancyName": row[2],
+                 "fileUrl": row[4],
+                 "vacancyLink": row[5],
+                 "selectedSocials": row[6],
+                 "vacancyDescription": row[7]} for row in result
+            ]
+            
+            return JsonResponse({"vacancys": vacancysList}, status=200)
         except json.JSONDecodeError as e:
             print(f"Error decoding JSON: {e}")
             return JsonResponse({"message": "Invalid JSON"}, status=400)
