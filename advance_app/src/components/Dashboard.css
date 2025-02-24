@@ -49,7 +49,8 @@
     background: transparent;
   }
   
-  .menuMisAnuncios {
+  .menuMisAnuncios,
+  .menuSolicitudes {
     width: 15vw;
     height: 100%;
     right: 30vw;
@@ -60,7 +61,8 @@
 
   .MiPerfilButton,
   .MisAnunciosButton,
-  .salirButton {
+  .salirButton,
+  .MisSolicitudesButton {
     width: 100%; /* Ocupa todo el ancho del div */
     height: 100%; /* Ocupa todo el alto del div */
     padding: 10px 20px;
@@ -78,7 +80,8 @@
 
   .MiPerfilButton:hover,
   .MisAnunciosButton:hover,
-  .salirButton:hover {
+  .salirButton:hover,
+  .MisSolicitudesButton:hover {
     background-color:  rgba(209, 49, 49, 0.4); /* Fondo semitransparente al pasar el cursor */
     color: white;
   }
@@ -88,7 +91,9 @@
 .MisAnunciosButton:active,
 .MisAnunciosButton.active,
 .salirButton:active,
-.salirButton.active {
+.salirButton.active,
+.MisSolicitudesButton:active,
+.MisSolicitudesButton.active {
   background-color: #f44336; /* Color de fondo cuando el botón está activo */
   color: #613B3B; /* Color de la letra cuando el botón está activo */
   outline: none;
@@ -429,7 +434,8 @@
     resize: vertical; 
   }
 
-  .vacancyModal {
+  .vacancyModal,
+  .requestModal {
   background-color: #b64d4d;
   border-radius: 10px;
   padding: 20px;
@@ -447,7 +453,8 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.vacancyModalHead {
+.vacancyModalHead,
+.requestModalHead {
   background-color: #b64d4d;
   border-radius: 10px;
   padding: 20px;
@@ -459,8 +466,14 @@
   justify-content: center;
   align-items: center;
 }
+.requestModalHead {
+  height: 22%;
+  max-height: 22%;
+  padding: 3%;
+}
 
-.vacancyModalBody {
+.vacancyModalBody,
+.requestModalBody {
   background-color: #b64d4d;
   border-radius: 10px;
   padding: 20px;
@@ -565,7 +578,8 @@
   align-items: center;
 }
 
-.vacancys {
+.vacancys,
+.requests {
   background-color: transparent;
   width: 80%;
   height: 80%;
@@ -579,7 +593,8 @@
   overflow-y: auto;
 }
 
-.vacancyCard {
+.vacancyCard,
+.requestCard {
   width: 100%;
   height: 20%;
   min-height: 20%;
@@ -598,6 +613,25 @@
   cursor: pointer;
   padding: 20px;
 }
+.requestCard {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 30%
+}
+
+.requestCardHeader {
+  width: 50%;
+  height: 100%; 
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+
 
 .vacancyCard:hover {
   transform: scale(1.05);
@@ -629,4 +663,21 @@
 .vacancyCard.expanded .vacancyDetails {
   max-height: 300px; /* Ajusta este valor según el contenido */
   opacity: 1;
+}
+
+.vacancyState,
+.requestState {
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15%;
+  padding: 10px;
+}
+.requestState img {
+  width: 30%;
+  border-radius: 50%;
+  mix-blend-mode: darken;
+  object-fit: contain; 
+  transition: opacity 0.3s ease-in-out;
 }

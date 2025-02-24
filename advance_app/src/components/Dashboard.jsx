@@ -21,16 +21,20 @@ const Dashboard = () => {
     const [fieldToEdit, setFieldToEdit] = useState('');
     const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
     const [isAddVacancyModalOpen, setIsAddVacancyModalOpen] = useState(false);
+    const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [vacancyName, setVacancyName] = useState();
     const [vacancyDescription, setVacancyDescription] = useState();
     const [vacancyLink, setVacancyLink] = useState();
+    const [request, setRequest] = useState();
     const [file, setFile] = useState(null);
     const [preview, setPreview] = useState(null);
     const [selectedSocials, setSelectedSocials] = useState([]);
     const socialNetworks = ['facebook', 'twitter', 'instagram', 'linkedin', 'youtube'];
     const [userVacancys, setUserVacancys] = useState([]);
+    const [userRequests, setUserRequests] = useState([]);
     const [expandedVacancy, setExpandedVacancy] = useState(null);
+    const [vacancyState, setVacancyState] = useState();
     let userNombreEmpresa = "";
     if(userType === 'reclutador') {
         userNombreEmpresa = sessionStorage.getItem('userNombreEmpresa');
@@ -72,6 +76,15 @@ const Dashboard = () => {
 
     const closeAddVacancyModal = () => {
       setIsAddVacancyModalOpen(false);
+    };
+
+    const openRequestModal = (actualRequest) => {
+      setRequest(actualRequest)
+      setIsRequestModalOpen(true);
+    };
+
+    const closeRequestModal = () => {
+      setIsRequestModalOpen(false);
     };
 
     // Maneja la selecicón de redes sociales
@@ -156,6 +169,7 @@ const Dashboard = () => {
     };
 
     const handleVacancy = async() => {
+      setVacancyState("review");
       try {
         let fileUrl = null;
         if (file) {
@@ -171,7 +185,7 @@ const Dashboard = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ userId, vacancyName, vacancyDescription, fileUrl, vacancyLink, selectedSocials }),
+          body: JSON.stringify({ userId, vacancyName, vacancyDescription, fileUrl, vacancyLink, selectedSocials, vacancyState }),
         });
     
         if (response.ok) {
@@ -212,6 +226,29 @@ const Dashboard = () => {
       }
     };  
 
+    const loadRequests = async() => {
+      try {
+        const response = await fetch(`http://localhost:8000/api/load_requests/?userId=${userId}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+    
+        if (response.ok) {
+          const data = await response.json();
+          setUserRequests(data.requests);
+        } else {
+          const errorData = await response.json();
+          if(errorData.message === "This email already exists") {
+            toast.error("Este email ya existe");
+          }
+        }
+      } catch (error) {
+        console.error("Error during fetch:", error);
+      }
+    }; 
+
     const toggleVacancy = (vacancyId) => {
       setExpandedVacancy(expandedVacancy === vacancyId ? null : vacancyId);
     };
@@ -238,14 +275,23 @@ const Dashboard = () => {
             Mi Perfil
           </button>
         </div>
-        <div data-layer="menu_mis_anuncios" className="menuMisAnuncios">
-          <button
-            className={`MisAnunciosButton ${activeButton === 'misAnuncios' ? 'active' : ''}`}
-            onClick={() => {loadVacancys(); handleButtonClick('misAnuncios')}}
-          >
-            Mis Anuncios
-          </button>
-        </div>
+        {userType === "reclutador" ? (
+          <div data-layer="menu_mis_anuncios" className="menuMisAnuncios">
+            <button
+              className={`MisAnunciosButton ${activeButton === 'misAnuncios' ? 'active' : ''}`}
+              onClick={() => {loadVacancys(); handleButtonClick('misAnuncios')}}>
+              Mis Anuncios
+            </button>
+          </div>
+        ) : (
+          <div data-layer="menu_mis_anuncios" className="menuSolicitudes">
+            <button
+              className={`MisSolicitudesButton ${activeButton === 'misSolicitudes' ? 'active' : ''}`}
+              onClick={() => {loadRequests(); handleButtonClick('misSolicitudes')}}>
+              Solicitudes
+            </button>
+          </div>
+        )}
       </div>
       <div className="cuerpo_ventana">
         {activeButton === 'mi_perfil' ? (
@@ -334,6 +380,9 @@ const Dashboard = () => {
                 >
                   <div className="vacancyHeader">
                     <h2>{vacancy.vacancyName}</h2>
+                    <div className= "vacancyState">
+                      <h3>{vacancy.vacancyState}</h3>
+                    </div>
                   </div>
                   <div className="vacancyDetails">
                     <p>{vacancy.vacancyDescription}</p>
@@ -453,6 +502,103 @@ const Dashboard = () => {
             </Modal>
           </div>
           
+        ) : activeButton === "misSolicitudes"? (
+          <div className="cuerpo_ventana">
+            <div className="requests">
+              {userRequests.length > 0 ? (
+                userRequests.map((request) => (
+                  <div
+                    key={request.vacancyId}
+                    className="requestCard" 
+                    onClick= {() => openRequestModal(request)}>
+                    <div className="requestCardHeader">
+                      <h2>{request.vacancyName}</h2>
+                      <h3>{request.nombreEmpresa}</h3>
+                    </div>
+                    <div className="requestState">
+                      <img src={request.requestState === "done" ? "/images/done.jpg" : request.requestState === "review" ? "/images/review.jpg" :  request.requestState === "update" ? "/images/update.jpg" : "/images/reject.jpg"} alt="" />
+                      <h3>{request.requestState === "review" ? "En revisión" : request.requestState === "done" ? "Posted" : request.requestState === "update" ? "Update" : "Rejected"}</h3>
+                    </div>
+                    {/* <img src={request.fileUrl} alt="imagen"/> */}
+                  </div>
+                ))
+              ) : (
+                <p>No tienes solicitudes disponibles.</p>
+              )}
+            </div>
+            <Modal
+              isOpen={isRequestModalOpen}
+              onRequestClose={closeRequestModal}
+              contentLabel="Añadir Vacante"
+              className="requestModal"
+              overlayClassName="Overlay">
+              <ToastContainer />
+              <div className="requestModalHead">
+                <h1>Información de la vacante</h1>
+              </div>
+              <div className="requestModalBody">
+                <div className="addVacancyName">
+                  <h2>Nombre de la empresa:</h2>
+                  {request ? request.nombreEmpresa : "No disponible"}
+                </div>
+                <div className="addVacancyName">
+                  <h2>Nombre de la vacante:</h2>
+                  {request ? request.vacancyName : "No disponible"}
+                </div>
+                <div className="addVacancyDescription">
+                  <h2>Añade la descripción:</h2>
+                  {request ? request.vacancyDescription : "No disponible"}
+                </div>
+                <div className="addVacancyMedia">
+                  <h2>Multimedia del post:</h2>
+                  {request && request.fileUrl ? (
+                    request.fileUrl.match(/\.(jpeg|jpg|png|gif)$/i) ? (
+                      <img src={request.fileUrl} alt="Imagen de la vacante" style={{ maxWidth: "50%", height: "auto" }} />
+                    ) : request.fileUrl.match(/\.(mp4|webm|ogg)$/i) ? (
+                      <video controls style={{ maxWidth: "100%", height: "auto" }}>
+                        <source src={request.fileUrl} type="video/mp4" />
+                        Tu navegador no soporta la reproducción de videos.
+                      </video>
+                    ) : (
+                      <p>Formato no soportado</p>
+                    )
+                  
+                  ) : "no disponible"}
+                </div>
+                <div className="addVacancyLink">
+                  <h2>Link:</h2>
+                  
+                  <a href={request ? request.vacancyLink : "Link no encontrado"} className="">
+                  {request ? request.vacancyLink : "Link no encontrado"}
+                  </a>
+                </div>
+                <div className="addVacancySocialMedia">
+                  <h2>Redes sociales a publicar:</h2>
+                  <div>
+                    <h3>Redes sociales seleccionadas:</h3>
+                    {request ? console.log(request.selectSocials) : ""}
+                    <ul>
+                      {request && request.selectSocials ? (
+                        request.selectSocials.split(", ").map((social, index) => (
+                          <li key={index}>{social.charAt(0).toUpperCase() + social.slice(1)}</li>
+                        ))
+                      ) : (
+                        <li>No encontrado</li>
+                      )}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div className="vacancyModalFoot">
+                <button className="saveButton" onClick={handleVacancy}>
+                  Guardar
+                </button>
+                <button className="cancelButton" onClick={closeRequestModal}>
+                  Cancelar
+                </button>
+              </div>
+            </Modal>
+          </div>
         ) : (
           <h1 className="welcome-message">Bienvenido a AdVance</h1>
         )}

@@ -7,4 +7,5 @@ urlpatterns = [
     path("edit_profile/", edit_profile, name="edit_profile"),
     path("handle_vacancy/", handle_vacancy, name="handle_vacancy"),
     path("load_vacancys/", load_vacancys, name="load_vacancys"),
+    path("load_requests/", load_requests, name="load_requests"),
 ]

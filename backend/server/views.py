@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 import MySQLdb
+import random
 
 @csrf_exempt
 def login_view(request):
@@ -162,12 +163,25 @@ def handle_vacancy(request):
             vacancyLink = data.get("vacancyLink")
             selectedSocials = data.get("selectedSocials")
             selectedSocials = ', '.join(selectedSocials) if isinstance(selectedSocials, list) else selectedSocials
-            print(data)
+            vacancyState = data.get("vacancyState")
+
+            queryAdminId = "SELECT id_user FROM user WHERE user_type = %s"
+            cursor.execute(queryAdminId, ("magneto", ))
+            resultAdmin = cursor.fetchall()
+            idsAdmin = [row[0] for row in resultAdmin]
+            id_aleatorio = random.choice(idsAdmin)
 
             
             # Insertar el nuevo usuario
-            query = "INSERT INTO vacancy (id_user, vacancyName, vacancyDescription, fileUrl, selectedSocials, vacancyLink) VALUES(%s, %s, %s, %s, %s, %s)"
-            cursor.execute(query, (userId, vacancyName, vacancyDescription, fileUrl, selectedSocials, vacancyLink))
+            query = "INSERT INTO vacancy (id_user, vacancyName, vacancyDescription, fileUrl, selectedSocials, vacancyLink, state) VALUES(%s, %s, %s, %s, %s, %s, %s)"
+            cursor.execute(query, (userId, vacancyName, vacancyDescription, fileUrl, selectedSocials, vacancyLink, vacancyState, ))
+            db.commit()
+
+            cursor.execute("SELECT LAST_INSERT_ID()")
+            id_vacancy = cursor.fetchone()[0]
+
+            queryRequest = "INSERT INTO adminRequest (id_user, idVacante) VALUES(%s, %s)"
+            cursor.execute(queryRequest, (id_aleatorio, id_vacancy,))
             db.commit()
             
             return JsonResponse({"message": "Vacancy uploaded"}, status=201)
@@ -197,11 +211,11 @@ def load_vacancys(request):
             cursor = db.cursor()
 
             userId = request.GET.get("userId")
+
             
             query = "SELECT * FROM vacancy WHERE id_user = %s"
             cursor.execute(query, (userId,))
             result = cursor.fetchall()
-            print(result)
 
             vacancysList = [
                 {"vacancyId": row[0],
@@ -210,10 +224,56 @@ def load_vacancys(request):
                  "fileUrl": row[4],
                  "vacancyLink": row[5],
                  "selectedSocials": row[6],
-                 "vacancyDescription": row[7]} for row in result
+                 "vacancyDescription": row[7],
+                 "vacancyState": row[8]} for row in result
             ]
             
             return JsonResponse({"vacancys": vacancysList}, status=200)
+        except json.JSONDecodeError as e:
+            print(f"Error decoding JSON: {e}")
+            return JsonResponse({"message": "Invalid JSON"}, status=400)
+        except Exception as e:
+            print(f"Unexpected error: {e}")
+            return JsonResponse({"message": "Internal server error"}, status=500)
+        finally:
+            if db:
+                db.close()
+    
+    print("Invalid request method")
+    return JsonResponse({"message": "Invalid request method"}, status=405)
+
+@csrf_exempt
+def load_requests(request):
+    if request.method == 'GET':
+        try:
+            db = MySQLdb.connect(
+                host="b649eojlfsa315mfyobn-mysql.services.clever-cloud.com",
+                user="uul69zozcc6sfd3a",
+                passwd="syaSc4DaZae1gWQxwQON",
+                db="b649eojlfsa315mfyobn"
+            )
+            cursor = db.cursor()
+
+            userId = request.GET.get("userId")
+
+            
+            query = "SELECT v.*, u.email, u.nombreEmpresa FROM adminRequest ar JOIN vacancy v ON ar.idVacante = v.idVacante JOIN user u on v.id_user = u.id_user WHERE ar.id_user = %s"
+            cursor.execute(query, (userId,))
+            result = cursor.fetchall()
+
+            requestList = [
+                {"vacancyId": row[0],
+                 "vacancyName": row[2],
+                 "fileUrl": row[4],
+                 "vacancyLink": row[5],
+                 "selectSocials": row[6],
+                 "vacancyDescription": row[7],
+                 "requestState": row[8],
+                 "email": row[9],
+                 "nombreEmpresa": row[10]} for row in result
+            ]
+            
+            return JsonResponse({"requests": requestList}, status=200)
         except json.JSONDecodeError as e:
             print(f"Error decoding JSON: {e}")
             return JsonResponse({"message": "Invalid JSON"}, status=400)
