@@ -144,21 +144,81 @@ body, html {
 }
 
 
-.email_rectangle,
-.password_rectangle,
-.password_confirmation_rectangle,
-.type_user_rectangle,
-.nombreEmpresa_rectangle {
+.inputBox,
+.inputBoxConfirmPassword {
   width: 100%;
-  border-radius: 50px;
+  border-radius: 10px;
   height: 6vh; /* Tamaño adaptable */
-  background: #d9d9d9;
   margin: 1vh 0;
+  position: relative;
 }
 
-.StyledInput,
-.StyledSelect {
+.inputBox input, 
+.inputBoxConfirmPassword input {
+  position: relative;
   width: 100%;
+  padding: 20px 10px 10px;
+  background: transparent;
+  outline: none;
+  box-shadow: none;
+  border: none;
+  color: white;
+  font-size: 1em;
+  letter-spacing: 0.05em;
+  transition: 0.5s;
+  z-index: 10;
+
+}
+
+.inputBox span,
+.inputBoxConfirmPassword span{
+  position: absolute;
+  left: 0;
+  padding: 20px 10px 10px;
+  font-size: 1em;
+  color: #000000;
+  letter-spacing: 00.05em;
+  transition: 0.5s;
+  pointer-events: none;
+}
+.inputBoxConfirmPassword span {
+  padding-left: 5px;
+  font-size: 0.98em
+}
+
+.inputBox input:valid ~span,
+.inputBox input:focus ~span,
+.inputBoxConfirmPassword input:valid ~span,
+.inputBoxConfirmPassword input:focus ~span {
+  color: #000000;
+  transform: translateX(-5px) translateY(-31px);
+  font-size: 0,75em;
+}
+
+.inputBox i,
+.inputBoxConfirmPassword i {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: black;
+  border-radius: 4px;
+  transition: 0.5s;
+  pointer-events: none;
+  z-index: 9;
+}
+
+.inputBox input:valid ~i,
+.inputBox input:focus ~i,
+.inputBoxConfirmPassword input:valid ~i,
+.inputBoxConfirmPassword input:focus ~i {
+  height: 30px;
+}
+
+/* .StyledInput, */
+.StyledSelect {
+  width: 100%/*  */;
   height: 100%;
   padding: 10px;
   border: 2px solid #ccc;
@@ -167,7 +227,11 @@ body, html {
   font-family: "Inter", sans-serif;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: border-color 0.3s, box-shadow 0.3s;
+  background-color: #000000;
 }
+
+
+
 
 .StyledInput:focus {
   border-color: #ff0004;
@@ -190,6 +254,9 @@ body, html {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
 }
 
 .Ingresar:hover {
@@ -206,3 +273,82 @@ body, html {
   max-width: 465px;
 }
 
+
+.circle {
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  border-radius: 50%;
+  background-color: #fff;
+  top: 50%;
+  transform-origin: center;
+  animation: circle7124 0.5s alternate infinite ease;
+}
+
+@keyframes circle7124 {
+  0% {
+    transform: translateY(0px) scaleX(1.5);
+  }
+  50% {
+    transform: translateY(-5px) scaleX(1);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
+}
+
+.circle:nth-child(1) {
+  left: 24%;
+  animation-delay: 0.1s;
+}
+
+.circle:nth-child(2) {
+  left: 47%;
+  animation-delay: 0.2s;
+}
+
+.circle:nth-child(3) {
+  left: 70%;
+  animation-delay: 0.3s;
+}
+
+.shadow {
+  width: 15px;
+  height: 3px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  top: 80%;
+  transform-origin: center;
+  filter: blur(1px);
+  animation: shadow046 0.5s alternate infinite ease;
+}
+
+@keyframes shadow046 {
+  0% {
+    transform: scaleX(1.5);
+  }
+  50% {
+    transform: scaleX(1);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scaleX(0.5);
+    opacity: 0.4;
+  }
+}
+
+.shadow:nth-child(4) {
+  left: 22%;
+  animation-delay: 0.1s;
+}
+
+.shadow:nth-child(5) {
+  left: 45%;
+  animation-delay: 0.2s;
+}
+
+.shadow:nth-child(6) {
+  left: 68%;
+  animation-delay: 0.3s;
+}

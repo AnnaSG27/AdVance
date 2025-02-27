@@ -11,6 +11,7 @@ const Login = () => {
   const [password_confirmation, setPassword_confirmation] = useState("");
   const [userType, setUserType] = useState("");
   const [activeButton, setActiveButton] = useState("login");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const upperCaseLetters = (str) => /[A-Z]/.test(str);
   const specialCharacters = (str) => /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(str);
@@ -30,6 +31,8 @@ const Login = () => {
       toast.error("Email inválido");
       return;
     }
+    setLoading(true);
+
     try {
       const response = await fetch("http://localhost:8000/api/login/", {
         method: "POST",
@@ -62,6 +65,8 @@ const Login = () => {
       }
     } catch (error) {
       console.error("Error during fetch:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -136,58 +141,66 @@ const Login = () => {
         </div>
         <div className="session_rectangle"> {activeButton === 'login' ? (
           <div className="login_rectangle">
-            <div className="email_rectangle">
-              <input
-                className="StyledInput"
-                type="text"
-                placeholder="Ingrese su email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
+            <div className="inputBox">
+              <input required="required" type="text" value={email} onChange={(e) => setEmail(e.target.value)}/>
+              <span>Email</span>
+              <i></i>
             </div>
-            <div className="password_rectangle">
+            <div className="inputBox">
               <input
-                className="StyledInput"
                 type="password"
-                placeholder="Ingrese su contraseña"
+                required="required"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+              <span>Contraseña</span>
+              <i></i>
             </div>
-            <button className="Ingresar" onClick={handleLogin}>
-              Ingresar
+            <button className="Ingresar" onClick={handleLogin} disabled={loading}>
+              {loading ? (
+                <div class="wrapper">
+                  <div class="circle"></div>
+                  <div class="circle"></div>
+                  <div class="circle"></div>
+                  <div class="shadow"></div>
+                  <div class="shadow"></div>
+                  <div class="shadow"></div>
+              </div>) : ("Ingresar")}
             </button>
           </div>
         ) : (
           <div className="register_rectangle">
-            <div className="email_rectangle">
+            <div className="inputBox">
               <input
-                className="StyledInput"
                 type="text"
-                placeholder="Ingrese su email"
+                required="required"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
+              <span>Email</span>
+              <i></i>
             </div>
-            <div className="password_rectangle">
+            <div className="inputBox">
               <input
-                className="StyledInput"
                 type="password"
-                placeholder="Ingrese su contraseña"
+                required="required"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+              <span>Contraseña</span>
+              <i></i>
             </div>
-            <div className="password_confirmation_rectangle">
+            <div className="inputBoxConfirmPassword">
               <input
-                className="StyledInput"
                 type="password"
-                placeholder="Confirme su contraseña"
+                required="required"
                 value={password_confirmation}
                 onChange={(e) => setPassword_confirmation(e.target.value)}
               />
+              <span>Confirma tu contraseña</span>
+              <i></i>
             </div>
-            <div className="type_user_rectangle">
+            <div className="inputBox">
               <select
                 className="StyledSelect"
                 value={userType}
@@ -198,18 +211,27 @@ const Login = () => {
               </select>
             </div>
             {userType === 'reclutador' && (
-              <div className="nombreEmpresa_rectangle">
+              <div className="inputBox">
                 <input
-                  className="StyledInput"
                   type="text"
-                  placeholder="Ingrese el nombre de empresa"
+                  required="required"
                   value={nombreEmpresa}
                   onChange={(e) => setNombreEmpresa(e.target.value)}
                 />
+                <span>Nombre empresa</span>
+                <i></i>
               </div>
             )}
             <button className="Ingresar" onClick={handleRegister}>
-              Registrar
+              {loading ? (
+                  <div class="wrapper">
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="shadow"></div>
+                    <div class="shadow"></div>
+                    <div class="shadow"></div>
+                </div>) : ("Registrar")}
             </button>
           </div>
         )}
