@@ -1,3 +1,7 @@
+html {
+  scroll-behavior: smooth;
+}
+
 .Desktop1 {
     width: 100vw;
     height: 100vh;
@@ -186,7 +190,6 @@
     align-self: stretch;
     padding-top: 6vh;
     padding-left: 95px;
-    padding-right: 160px;
     padding-bottom: 20vh;
     flex-direction: column;
     justify-content: flex-start;
@@ -331,6 +334,7 @@
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    scroll-behavior: smooth;
   }
   
   .Overlay {
@@ -595,10 +599,9 @@
 
 .vacancyCard,
 .requestCard {
-  width: 100%;
+  width: 90%;
   height: 20%;
   min-height: 20%;
-  max-height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -608,17 +611,18 @@
   border-radius: 10px;
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5),
               -4px -4px 10px rgba(255, 255, 255, 0.1);
-  transition: background 0.3s ease-in-out;
+  transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
   overflow: hidden;
   cursor: pointer;
   padding: 20px;
+  overflow-x: hidden;
 }
 .requestCard {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  height: 30%
+  height: 30%;
 }
 
 .requestCardHeader {
@@ -635,10 +639,12 @@
 
 .vacancyCard:hover {
   transform: scale(1.05);
+  overflow-x: hidden;
 }
 
 .vacancyCard.expanded {
   height: auto;
+  overflow-y: auto;
 }
 
 .vacancyHeader {
@@ -661,8 +667,9 @@
 }
 
 .vacancyCard.expanded .vacancyDetails {
-  max-height: 300px; /* Ajusta este valor según el contenido */
+  max-height: 500px;
   opacity: 1;
+  overflow-y: auto;
 }
 
 .vacancyState,

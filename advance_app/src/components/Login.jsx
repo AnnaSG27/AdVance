@@ -27,7 +27,7 @@ const Login = () => {
 
   // handle login
   const handleLogin = async () => {
-    if(!validateEmail(email)) {
+    if (!validateEmail(email)) {
       toast.error("Email inválido");
       return;
     }
@@ -41,7 +41,7 @@ const Login = () => {
         },
         body: JSON.stringify({ email, password }),
       });
-  
+
       if (response.ok) {
         const data = await response.json();
         sessionStorage.setItem("userId", data.id);
@@ -49,17 +49,17 @@ const Login = () => {
         sessionStorage.setItem("userPassword", data.password);
         sessionStorage.setItem("userDescription", data.description);
         sessionStorage.setItem("userType", data.userType);
-        if(data.userType === 'reclutador') {
+        if (data.userType === 'reclutador') {
           sessionStorage.setItem("userNombreEmpresa", data.nombreEmpresa);
         }
 
-        
+
         navigate("/dashboard");
       } else {
         const errorData = await response.json();
-        if(errorData.message === "Email does not exists") {
+        if (errorData.message === "Email does not exists") {
           toast.error("Email no encontrado");
-        } else if(errorData.message === "Invalid password") {
+        } else if (errorData.message === "Invalid password") {
           toast.error("Contraseña inválida");
         }
       }
@@ -71,23 +71,23 @@ const Login = () => {
   };
 
   // handle register
-  const handleRegister = async() => {
-    if(password !== password_confirmation) {
+  const handleRegister = async () => {
+    if (password !== password_confirmation) {
       toast.error("Las contraseñas no coinciden");
       return;
-    } else if(password.length < 8) {
+    } else if (password.length < 8) {
       toast.error("La contraseña debe tener al menos 8 caracteres");
       return;
-    } else if(!upperCaseLetters(password)) {
+    } else if (!upperCaseLetters(password)) {
       toast.error("La contraseña debe tener al menos una letra mayúscula");
       return;
-    } else if(!specialCharacters(password)) {
+    } else if (!specialCharacters(password)) {
       toast.error("La contraseña debe tener al menos un caracter especial");
       return;
     }
 
     try {
-      const response = await fetch ("http://localhost:8000/api/register/", {
+      const response = await fetch("http://localhost:8000/api/register/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -102,19 +102,19 @@ const Login = () => {
         sessionStorage.setItem("userEmail", data.email);
         sessionStorage.setItem("userPassword", data.password);
         sessionStorage.setItem("userType", data.userType);
-        if(data.userType === 'reclutador') {
-        sessionStorage.setItem("userNombreEmpresa", data.nombreEmpresa);
+        if (data.userType === 'reclutador') {
+          sessionStorage.setItem("userNombreEmpresa", data.nombreEmpresa);
         }
 
         navigate("/dashboard");
       } else {
         const errorData = await response.json();
-        if(errorData.message ==="User already exists") {
+        if (errorData.message === "User already exists") {
           toast.error("El usuario ya existe");
         } else {
           console.error("Register failed:", errorData);
         }
-        
+
         // Manejar el error del registro
       }
     } catch (error) {
@@ -131,18 +131,18 @@ const Login = () => {
       </div>
       <div className="LoginRectangle">
         <div className="head_session"> {activeButton === 'login' ? (
-            <h1 className="IniciarSesion">Iniciar Sesión</h1>) : (
-            <h1 className="IniciarSesion">Registrar</h1>
-            )}
-            <div className="register_buttons">
-              <button className={`login_button ${activeButton === 'login' ? 'active' : ''}`} onClick={() => handleButtonClick('login')} >Iniciar Sesión</button>
-              <button className={`register_button ${activeButton === 'register' ? 'active' : ''}`} onClick={() => handleButtonClick('register')}>Registrar</button>
-            </div>
+          <h1 className="IniciarSesion">Iniciar Sesión</h1>) : (
+          <h1 className="IniciarSesion">Registrar</h1>
+        )}
+          <div className="register_buttons">
+            <button className={`login_button ${activeButton === 'login' ? 'active' : ''}`} onClick={() => handleButtonClick('login')} >Iniciar Sesión</button>
+            <button className={`register_button ${activeButton === 'register' ? 'active' : ''}`} onClick={() => handleButtonClick('register')}>Registrar</button>
+          </div>
         </div>
         <div className="session_rectangle"> {activeButton === 'login' ? (
           <div className="login_rectangle">
             <div className="inputBox">
-              <input required="required" type="text" value={email} onChange={(e) => setEmail(e.target.value)}/>
+              <input required="required" type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
               <span>Email</span>
               <i></i>
             </div>
@@ -165,7 +165,7 @@ const Login = () => {
                   <div class="shadow"></div>
                   <div class="shadow"></div>
                   <div class="shadow"></div>
-              </div>) : ("Ingresar")}
+                </div>) : ("Ingresar")}
             </button>
           </div>
         ) : (
@@ -224,13 +224,13 @@ const Login = () => {
             )}
             <button className="Ingresar" onClick={handleRegister}>
               {loading ? (
-                  <div class="wrapper">
-                    <div class="circle"></div>
-                    <div class="circle"></div>
-                    <div class="circle"></div>
-                    <div class="shadow"></div>
-                    <div class="shadow"></div>
-                    <div class="shadow"></div>
+                <div class="wrapper">
+                  <div class="circle"></div>
+                  <div class="circle"></div>
+                  <div class="circle"></div>
+                  <div class="shadow"></div>
+                  <div class="shadow"></div>
+                  <div class="shadow"></div>
                 </div>) : ("Registrar")}
             </button>
           </div>

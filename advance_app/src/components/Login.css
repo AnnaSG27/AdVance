@@ -2,12 +2,14 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 
 body, html {
   width: 100%;
   height: 100%;
   overflow: hidden;
+  scroll-behavior: smooth;
 }
 
 .Login {
@@ -32,7 +34,7 @@ body, html {
 .LoginRectangle {
   width: 35vw; /* Se ajusta proporcionalmente */
   max-width: 516px;
-  height: 50vh; /* Se adapta dinámicamente */
+  height: 450px; /* Se adapta dinámicamente */
   max-height: 483px;
   border-radius: 50px;
   background: linear-gradient(180deg, #f0b2b3 22%, #ff0004 100%);
@@ -42,15 +44,21 @@ body, html {
   justify-content: flex-start;
   opacity: 0.7;
   position: relative;
-  padding-top: 5vh;
+  padding-top: 3vh;
+  padding-bottom: 15px;
 }
+
 
 .LogoRectangle {
   margin-right: 2vw;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
 }
 
 .head_session {
-  width: 80%;
+  width: 85%;
   height: 10vh;
   display: flex;
   position: relative;
@@ -60,7 +68,7 @@ body, html {
   margin-bottom: 2vh
 }
 .session_rectangle {
-  width: 80%;
+  width: 85%;
   flex: 1;
   overflow-y: auto;
 }
@@ -137,6 +145,11 @@ body, html {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  gap: 10px;
+}
+
+.register_rectangle {
+  overflow-y: auto;
 }
 .LoginRectangle::-webkit-scrollbar {
   width: 0px; /* Ancho de la barra de desplazamiento */
@@ -148,7 +161,7 @@ body, html {
 .inputBoxConfirmPassword {
   width: 100%;
   border-radius: 10px;
-  height: 6vh; /* Tamaño adaptable */
+  height: 60px; 
   margin: 1vh 0;
   position: relative;
 }
@@ -157,7 +170,7 @@ body, html {
 .inputBoxConfirmPassword input {
   position: relative;
   width: 100%;
-  padding: 20px 10px 10px;
+  padding: 25px 10px 10px;
   background: transparent;
   outline: none;
   box-shadow: none;
@@ -213,7 +226,7 @@ body, html {
 .inputBox input:focus ~i,
 .inputBoxConfirmPassword input:valid ~i,
 .inputBoxConfirmPassword input:focus ~i {
-  height: 30px;
+  height: 50px;
 }
 
 /* .StyledInput, */
@@ -242,14 +255,13 @@ body, html {
 
 .Ingresar {
   width: 15vw;
-  height: 6vh;
+  height: 40px;
   background: linear-gradient(90deg, #ff7e5f, #feb47b);
   font-size: 1.5vw;
   border: none;
   border-radius: 25px;
   color: white;
   cursor: pointer;
-  margin-top: 2vh;
   transition: background 0.3s, transform 0.3s;
   display: flex;
   justify-content: center;
