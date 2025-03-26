@@ -3,6 +3,16 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import MySQLdb
 import random
+from django.conf import settings
+
+
+def get_db_connection():
+    return MySQLdb.connect(
+        host=settings.DATABASES['default']['HOST'],
+        user=settings.DATABASES['default']['USER'],
+        passwd=settings.DATABASES['default']['PASSWORD'],
+        db=settings.DATABASES['default']['NAME']
+    )
 
 @csrf_exempt
 def login_view(request):
@@ -13,12 +23,7 @@ def login_view(request):
             password = data.get('password')
             print(f"Email: {email}, Password: {password}")
             
-            db = MySQLdb.connect(
-                host="b649eojlfsa315mfyobn-mysql.services.clever-cloud.com",
-                user="uul69zozcc6sfd3a",
-                passwd="syaSc4DaZae1gWQxwQON",
-                db="b649eojlfsa315mfyobn"
-            )
+            db = get_db_connection()
             cursor = db.cursor()
             
 
@@ -60,12 +65,7 @@ def register_view(request):
             nombreEmpresa = data.get('nombreEmpresa')
             userType = data.get('userType')
             
-            db = MySQLdb.connect(
-                host="b649eojlfsa315mfyobn-mysql.services.clever-cloud.com",
-                user="uul69zozcc6sfd3a",
-                passwd="syaSc4DaZae1gWQxwQON",
-                db="b649eojlfsa315mfyobn"
-            )
+            db = get_db_connection()
             cursor = db.cursor()
             
             # Verificar si el correo electrónico ya existe
@@ -101,12 +101,7 @@ def register_view(request):
 def edit_profile(request):
     if request.method == 'PATCH':
         try:
-            db = MySQLdb.connect(
-                host="b649eojlfsa315mfyobn-mysql.services.clever-cloud.com",
-                user="uul69zozcc6sfd3a",
-                passwd="syaSc4DaZae1gWQxwQON",
-                db="b649eojlfsa315mfyobn"
-            )
+            db = get_db_connection()
             cursor = db.cursor()
 
             data = json.loads(request.body)
@@ -147,12 +142,7 @@ def edit_profile(request):
 def handle_vacancy(request):
     if request.method == 'POST':
         try:
-            db = MySQLdb.connect(
-                host="b649eojlfsa315mfyobn-mysql.services.clever-cloud.com",
-                user="uul69zozcc6sfd3a",
-                passwd="syaSc4DaZae1gWQxwQON",
-                db="b649eojlfsa315mfyobn"
-            )
+            db = get_db_connection()
             cursor = db.cursor()
 
             data = json.loads(request.body)
@@ -202,12 +192,7 @@ def handle_vacancy(request):
 def load_vacancys(request):
     if request.method == 'GET':
         try:
-            db = MySQLdb.connect(
-                host="b649eojlfsa315mfyobn-mysql.services.clever-cloud.com",
-                user="uul69zozcc6sfd3a",
-                passwd="syaSc4DaZae1gWQxwQON",
-                db="b649eojlfsa315mfyobn"
-            )
+            db = get_db_connection()
             cursor = db.cursor()
 
             userId = request.GET.get("userId")
@@ -246,12 +231,7 @@ def load_vacancys(request):
 def load_requests(request):
     if request.method == 'GET':
         try:
-            db = MySQLdb.connect(
-                host="b649eojlfsa315mfyobn-mysql.services.clever-cloud.com",
-                user="uul69zozcc6sfd3a",
-                passwd="syaSc4DaZae1gWQxwQON",
-                db="b649eojlfsa315mfyobn"
-            )
+            db = get_db_connection()
             cursor = db.cursor()
 
             userId = request.GET.get("userId")

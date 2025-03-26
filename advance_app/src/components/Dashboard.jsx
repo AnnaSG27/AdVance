@@ -379,7 +379,6 @@ const Dashboard = () => {
                     onClick={() => toggleVacancy(vacancy.vacancyId)}
                   >
                     <div className="vacancyHeader">
-                      {ex}
                       <h2>{vacancy.vacancyName}</h2>
                       <div className="vacancyState">
                         <h3>{vacancy.vacancyState}</h3>
