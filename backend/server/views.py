@@ -198,7 +198,7 @@ def load_vacancys(request):
             userId = request.GET.get("userId")
 
             
-            query = "SELECT * FROM vacancy WHERE id_user = %s"
+            query = "SELECT v.*, ar. suggestEdit FROM vacancy v JOIN adminRequest ar ON v.idVacante = ar.idVacante WHERE v.id_user = %s"
             cursor.execute(query, (userId,))
             result = cursor.fetchall()
 
@@ -210,7 +210,8 @@ def load_vacancys(request):
                  "vacancyLink": row[5],
                  "selectedSocials": row[6],
                  "vacancyDescription": row[7],
-                 "vacancyState": row[8]} for row in result
+                 "vacancyState": row[8],
+                 "suggestEdit": row[9]} for row in result
             ]
             
             return JsonResponse({"vacancys": vacancysList}, status=200)
@@ -237,7 +238,7 @@ def load_requests(request):
             userId = request.GET.get("userId")
 
             
-            query = "SELECT v.*, u.email, u.nombreEmpresa FROM adminRequest ar JOIN vacancy v ON ar.idVacante = v.idVacante JOIN user u on v.id_user = u.id_user WHERE ar.id_user = %s"
+            query = "SELECT v.*, u.email, u.nombreEmpresa, ar.idVacante, ar.suggestEdit FROM adminRequest ar JOIN vacancy v ON ar.idVacante = v.idVacante JOIN user u on v.id_user = u.id_user WHERE ar.id_user = %s"
             cursor.execute(query, (userId,))
             result = cursor.fetchall()
 
@@ -250,10 +251,46 @@ def load_requests(request):
                  "vacancyDescription": row[7],
                  "requestState": row[8],
                  "email": row[9],
-                 "nombreEmpresa": row[10]} for row in result
+                 "nombreEmpresa": row[10],
+                 "idRequest": row[11],
+                 "suggestEdit": row[12]} for row in result
             ]
             
             return JsonResponse({"requests": requestList}, status=200)
+        except json.JSONDecodeError as e:
+            print(f"Error decoding JSON: {e}")
+            return JsonResponse({"message": "Invalid JSON"}, status=400)
+        except Exception as e:
+            print(f"Unexpected error: {e}")
+            return JsonResponse({"message": "Internal server error"}, status=500)
+        finally:
+            if db:
+                db.close()
+    
+    print("Invalid request method")
+    return JsonResponse({"message": "Invalid request method"}, status=405)
+
+@csrf_exempt
+def suggest_edit(request):
+    if request.method == 'PATCH':
+        try:
+            db = get_db_connection()
+            cursor = db.cursor()
+
+            data = json.loads(request.body)
+            idRequest = data.get("idRequest")
+            suggestEdit = data.get("suggestEdit")
+            print(f"Request ID: {idRequest}, Suggest edit: {suggestEdit}")
+            
+            query = "UPDATE adminRequest SET suggestEdit = %s WHERE idVacante = %s;"
+            cursor.execute(query, (suggestEdit, idRequest,))
+            db.commit()
+            
+            query = "UPDATE vacancy SET state = 'update' WHERE idVacante = %s;"
+            cursor.execute(query, (idRequest,))
+            db.commit()
+            
+            return JsonResponse({"message": "suggest edit changed"}, status=201)
         except json.JSONDecodeError as e:
             print(f"Error decoding JSON: {e}")
             return JsonResponse({"message": "Invalid JSON"}, status=400)

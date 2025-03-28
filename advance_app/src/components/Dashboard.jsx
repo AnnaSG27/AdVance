@@ -35,6 +35,8 @@ const Dashboard = () => {
   const [userRequests, setUserRequests] = useState([]);
   const [expandedVacancy, setExpandedVacancy] = useState(null);
   const [vacancyState, setVacancyState] = useState();
+  const [suggestEdit, setSuggestEdit] = useState();
+  const [idRequest, setIdRequest] = useState();
   let userNombreEmpresa = "";
   if (userType === 'reclutador') {
     userNombreEmpresa = sessionStorage.getItem('userNombreEmpresa');
@@ -65,26 +67,25 @@ const Dashboard = () => {
     setIsProfileModalOpen(true);
   };
 
-  const closeProfileModal = () => {
-    setIsProfileModalOpen(false);
-  };
-
-  // Maneja el modal de añadir una vacante
-  const openAddVacancyModal = () => {
-    setIsAddVacancyModalOpen(true);
-  };
-
-  const closeAddVacancyModal = () => {
-    setIsAddVacancyModalOpen(false);
-  };
-
   const openRequestModal = (actualRequest) => {
     setRequest(actualRequest)
     setIsRequestModalOpen(true);
   };
 
-  const closeRequestModal = () => {
-    setIsRequestModalOpen(false);
+  const openModal = (modalName) => {
+    if (modalName === "addVacancy") {
+      setIsAddVacancyModalOpen(true);
+    }
+  };
+
+  const closeModal = (modalName) => {
+    if (modalName === "profile") {
+      setIsProfileModalOpen(false);
+    } else if (modalName === "addVacancy") {
+      setIsAddVacancyModalOpen(false);
+    } else if (modalName === "request") {
+      setIsRequestModalOpen(false);
+    }
   };
 
   // Maneja la selecicón de redes sociales
@@ -98,7 +99,6 @@ const Dashboard = () => {
 
   // Maneja la petición de edición del perfil
   const handleEdit = async () => {
-    console.log("userid edit:", userId)
     try {
       const response = await fetch("http://localhost:8000/api/edit_profile/", {
         method: "PATCH",
@@ -118,7 +118,7 @@ const Dashboard = () => {
           sessionStorage.setItem("userDescription", data.change);
         }
         toast.success("Campo actualizado correctamente");
-        closeProfileModal();
+        closeModal("profile");
       } else {
         const errorData = await response.json();
         if (errorData.message === "This email already exists") {
@@ -191,7 +191,8 @@ const Dashboard = () => {
       if (response.ok) {
         const data = await response.json();
         toast.success("Campo actualizado correctamente");
-        closeAddVacancyModal();
+        closeModal("addVacancy");
+        loadVacancys();
       } else {
         const errorData = await response.json();
         if (errorData.message === "This email already exists") {
@@ -251,6 +252,32 @@ const Dashboard = () => {
 
   const toggleVacancy = (vacancyId) => {
     setExpandedVacancy(expandedVacancy === vacancyId ? null : vacancyId);
+  };
+
+  const handleSuggestEdit = async (suggestEdit) => {
+    try {
+      const response = await fetch("http://localhost:8000/api/suggest_edit/", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ idRequest, suggestEdit }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        toast.success("Campo actualizado correctamente");
+        closeModal("request");
+        loadRequests();
+      } else {
+        const errorData = await response.json();
+        if (errorData.message === "This email already exists") {
+          toast.error("Este email ya existe");
+        }
+      }
+    } catch (error) {
+      console.error("Error during fetch:", error);
+    }
   };
 
   return (
@@ -380,15 +407,33 @@ const Dashboard = () => {
                   >
                     <div className="vacancyHeader">
                       <h2>{vacancy.vacancyName}</h2>
-                      <div className="vacancyState">
-                        <h3>{vacancy.vacancyState}</h3>
+                      <div className="requestState">
+                        <img src={vacancy.vacancyState === "done" ? "/images/done.jpg" : vacancy.vacancyState === "review" ? "/images/review.jpg" : vacancy.vacancyState === "update" ? "/images/update.jpg" : "/images/reject.jpg"} alt="" />
+                        <h3>{vacancy.vacancyState === "review" ? "En revisión" : vacancy.vacancyState === "done" ? "Posted" : vacancy.vacancyState === "update" ? "Update" : "Rejected"}</h3>
                       </div>
                     </div>
                     <div className="vacancyDetails">
                       <p>{vacancy.vacancyDescription}</p>
-                      <p>Contenido del post:</p>
+                      <h3>Contenido del post:</h3>
                       <img src={vacancy.fileUrl} alt="imagen" />
+                      <h3>Link de la vacante</h3>
                       <p>{vacancy.vacancyLink}</p>
+                      <h2>Redes sociales a publicar:</h2>
+                      <ul>
+                        {vacancy && vacancy.selectedSocials ? (
+                          vacancy.selectedSocials.split(", ").map((social, index) => (
+                            <li key={index}>{social.charAt(0).toUpperCase() + social.slice(1)}</li>
+                          ))
+                        ) : (
+                          <li>No encontrado</li>
+                        )}
+                      </ul>
+                      {vacancy.vacancyState === "update" ? (
+                        <div>
+                          <h3>Edición sugerida:</h3>
+                          <p>{vacancy.suggestEdit}</p>
+                        </div>
+                      ) : null}
                     </div>
                   </div>
                 ))
@@ -397,13 +442,13 @@ const Dashboard = () => {
               )}
             </div>
             <div className="addAd">
-              <button className="addAdButton" onClick={() => openAddVacancyModal()}>
+              <button className="addAdButton" onClick={() => openModal("addVacancy")}>
                 +
               </button>
             </div>
             <Modal
               isOpen={isAddVacancyModalOpen}
-              onRequestClose={closeAddVacancyModal}
+              onRequestClose={() => closeModal("addVacancy")}
               contentLabel="Añadir Vacante"
               className="vacancyModal"
               overlayClassName="Overlay">
@@ -495,7 +540,7 @@ const Dashboard = () => {
                 <button className="saveButton" onClick={handleVacancy}>
                   Guardar
                 </button>
-                <button className="cancelButton" onClick={closeAddVacancyModal}>
+                <button className="cancelButton" onClick={() => closeModal("addVacancy")}>
                   Cancelar
                 </button>
               </div>
@@ -510,7 +555,7 @@ const Dashboard = () => {
                   <div
                     key={request.vacancyId}
                     className="requestCard"
-                    onClick={() => openRequestModal(request)}>
+                    onClick={() => { openRequestModal(request); setIdRequest(request.idRequest) }}>
                     <div className="requestCardHeader">
                       <h2>{request.vacancyName}</h2>
                       <h3>{request.nombreEmpresa}</h3>
@@ -528,7 +573,7 @@ const Dashboard = () => {
             </div>
             <Modal
               isOpen={isRequestModalOpen}
-              onRequestClose={closeRequestModal}
+              onRequestClose={() => closeModal("request")}
               contentLabel="Añadir Vacante"
               className="requestModal"
               overlayClassName="Overlay">
@@ -573,30 +618,46 @@ const Dashboard = () => {
                   </a>
                 </div>
                 <div className="addVacancySocialMedia">
+
                   <h2>Redes sociales a publicar:</h2>
-                  <div>
-                    <h3>Redes sociales seleccionadas:</h3>
-                    {request ? console.log(request.selectSocials) : ""}
-                    <ul>
-                      {request && request.selectSocials ? (
-                        request.selectSocials.split(", ").map((social, index) => (
-                          <li key={index}>{social.charAt(0).toUpperCase() + social.slice(1)}</li>
-                        ))
-                      ) : (
-                        <li>No encontrado</li>
-                      )}
-                    </ul>
-                  </div>
+                  <ul>
+                    {request && request.selectSocials ? (
+                      request.selectSocials.split(", ").map((social, index) => (
+                        <li key={index}>{social.charAt(0).toUpperCase() + social.slice(1)}</li>
+                      ))
+                    ) : (
+                      <li>No encontrado</li>
+                    )}
+                  </ul>
+                  {request && request.requestState === "review" ? (
+                    <div className="addVancaySuggestEdit">
+                      <h2>Sugerir edición</h2>
+                      <textarea
+                        className="StyledTextareaVacancy"
+                        value={suggestEdit}
+                        onChange={(e) => setSuggestEdit(e.target.value)} />
+                    </div>) : (
+                    <div className="addVancaySuggestEdit">
+                      <h2>Edición sugerida: </h2>
+                      <p>{request ? request.suggestEdit : "no disponible"}</p>
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="vacancyModalFoot">
-                <button className="saveButton" onClick={handleVacancy}>
-                  Guardar
+                <button className="postButton" onClick={handleVacancy}>
+                  Publicar
                 </button>
-                <button className="cancelButton" onClick={closeRequestModal}>
+                {request && request.requestState === "review" ? (
+                  <button className="suggestEditButton" onClick={() => handleSuggestEdit(suggestEdit)}>
+                    Sugerir edición
+                  </button>) : null}
+                <button className="cancelButton"
+                  onClick={() => { closeModal("request"); setSuggestEdit("") }}>
                   Cancelar
                 </button>
               </div>
+
             </Modal>
           </div>
         ) : (
@@ -605,7 +666,7 @@ const Dashboard = () => {
       </div>
       <Modal
         isOpen={isProfileModalOpen}
-        onRequestClose={closeProfileModal}
+        onRequestClose={() => closeModal("profile")}
         contentLabel="Editar Campo"
         className="Modal"
         overlayClassName="Overlay">
@@ -628,7 +689,7 @@ const Dashboard = () => {
         <button className="saveButton" onClick={handleEdit}>
           Guardar
         </button>
-        <button className="cancelButton" onClick={closeProfileModal}>
+        <button className="cancelButton" onClick={closeModal}>
 
           Cancelar
         </button>

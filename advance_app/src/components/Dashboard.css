@@ -108,9 +108,10 @@ html {
     width: 100%;
     display: flex;
     justify-content: center;
-    align-items: center; /* Ajusta la altura para que ocupe el espacio restante debajo de la barra de menú */
+    overflow: hidden;
     background: transparent; /* Fondo transparente */
     position: relative;
+    min-height: 0;
   }
   
   .welcome-message {
@@ -354,9 +355,14 @@ html {
     cursor: pointer;
   }
   
-  .saveButton {
+  .saveButton, 
+  .postButton {
     background-color: #4CAF50;
     color: white;
+  }
+
+  .suggestEditButton {
+    background-color: rgb(205, 190, 50);
   }
   
   .cancelButton {
@@ -496,7 +502,8 @@ html {
 .addVacancyDescription,
 .addVacancyMedia,
 .addVacancyLink,
-.addVacancySocialMedia {
+.addVacancySocialMedia,
+.addVancaySuggestEdit {
   background-color: transparent;
   padding: 10px;
   width: 100%;
@@ -586,21 +593,22 @@ html {
 .requests {
   background-color: transparent;
   width: 80%;
-  height: 80%;
+  height: 100%;
   position: relative;
   padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
+  align-items: stretch;
   gap: 25px;
-  overflow-y: auto;
+  overflow-y: scroll;
+  min-height: 0;
 }
 
 .vacancyCard,
 .requestCard {
   width: 90%;
-  height: 20%;
+  height: auto;
   min-height: 20%;
   display: flex;
   flex-direction: column;
@@ -643,7 +651,7 @@ html {
 }
 
 .vacancyCard.expanded {
-  height: auto;
+  min-height: 500px;
   overflow-y: auto;
 }
 
