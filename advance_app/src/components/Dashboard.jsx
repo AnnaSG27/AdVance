@@ -37,6 +37,7 @@ const Dashboard = () => {
   const [vacancyState, setVacancyState] = useState();
   const [suggestEdit, setSuggestEdit] = useState();
   const [idRequest, setIdRequest] = useState();
+  const [activeFilter, setActiveFilter] = useState("review");
   let userNombreEmpresa = "";
   if (userType === 'reclutador') {
     userNombreEmpresa = sessionStorage.getItem('userNombreEmpresa');
@@ -255,6 +256,10 @@ const Dashboard = () => {
   };
 
   const handleSuggestEdit = async (suggestEdit) => {
+    if (!suggestEdit) {
+      toast.error("Por favor, añade una sugerencia de edición antes de continuar.");
+      return;
+    }
     try {
       const response = await fetch("http://localhost:8000/api/suggest_edit/", {
         method: "PATCH",
@@ -398,8 +403,14 @@ const Dashboard = () => {
         ) : activeButton === "misAnuncios" ? (
           <div className="cuerpo_ventana">
             <div className="vacancys">
+              <div className="vacanciesMenu">
+                <button className="buttonVacancies" onClick={() => setActiveFilter("review")}>En revisión</button>
+                <button className="buttonVacancies" onClick={() => setActiveFilter("update")}>Actualizar</button>
+              </div>
               {userVacancys.length > 0 ? (
-                userVacancys.map((vacancy) => (
+                userVacancys.filter(vacancy => {
+                  if(activeFilter === "review") return vacancy.vacancyState === "review";
+                  if(activeFilter === "update") return vacancy.vacancyState === "update"}).map((vacancy) => (
                   <div
                     key={vacancy.vacancyId}
                     className={`vacancyCard ${expandedVacancy === vacancy.vacancyId ? "expanded" : ""}`}
@@ -413,12 +424,13 @@ const Dashboard = () => {
                       </div>
                     </div>
                     <div className="vacancyDetails">
+                      <h3>Descripción del post:</h3>
                       <p>{vacancy.vacancyDescription}</p>
-                      <h3>Contenido del post:</h3>
+                      <h3>Contenido multimedia:</h3>
                       <img src={vacancy.fileUrl} alt="imagen" />
                       <h3>Link de la vacante</h3>
                       <p>{vacancy.vacancyLink}</p>
-                      <h2>Redes sociales a publicar:</h2>
+                      <h3>Redes sociales a publicar:</h3>
                       <ul>
                         {vacancy && vacancy.selectedSocials ? (
                           vacancy.selectedSocials.split(", ").map((social, index) => (
