@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import MenuBar from "./MenuBar";
 import './Dashboard.css';
-import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import { ToastContainer, toast } from 'react-toastify';
 import { CLOUDINARY_UPLOAD_PRESET, CLOUDINARY_URL } from '../cloudinary';
@@ -17,7 +16,7 @@ const Dashboard = () => {
   const userPassword = sessionStorage.getItem('userPassword');
   const userDescription = sessionStorage.getItem('userDescription');
   const userType = sessionStorage.getItem('userType');
-  const navigate = useNavigate();
+  
   const [newValue, setNewvalue] = useState('');
   const [fieldToEdit, setFieldToEdit] = useState('');
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
@@ -289,7 +288,6 @@ const Dashboard = () => {
         activeButton={activeButton}
         handleButtonClick={handleButtonClick}
         userType = {userType}
-        navigate = {navigate}
         loadVacancys = {loadVacancys}
         loadRequests={loadRequests}
       />

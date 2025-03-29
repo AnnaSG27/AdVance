@@ -1,13 +1,15 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const MenuBar = ({
     userType,
     activeButton,
     handleButtonClick,
     loadVacancys,
-    loadRequests,
-    navigate
+    loadRequests
 }) => {
+    const navigate = useNavigate();
+
     // Maneja el botón de "Salir"
     const handleLogout = () => {
         sessionStorage.clear();
