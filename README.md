@@ -5,7 +5,7 @@
  - José Benjamín Vega Ramírez
  - Anna Sofía Giraldo Carvajal
 ## Versiones
- - **Sistemas Operativos:** macOS 14.3.1  y Windows 11 Pro 24H2
+ - **Sistemas Operativos:** Windows 11 Pro 24H2
  - **Lenguajes Utilizados:** Python 3.13.1 , JavaScript , CSS , HTML
  - **Herramienta Utilizada:** Visual Studio Code 1.98.2  
  
@@ -54,4 +54,5 @@
 
 **Importante**: 
 - Ambos procesos deben permanecer ejecutándose en terminales separadas
+- Por ahora solo está disponible en Windows
 - El orden de ejecución puede ser indistinto (servidor primero o cliente primero)
