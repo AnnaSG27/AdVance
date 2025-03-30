@@ -14,6 +14,9 @@
 ### Configuración inicial
 1. Crea una carpeta
 2. En esta carpeta clona el repositorio mediante GitBash
+   ```bash
+   git clone https://github.com/AnnaSG27/AdVance.git
+   ```
 
 ### Proceso de ejecución 
 
