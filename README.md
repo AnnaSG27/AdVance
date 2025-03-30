@@ -28,7 +28,7 @@
      ```
    - Inicia la aplicación cliente:
      ```bash
-     npm run electron_dev
+     npm run electron-dev
      ```
 
 2. **Preparar el servidor (Backend)**:
