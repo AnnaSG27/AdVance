@@ -38,6 +38,9 @@
      ```
    - Crea y activa el entorno virtual
      ```bash
+     python -m venv (Nombre_entorno)
+     ```
+     ```bash
      (Nombre_entorno)\Scripts\activate
      ```
    - Instala las dependencias de Python:
