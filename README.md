@@ -1,13 +1,54 @@
-Para ejecutar el programa, hay que crear una carpeta que sea la raíz del proyecto y agregar todos los archivos que están en el repositorio.
+# AdVance: Publicidad Sin Límites
+## Integrantes del Equipo
+Laura Sofía Jiménez París
+Miguel Ángel Montoya Areiza
+José Benjamín Vega Ramírez
+Anna Sofía Giraldo Carvajal
+## Versiones
+ - **Sistemas Operativos:** macOS 14.3.1  y Windows 11 Pro 24H2
+ - **Lenguajes Utilizados:** Python 3.13.1 , JavaScript , CSS , HTML
+ - **Herramienta Utilizada:** Visual Studio Code 1.91.1  
+ 
+## Instrucciones para la ejecución del proyecto
 
-EJECUTAR EL CLIENTE
+### Configuración inicial
+1. Crea una carpeta
+2. En esta carpeta clona el repositorio mediante GitBash
 
-Después, se ingresa a la carperta advance_app, se abre la terminal y se ejecuta el comando npm install para instalar todas las dependencias de la aplicación.
-Después de hacer esto, se ejecuta el comando npm run electron_dev. Esto ejecutará el cliente.
+### Proceso de ejecución 
 
-EJECUTAR EL SERVIDOR
+1. **Preparar el cliente (Frontend)**:
+   - Abre una terminal y navega a la carpeta `advance_app`:
+     ```bash
+     cd advance_app
+     ```
+   - Instala las dependencias necesarias:
+     ```bash
+     npm install
+     ```
+   - Inicia la aplicación cliente:
+     ```bash
+     npm run electron_dev
+     ```
 
-Para correr el servidor, es necesario, en otra terminal, salirse de advance_app, entrar a la carpeta Backend y ejecutar venv\Scripts\activate para activar el entorno virtual. Después de activado el entorno virtual, ejecutar el siguiente comando: pip install -r requirements.txt. Esto, instalará las dependencias necesarias para correr el servidor.
-Una vez hecho lo anterior, ejecutar el comando py manage.py runserver para inciar el servidor.
+2. **Preparar el servidor (Backend)**:
+   - En una nueva terminal, navega a la carpeta Backend:
+     ```bash
+     cd ../Backend
+     ```
+   - Crea y activa el entorno virtual
+     ```bash
+     (Nombre_entorno)\Scripts\activate
+     ```
+   - Instala las dependencias de Python:
+     ```bash
+     pip install -r requirements.txt
+     ```
+   - Inicia el servidor de desarrollo:
+     ```bash
+     py manage.py runserver
+     ```
 
-
+**Importante**: 
+- Ambos procesos deben permanecer ejecutándose en terminales separadas
+- El orden de ejecución puede ser indistinto (servidor primero o cliente primero)
