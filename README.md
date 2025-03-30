@@ -1,9 +1,9 @@
 # AdVance: Publicidad Sin Límites
 ## Integrantes del Equipo
-Laura Sofía Jiménez París
-Miguel Ángel Montoya Areiza
-José Benjamín Vega Ramírez
-Anna Sofía Giraldo Carvajal
+ - Laura Sofía Jiménez París
+ - Miguel Ángel Montoya Areiza
+ - José Benjamín Vega Ramírez
+ - Anna Sofía Giraldo Carvajal
 ## Versiones
  - **Sistemas Operativos:** macOS 14.3.1  y Windows 11 Pro 24H2
  - **Lenguajes Utilizados:** Python 3.13.1 , JavaScript , CSS , HTML
