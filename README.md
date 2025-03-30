@@ -35,7 +35,7 @@
      ```
 
 2. **Preparar el servidor (Backend)**:
-   - En una nueva terminal. abre la carpeta del proyecto y navega Backend:
+   - En una nueva terminal, abre la carpeta del proyecto y navega Backend:
      ```bash
      cd Backend
      ```
