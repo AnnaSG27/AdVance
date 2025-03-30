@@ -569,7 +569,7 @@ const Dashboard = () => {
                   {request ? request.vacancyName : "No disponible"}
                 </div>
                 <div className="addVacancyDescription">
-                  <h2>Añade la descripción:</h2>
+                  <h2>Descripción del post:</h2>
                   {request ? request.vacancyDescription : "No disponible"}
                 </div>
                 <div className="addVacancyMedia">
