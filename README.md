@@ -7,7 +7,7 @@
 ## Versiones
  - **Sistemas Operativos:** macOS 14.3.1  y Windows 11 Pro 24H2
  - **Lenguajes Utilizados:** Python 3.13.1 , JavaScript , CSS , HTML
- - **Herramienta Utilizada:** Visual Studio Code 1.91.1  
+ - **Herramienta Utilizada:** Visual Studio Code 1.98.2  
  
 ## Instrucciones para la ejecución del proyecto
 
