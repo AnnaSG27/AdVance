@@ -21,7 +21,7 @@
 ### Proceso de ejecución 
 
 1. **Preparar el cliente (Frontend)**:
-   - Abre una terminal y navega a la carpeta `advance_app`:
+   - Abre una terminal en la carpeta del proyecto y navega a la carpeta `advance_app`:
      ```bash
      cd advance_app
      ```
@@ -35,9 +35,9 @@
      ```
 
 2. **Preparar el servidor (Backend)**:
-   - En una nueva terminal, navega a la carpeta Backend:
+   - En una nueva terminal. abre la carpeta del proyecto y navega Backend:
      ```bash
-     cd ../Backend
+     cd Backend
      ```
    - Crea y activa el entorno virtual
      ```bash
