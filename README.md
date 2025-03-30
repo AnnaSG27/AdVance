@@ -52,7 +52,7 @@
      py manage.py runserver
      ```
 
-**Importante**: 
-- Ambos procesos deben permanecer ejecutándose en terminales separadas
+**Importante**:
 - Por ahora solo está disponible en Windows
+- Ambos procesos deben permanecer ejecutándose en terminales separadas
 - El orden de ejecución puede ser indistinto (servidor primero o cliente primero)
