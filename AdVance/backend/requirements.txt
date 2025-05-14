@@ -1,5 +1,0 @@
-django
-django-cors-headers
-django-sslserver
-mysqlclient
-python-dotenv

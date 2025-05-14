@@ -1,5 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import './Dashboard.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser, faBullhorn, faSignOutAlt, faFileAlt } from '@fortawesome/free-solid-svg-icons';
 
 const MenuBar = ({
     userType,
@@ -10,49 +13,75 @@ const MenuBar = ({
 }) => {
     const navigate = useNavigate();
 
-    // Maneja el botón de "Salir"
     const handleLogout = () => {
         sessionStorage.clear();
         navigate("/", { state: { activeButton: 'login' } });
     };
-    return(
-    <div data-layer="Barra_menu" className="BarraMenu">
-        <div data-layer="menu_logo" className="MenuLogo">
-            <img data-layer="logo" className="logo" src="/images/logo.png" alt="Preview" />
-        </div>
-        <div data-layer="salir" className="menuSalir">
-            <button
-                className="salirButton" onClick={handleLogout}
-            >
-                Salir
-            </button>
-        </div>
-        <div data-layer="menu_mi_perfil" className="MenuMiPerfil">
-            <button
-                className={`MiPerfilButton ${activeButton === 'profile' ? 'active' : ''}`}
-                onClick={() => handleButtonClick('profile')}
-            >
-                Mi Perfil
-            </button>
-        </div>
-        {userType === "reclutador" ? (
-            <div data-layer="menu_mis_anuncios" className="menuMisAnuncios">
+
+    return (
+        <div className="BarraMenu">
+            <div className="MenuLogo">
+                <img 
+                    className="logo" 
+                    src="/images/logo.png" 
+                    alt="Logo AdVance"
+                    onError={(e) => {
+                        e.target.src = "https://via.placeholder.com/100?text=AdVance";
+                    }}
+                />
+            </div>
+            <div style={{ flex: 1 }}></div>
+            <div className="MenuMiPerfil">
                 <button
-                    className={`MisAnunciosButton ${activeButton === 'misAnuncios' ? 'active' : ''}`}
-                    onClick={() => { loadVacancys(); handleButtonClick('misAnuncios') }}>
-                    Mis Anuncios
+                    className={`MiPerfilButton ${activeButton === 'profile' ? 'active' : ''}`}
+                    onClick={() => handleButtonClick('profile')}
+                    aria-label="Ver perfil"
+                >
+                    <FontAwesomeIcon icon={faUser} className="menu-icon" />
+                    Mi Perfil
                 </button>
             </div>
-        ) : (
-            <div data-layer="menu_mis_anuncios" className="menuSolicitudes">
-                <button
-                    className={`MisSolicitudesButton ${activeButton === 'misSolicitudes' ? 'active' : ''}`}
-                    onClick={() => { loadRequests(); handleButtonClick('misSolicitudes') }}>
-                    Solicitudes
+            {userType === "reclutador" ? (
+                <div className="menuMisAnuncios">
+                    <button
+                        className={`MisAnunciosButton ${activeButton === 'misAnuncios' ? 'active' : ''}`}
+                        onClick={() => {
+                            loadVacancys();
+                            handleButtonClick('misAnuncios');
+                        }}
+                        aria-label="Ver mis anuncios"
+                    >
+                        <FontAwesomeIcon icon={faBullhorn} className="menu-icon" />
+                        Mis Anuncios
+                    </button>
+                </div>
+            ) : (
+                <div className="menuSolicitudes">
+                    <button
+                        className={`MisSolicitudesButton ${activeButton === 'misSolicitudes' ? 'active' : ''}`}
+                        onClick={() => {
+                            loadRequests();
+                            handleButtonClick('misSolicitudes');
+                        }}
+                        aria-label="Ver solicitudes"
+                    >
+                        <FontAwesomeIcon icon={faFileAlt} className="menu-icon" />
+                        Solicitudes
+                    </button>
+                </div>
+            )}
+            <div className="menuSalir">
+                <button 
+                    className="salirButton" 
+                    onClick={handleLogout}
+                    aria-label="Cerrar sesión"
+                >
+                    <FontAwesomeIcon icon={faSignOutAlt} className="menu-icon" />
+                    Salir
                 </button>
             </div>
-        )}
-    </div>
-)};
+        </div>
+    );
+};
 
 export default MenuBar;

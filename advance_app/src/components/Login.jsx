@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEnvelope, faLock, faSignInAlt, faUserPlus, faBuilding } from '@fortawesome/free-solid-svg-icons';
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -25,7 +27,6 @@ const Login = () => {
     return re.test(String(email).toLowerCase());
   };
 
-  // handle login
   const handleLogin = async () => {
     if (!validateEmail(email)) {
       toast.error("Email inválido");
@@ -52,8 +53,6 @@ const Login = () => {
         if (data.userType === 'reclutador') {
           sessionStorage.setItem("userNombreEmpresa", data.nombreEmpresa);
         }
-
-
         navigate("/dashboard");
       } else {
         const errorData = await response.json();
@@ -70,7 +69,6 @@ const Login = () => {
     }
   };
 
-  // handle register
   const handleRegister = async () => {
     if (password !== password_confirmation) {
       toast.error("Las contraseñas no coinciden");
@@ -92,12 +90,16 @@ const Login = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password, userType, nombreEmpresa: userType === 'reclutador' ? nombreEmpresa : null }),
+        body: JSON.stringify({
+          email,
+          password,
+          userType,
+          nombreEmpresa: userType === 'reclutador' ? nombreEmpresa : null
+        }),
       });
 
       if (response.ok) {
         const data = await response.json();
-        console.log("data", data);
         sessionStorage.setItem("userId", data.id);
         sessionStorage.setItem("userEmail", data.email);
         sessionStorage.setItem("userPassword", data.password);
@@ -105,17 +107,12 @@ const Login = () => {
         if (data.userType === 'reclutador') {
           sessionStorage.setItem("userNombreEmpresa", data.nombreEmpresa);
         }
-
         navigate("/dashboard");
       } else {
         const errorData = await response.json();
         if (errorData.message === "User already exists") {
           toast.error("El usuario ya existe");
-        } else {
-          console.error("Register failed:", errorData);
         }
-
-        // Manejar el error del registro
       }
     } catch (error) {
       console.error("Error during fetch:", error);
@@ -124,117 +121,163 @@ const Login = () => {
 
   return (
     <div className="Login">
-      <ToastContainer />
       <div className="Background" />
       <div className="LogoRectangle">
-        <img className="Logo" src="/images/logo.png" alt="Logo" />
+        <img
+          className="Logo"
+          src="/images/logo.png"
+          alt="Logo"
+          onError={(e) => {
+            e.target.src = "https://via.placeholder.com/150?text=AdVance";
+          }}
+        />
       </div>
       <div className="LoginRectangle">
-        <div className="head_session"> {activeButton === 'login' ? (
-          <h1 className="IniciarSesion">Iniciar Sesión</h1>) : (
-          <h1 className="IniciarSesion">Registrar</h1>
-        )}
+        <div className="head_session">
+          <h1 className="IniciarSesion">
+            {activeButton === 'login' ? "Iniciar Sesión" : "Registrar"}
+          </h1>
           <div className="register_buttons">
-            <button className={`login_button ${activeButton === 'login' ? 'active' : ''}`} onClick={() => handleButtonClick('login')} >Iniciar Sesión</button>
-            <button className={`register_button ${activeButton === 'register' ? 'active' : ''}`} onClick={() => handleButtonClick('register')}>Registrar</button>
+            <button
+              className={`login_button ${activeButton === 'login' ? 'active' : ''}`}
+              onClick={() => handleButtonClick('login')}
+            >
+              <FontAwesomeIcon icon={faSignInAlt} className="button-icon" />
+              Iniciar Sesión
+            </button>
+            <button
+              className={`register_button ${activeButton === 'register' ? 'active' : ''}`}
+              onClick={() => handleButtonClick('register')}
+            >
+              <FontAwesomeIcon icon={faUserPlus} className="button-icon" />
+              Registrar
+            </button>
           </div>
         </div>
-        <div className="session_rectangle"> {activeButton === 'login' ? (
-          <div className="login_rectangle">
-            <div className="inputBox">
-              <input required="required" type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
-              <span>Email</span>
-              <i></i>
-            </div>
-            <div className="inputBox">
-              <input
-                type="password"
-                required="required"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <span>Contraseña</span>
-              <i></i>
-            </div>
-            <button className="Ingresar" onClick={handleLogin} disabled={loading}>
-              {loading ? (
-                <div class="wrapper">
-                  <div class="circle"></div>
-                  <div class="circle"></div>
-                  <div class="circle"></div>
-                  <div class="shadow"></div>
-                  <div class="shadow"></div>
-                  <div class="shadow"></div>
-                </div>) : ("Ingresar")}
-            </button>
-          </div>
-        ) : (
-          <div className="register_rectangle">
-            <div className="inputBox">
-              <input
-                type="text"
-                required="required"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <span>Email</span>
-              <i></i>
-            </div>
-            <div className="inputBox">
-              <input
-                type="password"
-                required="required"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <span>Contraseña</span>
-              <i></i>
-            </div>
-            <div className="inputBoxConfirmPassword">
-              <input
-                type="password"
-                required="required"
-                value={password_confirmation}
-                onChange={(e) => setPassword_confirmation(e.target.value)}
-              />
-              <span>Confirma tu contraseña</span>
-              <i></i>
-            </div>
-            <div className="inputBox">
-              <select
-                className="StyledSelect"
-                value={userType}
-                onChange={(e) => setUserType(e.target.value)}>
-                <option value="" disabled>Seleccione el tipo de usuario</option>
-                <option value="magneto">Magneto</option>
-                <option value="reclutador">Reclutador</option>
-              </select>
-            </div>
-            {userType === 'reclutador' && (
+        <div className="session_rectangle">
+          {activeButton === 'login' ? (
+            <div className="login_rectangle">
               <div className="inputBox">
+                <FontAwesomeIcon icon={faEnvelope} className="input-icon" />
                 <input
+                  required
                   type="text"
-                  required="required"
-                  value={nombreEmpresa}
-                  onChange={(e) => setNombreEmpresa(e.target.value)}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
-                <span>Nombre empresa</span>
+                <span>Email</span>
                 <i></i>
               </div>
-            )}
-            <button className="Ingresar" onClick={handleRegister}>
-              {loading ? (
-                <div class="wrapper">
-                  <div class="circle"></div>
-                  <div class="circle"></div>
-                  <div class="circle"></div>
-                  <div class="shadow"></div>
-                  <div class="shadow"></div>
-                  <div class="shadow"></div>
-                </div>) : ("Registrar")}
-            </button>
-          </div>
-        )}
+              <div className="inputBox">
+                <FontAwesomeIcon icon={faLock} className="input-icon" />
+                <input
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <span>Contraseña</span>
+                <i></i>
+              </div>
+              <button
+                className="Ingresar"
+                onClick={handleLogin}
+                disabled={loading}
+              >
+                {loading ? (
+                  <div className="wrapper">
+                    <div className="circle"></div>
+                    <div className="circle"></div>
+                    <div className="circle"></div>
+                  </div>
+                ) : (
+                  <>
+                    <FontAwesomeIcon icon={faSignInAlt} className="button-icon" />
+                    Ingresar
+                  </>
+                )}
+              </button>
+            </div>
+          ) : (
+            <div className="register_rectangle">
+              <div className="inputBox">
+                <FontAwesomeIcon icon={faEnvelope} className="input-icon" />
+                <input
+                  type="text"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <span>Email</span>
+                <i></i>
+              </div>
+              <div className="inputBox">
+                <FontAwesomeIcon icon={faLock} className="input-icon" />
+                <input
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <span>Contraseña</span>
+                <i></i>
+              </div>
+              <div className="inputBox">
+                <FontAwesomeIcon icon={faLock} className="input-icon" />
+                <input
+                  type="password"
+                  required
+                  value={password_confirmation}
+                  onChange={(e) => setPassword_confirmation(e.target.value)}
+                />
+                <span>Confirmar Contraseña</span>
+                <i></i>
+              </div>
+              <div className="inputBox">
+                <select
+                  className="StyledSelect"
+                  value={userType}
+                  onChange={(e) => setUserType(e.target.value)}
+                  required
+                >
+                  <option value="" disabled>Seleccione el tipo de usuario</option>
+                  <option value="magneto">Magneto</option>
+                  <option value="reclutador">Reclutador</option>
+                </select>
+              </div>
+              {userType === 'reclutador' && (
+                <div className="inputBox">
+                  <FontAwesomeIcon icon={faBuilding} className="input-icon" />
+                  <input
+                    type="text"
+                    required
+                    value={nombreEmpresa}
+                    onChange={(e) => setNombreEmpresa(e.target.value)}
+                  />
+                  <span>Nombre empresa</span>
+                  <i></i>
+                </div>
+              )}
+              <button
+                className="Ingresar"
+                onClick={handleRegister}
+                disabled={loading}
+              >
+                {loading ? (
+                  <div className="wrapper">
+                    <div className="circle"></div>
+                    <div className="circle"></div>
+                    <div className="circle"></div>
+                  </div>
+                ) : (
+                  <>
+                    <FontAwesomeIcon icon={faUserPlus} className="button-icon" />
+                    Registrar
+                  </>
+                )}
+              </button>
+            </div>
+          )}
         </div>
       </div>
       <div className="Line1"></div>
