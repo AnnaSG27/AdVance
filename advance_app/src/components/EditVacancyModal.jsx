@@ -7,27 +7,13 @@ import Modal from "react-modal";
 import { ToastContainer, toast } from 'react-toastify';
 
 const EditVacancyModal = ({
-    userType,
-    activeButton,
-    handleButtonClick,
     loadVacancys,
-    loadRequests,
     activeVacancy,
     isEditVacancyModalOpen,
     setIsEditVacancyModalOpen,
     handleFileChange,
     preview,
-    socialNetworks,
-    selectedSocials,
     file,
-    setFile,
-    handleSocialClick,
-    vacancyName,
-    setVacancyName,
-    vacancyDescription,
-    setVacancyDescription,
-    vacancyLink,
-    setVacancyLink,
     uploadToCloudinary,
 }) => {
     const navigate = useNavigate();
