@@ -4,6 +4,8 @@ import json
 import MySQLdb
 import random
 from django.conf import settings
+import requests
+from django.http import JsonResponse
 
 
 def get_db_connection():
@@ -291,6 +293,121 @@ def suggest_edit(request):
             db.commit()
             
             return JsonResponse({"message": "suggest edit changed"}, status=201)
+        except json.JSONDecodeError as e:
+            print(f"Error decoding JSON: {e}")
+            return JsonResponse({"message": "Invalid JSON"}, status=400)
+        except Exception as e:
+            print(f"Unexpected error: {e}")
+            return JsonResponse({"message": "Internal server error"}, status=500)
+        finally:
+            if db:
+                db.close()
+    
+    print("Invalid request method")
+    return JsonResponse({"message": "Invalid request method"}, status=405)
+
+@csrf_exempt
+def post_to_instagram(request):
+    if request.method == 'POST':
+        try:
+            db = get_db_connection()
+            cursor = db.cursor()
+
+            data = json.loads(request.body)
+            idVacancy = data.get("idRequest")
+            accessToken = data.get("accessToken")
+            
+            query = "SELECT fileUrl, vacancyDescription FROM vacancy WHERE idVacante = %s;"
+            cursor.execute(query, (idVacancy,))
+            result = cursor.fetchall()
+            content = {
+                "fileUrl": result[0][0],
+                "post_caption": result[0][1]
+            }
+            
+            instagram_account_id = get_instagram_account_id(accessToken)
+            if not instagram_account_id:
+                return JsonResponse({"message": "no ig id"}, status=400)
+            print(instagram_account_id)
+            
+            media_id = upload_image_to_instagram(accessToken, instagram_account_id, content)
+            print(media_id)
+            
+            if not media_id:
+                return JsonResponse({"message": "failed to upload post"}, status=400)
+            
+            success = publish_to_instagram(accessToken, instagram_account_id, media_id)
+            
+            if success:
+                query = "UPDATE vacancy SET state = 'published' WHERE idVacante = %s;"
+                cursor.execute(query, (idVacancy,))
+                db.commit()
+                return JsonResponse({"message": "success"}, status=201)
+            else:
+                return JsonResponse({"message": "failed to publish post"}, status=400)
+        except json.JSONDecodeError as e:
+            print(f"Error decoding JSON: {e}")
+            return JsonResponse({"message": "Invalid JSON"}, status=400)
+        except Exception as e:
+            print(f"Unexpected error: {e}")
+            return JsonResponse({"message": "Internal server error"}, status=500)
+        finally:
+            if db:
+                db.close()
+    
+    print("Invalid request method")
+    return JsonResponse({"message": "Invalid request method"}, status=405)
+
+def get_instagram_account_id(accessToken):
+    
+    page_id = "627776677090212"
+    response = requests.get(f"https://graph.facebook.com/v22.0/{page_id}?fields=instagram_business_account&access_token={accessToken}")
+    data = response.json()
+    
+    if "instagram_business_account" in data:
+        return data["instagram_business_account"]["id"]
+    else:
+        return None
+    
+
+def upload_image_to_instagram(access_token, instagram_account_id, content):
+    print(content)
+    print(f'image: {content["fileUrl"]}')
+    print(f'caption: {content["post_caption"]}')
+    url = f'https://graph.facebook.com/v22.0/{instagram_account_id}/media'
+    params = {
+        "image_url": content["fileUrl"], "caption": content["post_caption"], "access_token": access_token,
+        }
+    response = requests.post(url, data = params)
+    data = response.json()
+    return data.get("id")
+
+def publish_to_instagram(accessToken, instagram_account_id, media_id):
+    response = requests.post(f'https://graph.facebook.com/v22.0/{instagram_account_id}/media_publish', {
+        "creation_id": media_id,
+        "access_token": accessToken,
+    })
+    data = response.json()
+    return "id" in data
+
+@csrf_exempt
+def handle_edit_vacancy(request):
+    if request.method == 'POST':
+        try:
+            db = get_db_connection()
+            cursor = db.cursor()
+
+            data = json.loads(request.body)
+            idVacancy = data.get("vacancyId")
+            fields = data.get("fields_to_edit", [])
+            edits = data.get("edits", [])
+            
+            for field, edit in zip(fields, edits):
+                query = f"UPDATE vacancy SET {field} = %s WHERE idVacante = %s;"
+                cursor.execute(query, (edit, idVacancy,))
+                db.commit()
+                
+            return JsonResponse({"message": "success"}, status=201)
         except json.JSONDecodeError as e:
             print(f"Error decoding JSON: {e}")
             return JsonResponse({"message": "Invalid JSON"}, status=400)

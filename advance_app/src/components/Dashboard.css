@@ -1,501 +1,718 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Outfit', sans-serif;
+  scroll-behavior: smooth;
+}
+
 html {
   scroll-behavior: smooth;
 }
 
+:root {
+  --primary: #9C1621;
+  --secondary: #AF7077;
+  --light: #FDE9EB;
+}
+
 .Desktop1 {
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-    left: 0;
-    position: fixed;
-    background: linear-gradient(180deg, #613b3b 0%, #c77979 100%);
-  }
-  
-  .BarraMenu {
-    width: 100%;
-    height: 15vh;
-    position: relative;
-    left: 0;
-    top: 0;
-    background: transparent; /* Hacer el fondo transparente */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 -2px 10px rgba(0, 0, 0, 0.25); /* Sombra solo en el borde inferior */
-    z-index: 10; /* Asegúrate de que esté por encima de otros elementos */
-  }
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: linear-gradient(45deg, #9C1621, #AF7077, #AF7077, #9C1621);
+  background-size: 400% 400%;
+  animation: move 15s ease infinite;
+  overflow: hidden;
+}
 
-  .MenuLogo {
-    position:absolute;
-    left: 0; 
-    top: 0;
-    height: 100%;
-    width: 15vw;
-  }
+@keyframes move {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 
-  .logo {
-    width: 100%;
-    height: 100%;
-    position: relative;
-  }
-  
-  .MenuMiPerfil {
-    width: 15vw;
-    height: 100%;
-    right: 15vw;
-    top: 0;
-    position: absolute;     
-    background: transparent;
-  }
-  .menuSalir {
-    width: 15vw;
-    height: 100%;
-    right: 0;
-    top: 0;
-    position: absolute;     
-    background: transparent;
-  }
-  
-  .menuMisAnuncios,
-  .menuSolicitudes {
-    width: 15vw;
-    height: 100%;
-    right: 30vw;
-    top: 0;
-    position: absolute;     
-    background: transparent;
-  }
+.BarraMenu {
+  width: 100%;
+  height: 12vh;
+  position: relative;
+  background: rgba(253, 233, 235, 0.3);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  border-bottom: 1px solid rgba(253, 233, 235, 0.4);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 1vw;
+  z-index: 100;
+}
 
-  .MiPerfilButton,
-  .MisAnunciosButton,
-  .salirButton,
-  .MisSolicitudesButton {
-    width: 100%; /* Ocupa todo el ancho del div */
-    height: 100%; /* Ocupa todo el alto del div */
-    padding: 10px 20px;
-    font-size: 1.5em; /* Tamaño de letra más grande */
-    background-color: transparent; /* Fondo transparente */
-    color: white; /* Color de la letra */
-    border: none; /* Borde transparente */
-    cursor: pointer;
-    font-family: 'Copperplate', sans-serif; /* Cambia la fuente a Arial o cualquier otra fuente que prefieras */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    outline: none;
-  }
+.MenuLogo {
+  height: 250%;
+  width: 12vw;
+  min-width: 100px;
+  display: flex;
+  align-items: center;
+}
 
-  .MiPerfilButton:hover,
-  .MisAnunciosButton:hover,
-  .salirButton:hover,
-  .MisSolicitudesButton:hover {
-    background-color:  rgba(209, 49, 49, 0.4); /* Fondo semitransparente al pasar el cursor */
-    color: white;
-  }
+.logo {
+  width: 100%;
+  height: auto;
+  max-height: 80%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
 
-.MiPerfilButton:active,
+.logo:hover {
+  transform: scale(1.08);
+}
+
+.MenuMiPerfil,
+.menuSalir,
+.menuMisAnuncios,
+.menuSolicitudes {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+}
+
+.MiPerfilButton,
+.MisAnunciosButton,
+.salirButton,
+.MisSolicitudesButton {
+  width: 100%;
+  height: 60%;
+  padding: 0 8px;
+  font-size: clamp(14px, 1.1vw, 18px);
+  background: transparent;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  font-weight: 500;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.menu-icon {
+  margin-right: 4px;
+  font-size: 1.2em;
+}
+
+.MiPerfilButton:hover,
+.MisAnunciosButton:hover,
+.salirButton:hover,
+.MisSolicitudesButton:hover {
+  background: rgba(156, 22, 33, 0.4);
+  transform: translateY(-1px);
+}
+
 .MiPerfilButton.active,
-.MisAnunciosButton:active,
 .MisAnunciosButton.active,
-.salirButton:active,
 .salirButton.active,
-.MisSolicitudesButton:active,
 .MisSolicitudesButton.active {
-  background-color: #f44336; /* Color de fondo cuando el botón está activo */
-  color: #613B3B; /* Color de la letra cuando el botón está activo */
-  outline: none;
+  background: rgba(253, 233, 235, 0.5);
+  color: var(--primary);
+  font-weight: 600;
+  border-radius: 10px;
+  box-shadow: 0 3px 12px rgba(156, 22, 33, 0.2);
 }
 
 .cuerpo_ventana {
-    height: 85vh;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    overflow: hidden;
-    background: transparent; /* Fondo transparente */
-    position: relative;
-    min-height: 0;
-  }
-  
-  .welcome-message {
-    font-size: 3em; /* Tamaño de letra grande */
-    color: #613B3B; /* Color de la letra */
-    font-family: 'Poppins', sans-serif; /* Fuente Poppins */
-    text-align: center;
-  }
-
-  .CuerpoVentana {
-    align-self: stretch;
-    padding-top: 5px;
-    width: 100%;
-    height: 85vh;
-    justify-content: center;
-    align-items: flex-start;
-    display: inline-flex;
-  }
-  
-  .DivIzquierda {
-    height: 85vh;
-    width: 30vw;
-    align-self: stretch;
-    padding-top: 5vh;
-    padding-bottom: 5vh;
-    padding-left: 5vw;
-    padding-right: 5vw;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    display: inline-flex;
-  }
-  
-  .foto_usuario {
-    width: 150px;
-    aspect-ratio: 1 / 1;
-    background: #D9D9D9;
-    border-radius: 50%;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .foto{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  
-  .usuario,
-  .nombreEmpresa {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 20px;
-    background: transparent;
-  }
-  
-  .usuario h2,
-  .nombreEmpresa h2 {
-    font-size: 1em; /* Tamaño de letra */
-    color: #613B3B; /* Color de la letra */
-    font-family: 'Poppins', sans-serif; /* Fuente Poppins */
-    font-weight: 600; /* Peso de la fuente */
-    text-align: center; /* Alinear el texto al centro */
-    margin: 0; /* Eliminar márgenes */
-    padding: 10px 20px; /* Añadir relleno */
-    background-color: rgba(255, 255, 255, 0.8); /* Fondo semitransparente */
-    border-radius: 10px; /* Bordes redondeados */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para efecto 3D */
-  }
-  
-  .DivDerecha {
-    width: 70vw;
-    align-self: stretch;
-    padding-top: 6vh;
-    padding-left: 95px;
-    padding-bottom: 20vh;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    display: inline-flex;
-    overflow-y: auto; /* Permitir desplazamiento vertical */
-    max-height: 100%;
-    gap:70px;
-  }
-  
-  .CampoEmail,
-  .CampoContraseA,
-  .CampoDescripcion {
-    width: 55vw;
-    height: 25vh;
-    position: relative;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    display: flex;
-    gap: 2vh;
-  }
-  .email_ver_editar,
-  .contrasena_ver_editar,
-  .descripcion_ver_editar{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 2vw;
-  }
-  
-  .EmailTitulo,
-  .ConstraseATitulo,
-  .DescripcionTitulo {
-    width: 228px;
-    height: 27px;
-    background: #fde9eb;
-    border-radius: 8px;
-  }
-  
-  .EditarEmail,
-  .EditarContraseA,
-  .EditarDescripcion {
-    width: 50px;
-    aspect-ratio: 1 / 1; /* Mantiene la proporción cuadrada */
-    background: #D9D9D9;
-    border-radius: 50%;
-    cursor: pointer;
-    overflow: hidden;
-    transition: background-color 0.3s ease;
-  }
-  .EditarEmail:hover,
-  .EditarContraseA:hover,
-  .EditarDescripcion:hover {
-    background-color: #c0c0c0;
-  }
-  
-  .editar_button {
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-  }
-  .editar_button img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .Email,
-  .ContraseA,
-  .DescripciN {
-    width: 70vw;
-    min-height: 8vh;
-    background: #fde9eb;
-    border-radius: 8px;
-    padding: 10px;
-    font-family: 'Poppins', sans-serif; 
-    font-size: 1em; 
-    color: #333; 
-    display: flex;
-    align-items: center; 
-    justify-content: space-between; 
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); 
-    overflow: hidden; 
-    text-overflow: ellipsis; 
-    word-wrap: break-word;
-  }
-
-  .DescripciN {
-    display: block;
-    height: auto;
-    overflow-y: auto;
-    white-space: pre-wrap;
-  }
-
-  .password-mask{
-    -webkit-text-security: disc;
-  }
-
-  .togglePassword {
-    width: 3vw;
-    height: 3vh;
-    background: #fde9eb;
-    cursor: pointer;
-    overflow: hidden;
-    transition: background-color 0.3s ease;
-    position: relative;
-  }
-  
-  .toggle_button {
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    outline: none;
-  }
-  
-  .toggle_button:focus,
-  .toggle_button:active {
-    outline: none; 
-    border: none;  
-    box-shadow: none; 
-  }
-  
-  .toggle_button img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    mix-blend-mode: darken; 
-  }
-
-  .Modal {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    right: auto;
-    bottom: auto;
-    margin-right: -50%;
-    transform: translate(-50%, -50%);
-    background: #AF7077;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    scroll-behavior: smooth;
-  }
-  
-  .Overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.75);
-  }
-  
-  .saveButton, .cancelButton {
-    margin-top: 10px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .saveButton, 
-  .postButton {
-    background-color: #4CAF50;
-    color: white;
-  }
-
-  .suggestEditButton {
-    background-color: rgb(205, 190, 50);
-  }
-  
-  .cancelButton {
-    background-color: #f44336;
-    color: white;
-    margin-left: 10px;
-  }
-
-  .Toastify__toast-container {
-    z-index: 9999;
-  }
-  
-  .StyledTextarea {
-    width: 100%;
-    height: 150px; /* Ajusta la altura según sea necesario */
-    padding: 10px;
-    font-family: 'Poppins', sans-serif;
-    font-size: 1em;
-    color: black;
-    background-color: #fde9eb;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    resize: vertical; /* Permitir que el usuario cambie el tamaño verticalmente */
-  }
-  
-  .addAd {
-    background-color: transparent;
-    position: absolute;
-    bottom: 1vh;
-    right: 1vw;
-    width: 70px;
-    height: 70px;
-  }
-  
-  .addAd button {
-    border-radius: 50%;
-    height: 100%;
-    width: 100%;
-    background-color: rgba(133, 26, 26, 0.685);
-    display: flex;
-    align-items: center; 
-    justify-content: center;
-    border: none;
-    padding: 0;
-    text-align: center;
-    font-size: 3em;
-    padding-bottom: 9px;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-  }
-
-  .addAd button:hover {
-    transform: scale(0.8);
-    background-color: #f44336;
-  }
-
-  .addAd button:active {
-    transform: scale(1);
-    background-color: #f44336;
-    outline: none;
-  }
-
-  .addAd button:focus {
-    outline: none;
-  }
-  
-  .StyledTextareaVacancy {
-    width: 100%;
-    height: auto; 
-    padding: 10px;
-    font-family: 'Poppins', sans-serif;
-    font-size: 1em;
-    color: black;
-    background-color: #fde9eb;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    resize: vertical; 
-  }
-
-  .vacancyModal,
-  .requestModal {
-  background-color: #b64d4d;
-  border-radius: 10px;
-  padding: 20px;
-  max-width: 80vw;
-  max-height: 80vh;
-  width: 90%;
-  margin: 0 auto;
+  height: 88vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
   position: relative;
+}
+
+.welcome-message {
+  font-size: 2.5em;
+  color: var(--light);
+  text-align: center;
+  text-shadow: 0 3px 8px rgba(0,0,0,0.25);
+  animation: fadeIn 1.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.CuerpoVentana {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.DivIzquierda {
+  width: 25vw;
+  height: 100%;
+  padding: 3vh 3vw;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: center;
+  gap: 2vh;
+  background: rgba(253, 233, 235, 0.15);
+  backdrop-filter: blur(6px);
+  border-right: 1px solid rgba(253, 233, 235, 0.25);
+}
+
+.foto_usuario {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--light);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease;
+}
+
+.foto_usuario:hover {
+  transform: scale(1.03);
+}
+
+.foto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.usuario h2,
+.nombreEmpresa h2 {
+  font-size: 1em;
+  color: var(--light);
+  background: rgba(156, 22, 33, 0.6);
+  padding: 6px 16px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+.DivDerecha {
+  width: 75vw;
+  height: 100%;
+  padding: 4vh 3vw;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5vh;
+  overflow-y: auto;
+  background: rgba(253, 233, 235, 0.08);
+}
+
+.mi_perfil_titulo h1 {
+  color: var(--light);
+  font-size: 2em;
+  margin-bottom: 1vh;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+.CampoEmail,
+.CampoContraseA,
+.CampoDescripcion {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6vh;
+}
+
+.email_titulo h2,
+.contrasena_titulo h2,
+.descripcion_titulo h2 {
+  color: var(--light);
+  font-size: 1.1em;
+  font-weight: 500;
+}
+
+.email_ver_editar,
+.contrasena_ver_editar,
+.descripcion_ver_editar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.6vw;
+}
+
+.Email,
+.ContraseA,
+.DescripciN {
+  flex: 1;
+  min-height: 6vh;
+  background: rgba(253, 233, 235, 0.85);
+  border-radius: 8px;
+  padding: 10px;
+  color: #333;
+  display: flex;
+  align-items: center;
+  box-shadow: inset 0 1px 4px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  justify-content: space-between;
+}
+
+.DescripciN {
+  display: block;
+  height: auto;
+  white-space: pre-wrap;
+}
+
+.Email:hover,
+.ContraseA:hover,
+.DescripciN:hover {
+  box-shadow: inset 0 1px 4px rgba(0,0,0,0.15), 0 0 0 1.5px var(--secondary);
+}
+
+.password-mask {
+  -webkit-text-security: disc;
+}
+
+.EditarEmail,
+.EditarContraseA,
+.EditarDescripcion {
+  width: 40px;
+  height: 40px;
+  background: var(--primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
+.EditarEmail:hover,
+.EditarContraseA:hover,
+.EditarDescripcion:hover {
+  background: var(--secondary);
+  transform: scale(1.1);
+}
+
+.editar_button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.editar_button:hover {
+  background-color: var(--light);
+  transform: scale(1.1);
+}
+
+.edit-icon {
+  color: var(--light);
+  font-size: 1rem;
+}
+
+.togglePassword {
+  width: 32px;
+  height: 32px;
+  margin-left: 6px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  display: flex;
+  border-color: none;
+}
+
+.togglePassword:hover {
+  transform: scale(1.1);
+  border: none;
+}
+
+.toggle_button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggle_button img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border: 1px solid red;
+}
+
+.Modal {
+  position: absolute;
   top: 50%;
-  transform: translateY(-50%);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--light);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  width: 40vw;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+  outline: none;
+  transition: all 0.3s ease;
+  animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translate(-50%, -45%); }
+  to { opacity: 1; transform: translate(-50%, -50%); }
+}
+
+.Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.7);
+  z-index: 1000;
+}
+
+.StyledTextarea,
+.StyledInput {
+  width: 100%;
+  padding: 10px;
+  margin: 6px 0;
+  border: 1.5px solid var(--secondary);
+  border-radius: 6px;
+  font-size: 0.9em;
+  background: white;
+  transition: border 0.3s ease;
+}
+
+.StyledTextarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.StyledTextarea:focus,
+.StyledInput:focus {
+  outline: none;
+}
+
+.saveButton,
+.cancelButton,
+.postButton,
+.suggestEditButton,
+.publishButton {
+  padding: 8px 18px;
+  border: none;
+  border-radius: 20px;
+  font-size: 0.9em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 8px 5px 0;
+}
+
+.saveButton,
+.postButton,
+.publishButton {
+  background: #4CAF50;
+  color: white;
+}
+
+.saveButton:hover,
+.postButton:hover,
+.publishButton:hover {
+  background: #3d8b40;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.cancelButton {
+  background: #f44336;
+  color: white;
+}
+
+.cancelButton:hover {
+  background: #d32f2f;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.suggestEditButton {
+  background: var(--primary);
+  color: white;
+}
+
+.suggestEditButton:hover {
+  background: var(--secondary);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.vacancys,
+.requests {
+  width: 80%;
+  height: 100%;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  overflow-y: auto;
+}
+
+.vacancys::-webkit-scrollbar,
+.requests::-webkit-scrollbar {
+  width: 8px;
+}
+
+.vacancys::-webkit-scrollbar-track,
+.requests::-webkit-scrollbar-track {
+  background: rgba(253, 233, 235, 0.5);
+  border-radius: 10px;
+}
+
+.vacancys::-webkit-scrollbar-thumb,
+.requests::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--primary), var(--secondary));
+  border-radius: 10px;
+}
+
+.vacancys::-webkit-scrollbar-thumb:hover,
+.requests::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+.vacanciesMenu {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.buttonVacancies {
+  padding: 6px 18px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: 0.9em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.buttonVacancies:hover {
+  background: var(--secondary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.buttonVacancies.active {
+  background: var(--secondary);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+}
+
+.vacancyCard,
+.requestCard {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 1px solid rgba(156, 22, 33, 0.1);
+}
+
+.vacancyCard:hover,
+.requestCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.vacancyHeader,
+.requestCardHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.vacancyHeader h2,
+.requestCardHeader h2 {
+  color: var(--primary);
+  font-size: 1.4em;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.vacancyHeader h3,
+.requestCardHeader h3 {
+  color: #555;
+  font-size: 1em;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.vacancyHeader .state-section {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.vacancyHeader .state-section .status {
+  color: #333;
+  font-weight: 500;
+  font-size: 0.9em;
+  margin-right: 12px;
+}
+
+.vacancyHeader .state-section .publishButton {
+  display: none; /* Hidden by default, shown conditionally */
+}
+
+.vacancyCard.en-revision .vacancyHeader .state-section .status {
+  display: inline-block;
+}
+
+.vacancyCard.en-revision .vacancyHeader .state-section .publishButton {
+  display: inline-block;
+}
+
+.requestCardHeader h3 {
+  color: #555;
+  font-size: 1em;
+  font-weight: 500;
+}
+
+.requestState {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.requestState .status-icon {
+  font-size: 1.6em;
+  color: var(--primary);
+}
+
+.requestState h3 {
+  color: #333;
+  font-weight: 500;
+  font-size: 0.9em;
+}
+
+.vacancyDetails {
+  color: #333;
+  line-height: 1.4;
+}
+
+.vacancyDetails h3 {
+  color: var(--primary);
+  margin: 8px 0 4px;
+  font-size: 1.1em;
+}
+
+.vacancyDetails img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin: 8px 0;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+}
+
+.vacancyDetails ul {
+  padding-left: 16px;
+}
+
+.vacancyDetails li {
+  margin-bottom: 4px;
+}
+
+.addAd {
+  position: fixed;
+  bottom: 3vh;
+  right: 3vw;
+  z-index: 100;
+}
+
+.addAdButton {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  font-size: 1.5em;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.addAdButton:hover {
+  background: var(--secondary);
+  transform: scale(1.1);
+}
+
+.addAdButton:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(156, 22, 33, 0.3);
+}
+
+.vacancyModal,
+.requestModal {
+  background: var(--light);
+  border-radius: 12px;
+  width: 70vw;
+  max-width: 700px;
+  max-height: 80vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: modalFadeIn 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
 }
 
 .vacancyModalHead,
 .requestModalHead {
-  background-color: #b64d4d;
-  border-radius: 10px;
-  padding: 20px;
-  max-width: 80vw;
-  height: 10vh;
-  max-height: 10vh;
-  width: 90%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background: var(--primary);
+  color: white;
+  padding: 12px;
+  text-align: center;
 }
-.requestModalHead {
-  height: 22%;
-  max-height: 22%;
-  padding: 3%;
+
+.vacancyModalHead h1,
+.requestModalHead h1 {
+  font-size: 1.5em;
 }
 
 .vacancyModalBody,
 .requestModalBody {
-  background-color: #b64d4d;
-  border-radius: 10px;
-  padding: 20px;
-  max-width: 80vw;
-  width: 90%;
-  height: 70vh;
-  max-height: 70vh;
+  padding: 16px;
   overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
+  flex: 1;
+  background: rgba(253, 233, 235, 0.95);
 }
 
 .addVacancyName,
@@ -504,223 +721,355 @@ html {
 .addVacancyLink,
 .addVacancySocialMedia,
 .addVancaySuggestEdit {
-  background-color: transparent;
-  padding: 10px;
-  width: 100%;
+  margin-bottom: 16px;
 }
 
-.addVacancyMedia input[type= "file"] {
-  display:none;
+.addVacancyName h2,
+.addVacancyDescription h2,
+.addVacancyMedia h2,
+.addVacancyLink h2,
+.addVacancySocialMedia h2,
+.addVancaySuggestEdit h2 {
+  color: var(--primary);
+  margin-bottom: 8px;
+  font-size: 1.1em;
+}
+
+.addVacancyName p,
+.addVacancyDescription p,
+.addVacancyLink a,
+.addVancaySuggestEdit p {
+  color: #333;
+  font-size: 0.9em;
+  line-height: 1.4;
+}
+
+.addVacancyLink a:hover {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+.StyledTextareaVacancy {
+  width: 100%;
+  min-height: 80px;
+  padding: 10px;
+  border: 1.5px solid var(--secondary);
+  border-radius: 6px;
+  font-family: 'Outfit', sans-serif;
+  resize: vertical;
+  transition: border 0.3s ease;
+}
+
+.StyledTextareaVacancy:focus {
+  outline: none;
 }
 
 .custom-file-upload {
-  background-color: rgba(36, 123, 238, 0.897);
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  color: #333;
   display: inline-block;
-  transition: background-color, transform 0.3s ease;
+  padding: 6px 16px;
+  background: var(--primary);
+  color: white;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
 }
 
 .custom-file-upload:hover {
-  background-color: rgb(36, 123, 238); 
-  transform: scale(0.8);
+  background: var(--secondary);
+  transform: translateY(-1px);
 }
 
-.custom-file-upload:active {
-  transform: scale(1);
+input[type="file"] {
+  display: none;
+}
+
+.preview-container {
+  margin-top: 10px;
+}
+
+.preview-container h3 {
+  color: var(--primary);
+  font-size: 1em;
+  margin-bottom: 8px;
 }
 
 .social-options {
   display: flex;
   flex-wrap: wrap;
+  gap: 10px;
   justify-content: center;
-  padding-top: 20px;
-  gap: 30px; 
+  margin-top: 10px;
 }
 
 .social-options label {
-  background-color: #f44336;
-  border-radius: 5px;
-  padding: 20px;
-  height: 10vh;
-  width: 10vw;
+  padding: 6px 12px;
+  background: var(--secondary);
+  color: white;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px; /* Espacio entre el checkbox y el texto */
-  font-size: 16px;
-  cursor: pointer;
-  transition: transform 0.3s ease, background-color 0.7s ease;
-  text-align: center;
-  user-select: none;
+  gap: 5px;
 }
 
 .social-options label:hover {
-  transform: scale(1.05);
+  background: var(--primary);
+  transform: translateY(-2px);
 }
-.social-options label:active {
-  transform: scale(1);
-}
-.social-options label.active{
-  background-color: #02d2f7 ;
-  transform: scale(0.8);
+
+.social-options label.active {
+  background: var(--primary);
+  box-shadow: 0 0 0 1.5px white, 0 0 0 3px var(--primary);
 }
 
 .social-options input[type="checkbox"] {
   display: none;
 }
 
+.selected-socials {
+  margin-top: 10px;
+}
+
+.selected-socials h3 {
+  color: var(--primary);
+  font-size: 1em;
+  margin-bottom: 8px;
+}
+
+.selected-socials ul {
+  padding-left: 16px;
+}
+
+.selected-socials li {
+  color: #333;
+  margin-bottom: 4px;
+}
 
 .vacancyModalFoot {
-  background-color: #b64d4d;
-  border-radius: 10px;
-  padding: 15px 50px;
-  max-width: 80vw;
-  width: 90%;
-  height: 10vh;
-  max-height: 10vh;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.vacancys,
-.requests {
-  background-color: transparent;
-  width: 80%;
-  height: 100%;
-  position: relative;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: stretch;
-  gap: 25px;
-  overflow-y: scroll;
-  min-height: 0;
-}
-
-.vacanciesMenu
-{
-  width: 40%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.buttonVacancies{
-  background-color: tomato;
-  border-color: none;
-  transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
-}
-
-.buttonVacancies:hover{
-  background-color: rgb(253, 38, 0);
-  border-color: none;
-  transform: scale(0.9);
-}
-
-.buttonVacancies:active,
-.buttonVacancies:focus{
-  background-color: rgb(253, 38, 0);
-  transform: scale(1);
-}
-
-
-.vacancyCard,
-.requestCard {
-  width: 90%;
-  height: auto;
-  min-height: 20%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: rgb(214, 205, 205);
-  color: black;
-  border-radius: 10px;
-  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5),
-              -4px -4px 10px rgba(255, 255, 255, 0.1);
-  transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
-  overflow: hidden;
-  cursor: pointer;
-  padding: 20px;
-  overflow-x: hidden;
-}
-.requestCard {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  height: 30%;
-}
-
-.requestCardHeader {
-  width: 50%;
-  height: 100%; 
-  max-height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-
-
-.vacancyCard:hover {
-  transform: scale(1.05);
-  overflow-x: hidden;
-}
-
-.vacancyCard.expanded {
-  min-height: 500px;
-  overflow-y: auto;
-}
-
-.vacancyHeader {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
-
-.vacancyDetails {
-  overflow: hidden;
-  transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
-  max-height: 0;
-  opacity: 0;
-}
-
-.vacancyDetails img {
-  width: 50%;
-}
-
-.vacancyCard.expanded .vacancyDetails {
-  max-height: 500px;
-  opacity: 1;
-  overflow-y: auto;
-}
-
-.vacancyState,
-.requestState {
-  width: 20%;
+  padding: 12px;
   display: flex;
   justify-content: center;
-  align-items: center;
-  gap: 15%;
-  padding: 10px;
+  gap: 12px;
+  background: rgba(253, 233, 235, 0.85);
 }
-.requestState img {
-  width: 30%;
-  border-radius: 50%;
-  mix-blend-mode: darken;
-  object-fit: contain; 
-  transition: opacity 0.3s ease-in-out;
+
+.no-content {
+  text-align: center;
+  color: var(--light);
+  font-size: 1.2em;
+  padding: 20px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+@media (max-width: 768px) {
+  .BarraMenu {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 8px;
+  }
+  
+  .MenuLogo {
+    width: 80px;
+    min-width: 80px;
+  }
+  
+  .MenuMiPerfil,
+  .menuSalir,
+  .menuMisAnuncios,
+  .menuSolicitudes {
+    padding: 4px;
+  }
+  
+  .MiPerfilButton,
+  .MisAnunciosButton,
+  .salirButton,
+  .MisSolicitudesButton {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+  
+  .menu-icon {
+    font-size: 1em;
+    margin-right: 4px;
+  }
+  
+  .CuerpoVentana {
+    flex-direction: column;
+  }
+  
+  .DivIzquierda,
+  .DivDerecha {
+    width: 100%;
+    padding: 10px;
+  }
+  
+  .DivIzquierda {
+    height: auto;
+    padding-bottom: 18px;
+  }
+  
+  .foto_usuario {
+    width: 90px;
+    height: 90px;
+  }
+  
+  .mi_perfil_titulo h1 {
+    font-size: 1.5em;
+  }
+  
+  .vacancys,
+  .requests {
+    width: 95%;
+    padding: 8px;
+  }
+  
+  .vacancyCard,
+  .requestCard {
+    padding: 12px;
+  }
+  
+  .vacancyHeader h2,
+  .requestCardHeader h2 {
+    font-size: 1.2em;
+  }
+  
+  .vacancyHeader h3,
+  .requestCardHeader h3 {
+    font-size: 0.9em;
+  }
+  
+  .Modal {
+    width: 90vw;
+    padding: 10px;
+  }
+  
+  .vacancyModal,
+  .requestModal {
+    width: 95vw;
+    max-height: 90vh;
+  }
+  
+  .vacancyModalHead h1,
+  .requestModalHead h1 {
+    font-size: 1.2em;
+  }
+  
+  .addAdButton {
+    width: 45px;
+    height: 45px;
+    font-size: 1.4em;
+  }
+  
+  .social-options label {
+    padding: 5px 10px;
+    font-size: 0.8em;
+  }
+  
+  .StyledTextareaVacancy {
+    min-height: 60px;
+  }
+  
+  .saveButton,
+  .cancelButton,
+  .postButton,
+  .suggestEditButton,
+  .publishButton {
+    padding: 6px 14px;
+    font-size: 0.8em;
+  }
+}
+
+@media (max-width: 480px) {
+  .BarraMenu {
+    padding: 6px;
+  }
+  
+  .MenuLogo {
+    width: 60px;
+    min-width: 60px;
+  }
+  
+  .MiPerfilButton,
+  .MisAnunciosButton,
+  .salirButton,
+  .MisSolicitudesButton {
+    font-size: 10px;
+    padding: 4px 8px;
+  }
+  
+  .menu-icon {
+    font-size: 0.9em;
+  }
+  
+  .foto_usuario {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .usuario h2,
+  .nombreEmpresa h2 {
+    font-size: 0.9em;
+    padding: 4px 12px;
+  }
+  
+  .mi_perfil_titulo h1 {
+    font-size: 1.2em;
+  }
+  
+  .email_titulo h2,
+  .contrasena_titulo h2,
+  .descripcion_titulo h2 {
+    font-size: 1em;
+  }
+  
+  .Email,
+  .ContraseA,
+  .DescripciN {
+    font-size: 0.8em;
+    padding: 8px;
+  }
+  
+  .vacancyHeader h2,
+  .requestCardHeader h2 {
+    font-size: 1em;
+  }
+  
+  .vacancyHeader h3,
+  .requestCardHeader h3 {
+    font-size: 0.8em;
+  }
+  
+  .requestState .status-icon {
+    font-size: 1.4em;
+  }
+  
+  .requestState h3 {
+    font-size: 0.8em;
+  }
+  
+  .vacancyDetails h3 {
+    font-size: 0.9em;
+  }
+  
+  .vacancyModalBody,
+  .requestModalBody {
+    padding: 12px;
+  }
+  
+  .addVacancyName h2,
+  .addVacancyDescription h2,
+  .addVacancyMedia h2,
+  .addVacancyLink h2,
+  .addVacancySocialMedia h2,
+  .addVancaySuggestEdit h2 {
+    font-size: 0.9em;
+  }
 }

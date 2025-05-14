@@ -9,7 +9,7 @@ body, html {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  scroll-behavior: smooth;
+  font-family: 'Outfit', sans-serif;
 }
 
 .Login {
@@ -18,43 +18,67 @@ body, html {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(180deg, #613b3b 0%, #c77979 100%);
+  background: linear-gradient(45deg, #9C1621, #AF7077, #AF7077, #9C1621);
+  background-size: 400% 400%;
+  animation: move 15s ease infinite;
   position: relative;
-  flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas pequeñas */
+}
+
+@keyframes move {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .Background {
   position: absolute;
   width: 100%;
   height: 100%;
-  opacity: 0.4;
+  background: url('https://www.transparenttextures.com/patterns/soft-wallpaper.png');
+  opacity: 0.1;
 }
 
 .LogoRectangle,
 .LoginRectangle {
-  width: 35vw; /* Se ajusta proporcionalmente */
+  width: 35vw;
   max-width: 516px;
-  height: 450px; /* Se adapta dinámicamente */
+  height: 450px;
   max-height: 483px;
-  border-radius: 50px;
-  background: linear-gradient(180deg, #f0b2b3 22%, #ff0004 100%);
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(156, 22, 33, 0.2);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  opacity: 0.7;
-  position: relative;
   padding-top: 3vh;
   padding-bottom: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
+.LogoRectangle:hover,
+.LoginRectangle:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(156, 22, 33, 0.3);
+}
 
 .LogoRectangle {
   margin-right: 2vw;
-  flex-direction: row;
   justify-content: center;
-  align-items: center;
-  padding: 0px;
+}
+
+.Logo {
+  width: 90%;
+  max-width: 465px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+  transition: transform 0.5s ease;
+}
+
+.Logo:hover {
+  transform: scale(1.05) rotate(-2deg);
 }
 
 .head_session {
@@ -65,147 +89,135 @@ body, html {
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
-  margin-bottom: 2vh
-}
-.session_rectangle {
-  width: 85%;
-  flex: 1;
-  overflow-y: auto;
-}
-.session_rectangle::-webkit-scrollbar {
-  width: 12px; /* Ancho del scrollbar */
-}
-
-.session_rectangle::-webkit-scrollbar-track {
-  background: #f0b2b3; /* Color de fondo del track */
-  border-radius: 10px; /* Bordes redondeados */
-}
-
-.session_rectangle::-webkit-scrollbar-thumb {
-  background: #ff0004; /* Color del thumb */
-  border-radius: 10px; /* Bordes redondeados */
-  border: 3px solid #f0b2b3; /* Espacio alrededor del thumb */
-}
-
-.session_rectangle::-webkit-scrollbar-thumb:hover {
-  background: #d90003; /* Color del thumb al pasar el mouse */
+  margin-bottom: 2vh;
 }
 
 .IniciarSesion {
-  font-size: 2vw; 
-  font-family: "Inter", sans-serif;
-  left: 0;
-  color: black;
+  font-size: 2vw;
+  font-weight: 700;
+  color: #9C1621;
+  text-shadow: 0 0 5px rgba(253, 233, 235, 0.5);
+  letter-spacing: 1px;
 }
+
 .register_buttons {
   width: 50%;
   height: 10vh;
   display: flex;
   align-items: center;
+  background: #FDE9EB;
+  border-radius: 50px;
+  padding: 5px;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
 .login_button,
 .register_button {
   margin-right: 0;
-  position: relative;
   width: 50%;
-  height: 60%;
+  height: 80%;
   border: none;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 1.2vw;
+  font-weight: 600;
+  background: transparent;
+  color: #9C1621;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
+
+.button-icon {
+  margin-right: 8px;
+  font-size: 1.2em;
+}
+
 .login_button {
-  border-top-left-radius: 50px;
-  border-bottom-left-radius: 50px;
+  border-radius: 50px 0 0 50px;
 }
+
 .register_button {
-  border-top-right-radius: 50px;
-  border-bottom-right-radius: 50px;
+  border-radius: 0 50px 50px 0;
 }
+
 .login_button:hover,
 .register_button:hover {
-  background: #9c1621;
   color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
+
 .login_button:active,
 .login_button.active,
 .register_button:active,
 .register_button.active {
-  background: #ff0004;
+  background: linear-gradient(135deg, #9C1621 0%, #AF7077 100%);
   color: white;
-  outline: none;
+  box-shadow: 0 4px 8px rgba(156, 22, 33, 0.3);
 }
-
-.login_rectangle, 
-.register_rectangle {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.register_rectangle {
-  overflow-y: auto;
-}
-.LoginRectangle::-webkit-scrollbar {
-  width: 0px; /* Ancho de la barra de desplazamiento */
-  background: transparent; /* Fondo de la barra de desplazamiento */
-}
-
 
 .inputBox,
 .inputBoxConfirmPassword {
   width: 100%;
   border-radius: 10px;
-  height: 60px; 
+  height: 60px;
   margin: 1vh 0;
   position: relative;
+  background: rgba(253, 233, 235, 0.5);
+  border-radius: 12px;
+  overflow: hidden;
 }
 
-.inputBox input, 
-.inputBoxConfirmPassword input {
-  position: relative;
+.input-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #AF7077;
+  z-index: 10;
+  font-size: 1.2em;
+}
+
+.inputBox input,
+.inputBoxConfirmPassword input,
+.inputBox select {
   width: 100%;
-  padding: 25px 10px 10px;
+  padding: 25px 15px 10px 40px; /* Adjusted for icon */
   background: transparent;
-  outline: none;
-  box-shadow: none;
   border: none;
-  color: white;
+  color: #333;
   font-size: 1em;
   letter-spacing: 0.05em;
-  transition: 0.5s;
   z-index: 10;
-
 }
 
 .inputBox span,
-.inputBoxConfirmPassword span{
+.inputBoxConfirmPassword span {
   position: absolute;
-  left: 0;
-  padding: 20px 10px 10px;
+  left: 40px; /* Adjusted for icon */
+  top: 15px;
   font-size: 1em;
-  color: #000000;
-  letter-spacing: 00.05em;
-  transition: 0.5s;
+  color: #9C1621;
+  transition: all 0.3s ease;
   pointer-events: none;
 }
-.inputBoxConfirmPassword span {
-  padding-left: 5px;
-  font-size: 0.98em
+
+.inputBox input:valid ~ span,
+.inputBox input:focus ~ span,
+.inputBoxConfirmPassword input:valid ~ span,
+.inputBoxConfirmPassword input:focus ~ span,
+.inputBox select:valid ~ span,
+.inputBox select:focus ~ span {
+  transform: translateY(-12px) scale(0.85);
+  color: #9C1621;
+  font-weight: 600;
 }
 
-.inputBox input:valid ~span,
-.inputBox input:focus ~span,
-.inputBoxConfirmPassword input:valid ~span,
-.inputBoxConfirmPassword input:focus ~span {
-  color: #000000;
-  transform: translateX(-5px) translateY(-31px);
-  font-size: 0,75em;
+.inputBox input:focus,
+.inputBoxConfirmPassword input:focus,
+.inputBox select:focus {
+  outline: none;
+  border: none;
 }
 
 .inputBox i,
@@ -215,152 +227,173 @@ body, html {
   bottom: 0;
   width: 100%;
   height: 2px;
-  background: black;
-  border-radius: 4px;
-  transition: 0.5s;
-  pointer-events: none;
+  background: linear-gradient(90deg, #9C1621, #AF7077);
+  transition: all 0.3s;
   z-index: 9;
+  pointer-events: none;
 }
 
-.inputBox input:valid ~i,
-.inputBox input:focus ~i,
-.inputBoxConfirmPassword input:valid ~i,
-.inputBoxConfirmPassword input:focus ~i {
-  height: 50px;
-}
-
-/* .StyledInput, */
-.StyledSelect {
-  width: 100%/*  */;
+.inputBox input:valid ~ i,
+.inputBox input:focus ~ i,
+.inputBoxConfirmPassword input:valid ~ i,
+.inputBoxConfirmPassword input:focus ~ i,
+.inputBox select:focus ~ i {
   height: 100%;
-  padding: 10px;
-  border: 2px solid #ccc;
-  border-radius: 10px;
-  font-size: 1rem;
-  font-family: "Inter", sans-serif;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: border-color 0.3s, box-shadow 0.3s;
-  background-color: #000000;
+  opacity: 0.1;
 }
 
-
-
-
-.StyledInput:focus {
-  border-color: #ff0004;
-  box-shadow: 0 4px 6px rgba(255, 0, 4, 0.3);
-  outline: none;
+.StyledSelect {
+  cursor: pointer;
 }
-
 
 .Ingresar {
   width: 15vw;
-  height: 40px;
-  background: linear-gradient(90deg, #ff7e5f, #feb47b);
-  font-size: 1.5vw;
+  height: 50px;
+  background: linear-gradient(135deg, #9C1621 0%, #AF7077 100%);
+  font-size: 1.2vw;
+  font-weight: 600;
   border: none;
-  border-radius: 25px;
+  border-radius: 50px;
   color: white;
   cursor: pointer;
-  transition: background 0.3s, transform 0.3s;
+  transition: all 0.3s;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-  z-index: 1;
   overflow: hidden;
+  box-shadow: 0 4px 15px rgba(156, 22, 33, 0.4);
+  margin-top: 20px;
 }
 
 .Ingresar:hover {
-  background: linear-gradient(90deg, #feb47b, #ff7e5f);
-  transform: scale(1.05);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(156, 22, 33, 0.6);
 }
 
 .Ingresar:active {
-  transform: scale(0.95);
+  transform: translateY(1px);
 }
 
-.Logo {
-  width: 90%;
-  max-width: 465px;
+.Ingresar::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, transparent 100%);
+  transform: translateY(100%);
+  transition: transform 0.6s cubic-bezier(0.5, 1, 0.89, 1);
 }
 
+.Ingresar:hover::after {
+  transform: translateY(0);
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
 
 .circle {
+  width: 10px;
+  height: 10px;
+  background: white;
+  border-radius: 50%;
+  animation: bounce 1s infinite ease-in-out;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.circle:nth-child(1) { animation-delay: 0s; }
+.circle:nth-child(2) { animation-delay: 0.2s; }
+.circle:nth-child(3) { animation-delay: 0.4s; }
+
+.forgot-password {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.forgot-password a {
+  color: #AF7077;
+  font-size: 0.9em;
+  transition: color 0.3s;
+}
+
+.forgot-password a:hover {
+  color: #9C1621;
+  text-decoration: underline;
+}
+
+.session_rectangle {
+  width: 85%;
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.session_rectangle::-webkit-scrollbar {
   width: 8px;
-  height: 8px;
+}
+
+.session_rectangle::-webkit-scrollbar-track {
+  background: rgba(253, 233, 235, 0.5);
+  border-radius: 10px;
+}
+
+.session_rectangle::-webkit-scrollbar-thumb {
+  background: linear-gradient(#9C1621, #AF7077);
+  border-radius: 10px;
+}
+
+.session_rectangle::-webkit-scrollbar-thumb:hover {
+  background: #9C1621;
+}
+
+.Line1 {
   position: absolute;
-  border-radius: 50%;
-  background-color: #fff;
-  top: 50%;
-  transform-origin: center;
-  animation: circle7124 0.5s alternate infinite ease;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #9C1621, #AF7077, transparent);
+  animation: lineFlow 3s linear infinite;
+  background-size: 200% 100%;
 }
 
-@keyframes circle7124 {
-  0% {
-    transform: translateY(0px) scaleX(1.5);
+@keyframes lineFlow {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@media (max-width: 768px) {
+  .LogoRectangle,
+  .LoginRectangle {
+    width: 90vw;
+    height: auto;
+    min-height: 400px;
+    margin: 0;
+    margin-bottom: 20px;
   }
-  50% {
-    transform: translateY(-5px) scaleX(1);
+  
+  .IniciarSesion {
+    font-size: 1.5rem;
   }
-  100% {
-    transform: translateY(-10px);
+  
+  .login_button,
+  .register_button {
+    font-size: 0.9rem;
   }
-}
-
-.circle:nth-child(1) {
-  left: 24%;
-  animation-delay: 0.1s;
-}
-
-.circle:nth-child(2) {
-  left: 47%;
-  animation-delay: 0.2s;
-}
-
-.circle:nth-child(3) {
-  left: 70%;
-  animation-delay: 0.3s;
-}
-
-.shadow {
-  width: 15px;
-  height: 3px;
-  border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.3);
-  position: absolute;
-  top: 80%;
-  transform-origin: center;
-  filter: blur(1px);
-  animation: shadow046 0.5s alternate infinite ease;
-}
-
-@keyframes shadow046 {
-  0% {
-    transform: scaleX(1.5);
+  
+  .Ingresar {
+    width: 50vw;
+    font-size: 1rem;
   }
-  50% {
-    transform: scaleX(1);
-    opacity: 0.7;
-  }
-  100% {
-    transform: scaleX(0.5);
-    opacity: 0.4;
-  }
-}
-
-.shadow:nth-child(4) {
-  left: 22%;
-  animation-delay: 0.1s;
-}
-
-.shadow:nth-child(5) {
-  left: 45%;
-  animation-delay: 0.2s;
-}
-
-.shadow:nth-child(6) {
-  left: 68%;
-  animation-delay: 0.3s;
 }
