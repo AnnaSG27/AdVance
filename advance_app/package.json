@@ -10,7 +10,27 @@
     "electron": "electron .",
     "electron-dev": "cross-env NODE_ENV=development concurrently -k \"npm run dev\" \"wait-on http://localhost:5173 && electron .\"",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "dist": "npm run build && electron-builder"
+  },
+  "build": {
+    "appId": "com.jose.advance",
+    "productName": "AdVance",
+    "directories": {
+      "buildResources": "assets",
+      "output": "dist"
+    },
+    "files": [
+      "dist/**/*",
+      "main.cjs",
+      "package.json"
+    ],
+    "extraMetadata": {
+      "main": "main.cjs"
+    },
+    "win": {
+      "target": "nsis"
+    }
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
@@ -32,6 +52,7 @@
     "concurrently": "^9.1.2",
     "cross-env": "^7.0.3",
     "electron": "^34.2.0",
+    "electron-builder": "^26.0.12",
     "electron-reload": "^2.0.0-alpha.1",
     "eslint": "^9.19.0",
     "eslint-plugin-react": "^7.37.4",

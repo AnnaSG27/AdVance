@@ -23,7 +23,7 @@ const MenuBar = ({
             <div className="MenuLogo">
                 <img 
                     className="logo" 
-                    src="/images/logo.png" 
+                    src="./images/logo.png" 
                     alt="Logo AdVance"
                     onError={(e) => {
                         e.target.src = "https://via.placeholder.com/100?text=AdVance";

@@ -19,6 +19,7 @@ function createWindow() {
     const prodURL = `file://${path.join(__dirname, 'dist', 'index.html')}`;
     if (process.env.NODE_ENV === 'development'){
         console.log("dev");
+        win.webContents.openDevTools();
     }
     else{
         console.log("pro");
@@ -31,7 +32,6 @@ function createWindow() {
     win.loadURL(url);
 
     // Abre las herramientas de desarrollo (opcional)
-    win.webContents.openDevTools();
     win.setMenuBarVisibility(false);
     win.removeMenu();
     win.setBackgroundColor('#AF7077');

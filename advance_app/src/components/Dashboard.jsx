@@ -324,7 +324,6 @@ const Dashboard = () => {
   // Publicación a instagram
   const handlePublish = async () => {
     setLoading(true);
-    const accessToken = "EAAPJ7bYKl3YBOxZB5nR8sf95QRmlFTAQPrE56InU5ocZAXXpvIX057RXQj8xf4mHFLBhutwVBLubUgbSgPqxUcmG2wrPk8ATQsclrZB5geM8qMnuUkBNjcKjbM1srKfcKcRtftiHMWbfkPy5YH4KraHK4B2xewgg16xhnWZCp9eKdEZAk2PhWDQrbXPZBPjtR4xhgtZCdNso1080QFlZAl7p8YuA2K05HTFl";
 
     try {
 
@@ -335,7 +334,6 @@ const Dashboard = () => {
         },
         body: JSON.stringify({
           idRequest: idRequest,
-          accessToken: accessToken,
         }),
       });
 
@@ -370,7 +368,7 @@ const Dashboard = () => {
               <div className="foto_usuario">
                 <img
                   className="foto"
-                  src="/images/foto_usuario.jpg"
+                  src="./images/foto_usuario.jpg"
                   alt="Foto de perfil"
                   onError={(e) => {
                     e.target.src = "https://via.placeholder.com/150?text=Usuario";

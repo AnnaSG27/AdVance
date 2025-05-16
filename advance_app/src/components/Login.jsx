@@ -125,7 +125,7 @@ const Login = () => {
       <div className="LogoRectangle">
         <img
           className="Logo"
-          src="/images/logo.png"
+          src="./images/logo.png"
           alt="Logo"
           onError={(e) => {
             e.target.src = "https://via.placeholder.com/150?text=AdVance";
