@@ -152,7 +152,6 @@ def handle_vacancy(request):
             vacancyName = data.get('vacancyName')
             vacancyDescription = data.get("vacancyDescription")
             fileUrl = data.get("fileUrl")
-            vacancyLink = data.get("vacancyLink")
             selectedSocials = data.get("selectedSocials")
             selectedSocials = ', '.join(selectedSocials) if isinstance(selectedSocials, list) else selectedSocials
             vacancyState = data.get("vacancyState")
@@ -165,8 +164,8 @@ def handle_vacancy(request):
 
             
             # Insertar el nuevo usuario
-            query = "INSERT INTO vacancy (id_user, vacancyName, vacancyDescription, fileUrl, selectedSocials, vacancyLink, state) VALUES(%s, %s, %s, %s, %s, %s, %s)"
-            cursor.execute(query, (userId, vacancyName, vacancyDescription, fileUrl, selectedSocials, vacancyLink, vacancyState, ))
+            query = "INSERT INTO vacancy (id_user, vacancyName, vacancyDescription, fileUrl, selectedSocials, state) VALUES(%s, %s, %s, %s, %s, %s)"
+            cursor.execute(query, (userId, vacancyName, vacancyDescription, fileUrl, selectedSocials, vacancyState, ))
             db.commit()
 
             cursor.execute("SELECT LAST_INSERT_ID()")
@@ -209,11 +208,10 @@ def load_vacancys(request):
                  "time": row[1],
                  "vacancyName": row[2],
                  "fileUrl": row[4],
-                 "vacancyLink": row[5],
-                 "selectedSocials": row[6],
-                 "vacancyDescription": row[7],
-                 "vacancyState": row[8],
-                 "suggestEdit": row[9]} for row in result
+                 "selectedSocials": row[5],
+                 "vacancyDescription": row[6],
+                 "vacancyState": row[7],
+                 "suggestEdit": row[8]} for row in result
             ]
             
             return JsonResponse({"vacancys": vacancysList}, status=200)
@@ -248,14 +246,13 @@ def load_requests(request):
                 {"vacancyId": row[0],
                  "vacancyName": row[2],
                  "fileUrl": row[4],
-                 "vacancyLink": row[5],
-                 "selectSocials": row[6],
-                 "vacancyDescription": row[7],
-                 "requestState": row[8],
-                 "email": row[9],
-                 "nombreEmpresa": row[10],
-                 "idRequest": row[11],
-                 "suggestEdit": row[12]} for row in result
+                 "selectSocials": row[5],
+                 "vacancyDescription": row[6],
+                 "requestState": row[7],
+                 "email": row[8],
+                 "nombreEmpresa": row[9],
+                 "idRequest": row[10],
+                 "suggestEdit": row[11]} for row in result
             ]
             
             return JsonResponse({"requests": requestList}, status=200)
@@ -282,7 +279,6 @@ def suggest_edit(request):
             data = json.loads(request.body)
             idRequest = data.get("idRequest")
             suggestEdit = data.get("suggestEdit")
-            print(f"Request ID: {idRequest}, Suggest edit: {suggestEdit}")
             
             query = "UPDATE adminRequest SET suggestEdit = %s WHERE idVacante = %s;"
             cursor.execute(query, (suggestEdit, idRequest,))
@@ -371,9 +367,6 @@ def get_instagram_account_id(accessToken):
     
 
 def upload_image_to_instagram(access_token, instagram_account_id, content):
-    print(content)
-    print(f'image: {content["fileUrl"]}')
-    print(f'caption: {content["post_caption"]}')
     url = f'https://graph.facebook.com/v22.0/{instagram_account_id}/media'
     params = {
         "image_url": content["fileUrl"], "caption": content["post_caption"], "access_token": access_token,
@@ -406,6 +399,10 @@ def handle_edit_vacancy(request):
                 query = f"UPDATE vacancy SET {field} = %s WHERE idVacante = %s;"
                 cursor.execute(query, (edit, idVacancy,))
                 db.commit()
+                
+            query = 'UPDATE vacancy SET state = "review" WHERE idVacante = %s'
+            cursor.execute(query, (idVacancy,))
+            db.commit()
                 
             return JsonResponse({"message": "success"}, status=201)
         except json.JSONDecodeError as e:

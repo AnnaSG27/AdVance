@@ -27,7 +27,6 @@ const Dashboard = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [vacancyName, setVacancyName] = useState("");
   const [vacancyDescription, setVacancyDescription] = useState('');
-  const [vacancyLink, setVacancyLink] = useState('');
   const [request, setRequest] = useState(null);
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -42,6 +41,7 @@ const Dashboard = () => {
   const [activeFilter, setActiveFilter] = useState("review");
   const [isEditVacancyModalOpen, setIsEditVacancyModalOpen] = useState(false);
   const [activeVacancy, setActiveVacancy] = useState("");
+  const [loading, setLoading] = useState(false);
 
   let userNombreEmpresa = "";
   if (userType === 'reclutador') {
@@ -88,7 +88,6 @@ const Dashboard = () => {
       setIsAddVacancyModalOpen(true);
       setVacancyName('');
       setVacancyDescription('');
-      setVacancyLink('');
       setFile(null);
       setPreview(null);
       setSelectedSocials([]);
@@ -184,10 +183,12 @@ const Dashboard = () => {
   };
 
   const handleVacancy = async () => {
-    if (!vacancyName || !vacancyDescription) {
-      toast.error("❌ Nombre y descripción son obligatorios");
+    if (!vacancyName || !vacancyDescription || !file || selectedSocials.length == 0) {
+      toast.error("Todos los campos son necesarios");
       return;
     }
+
+    setLoading(true);
 
     try {
       let fileUrl = null;
@@ -209,7 +210,6 @@ const Dashboard = () => {
           vacancyName,
           vacancyDescription,
           fileUrl,
-          vacancyLink,
           selectedSocials,
           vacancyState
         }),
@@ -226,6 +226,11 @@ const Dashboard = () => {
     } catch (error) {
       console.error("Error during fetch:", error);
       toast.error("⚠️ Error al conectar con el servidor");
+    } finally {
+      setLoading(false);
+      setVacancyName("");
+      setVacancyDescription("");
+      setSelectedSocials([]);
     }
   };
 
@@ -318,26 +323,34 @@ const Dashboard = () => {
 
   // Publicación a instagram
   const handlePublish = async () => {
-    const accessToken = "EAAPJ7bYKl3YBOZCkLInvWRrqpU1jOH6RpOJOdB2U684FaCFZBPidG9l8RqICKrlTk1tr6dqyovksaXUZCFfqivttUkmpUOPqsgyX0YIeb4QVEP2tAPAtfXz9gCE0OtQngJdqKYt9IB9vtkrMcbwZCg25mE4aA4yZBpdM668uZBxkCYJB86dCb4zXaEN4kZAhMHLp6qOIGFsWWpdQsI0lw2digcZD";
+    setLoading(true);
+    const accessToken = "EAAPJ7bYKl3YBOxZB5nR8sf95QRmlFTAQPrE56InU5ocZAXXpvIX057RXQj8xf4mHFLBhutwVBLubUgbSgPqxUcmG2wrPk8ATQsclrZB5geM8qMnuUkBNjcKjbM1srKfcKcRtftiHMWbfkPy5YH4KraHK4B2xewgg16xhnWZCp9eKdEZAk2PhWDQrbXPZBPjtR4xhgtZCdNso1080QFlZAl7p8YuA2K05HTFl";
 
-    const response = await fetch("http://localhost:8000/api/post_to_instagram/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        idRequest: idRequest,
-        accessToken: accessToken,
-      }),
-    });
+    try {
 
-    const data = await response.json();
-    if (data.message === "success") {
-      closeModal("request");
-      loadRequests();
-      toast.success("¡Publicación exitosa!");
-    } else {
-      toast.success("Hubo un error al publicar en Instagram.");
+      const response = await fetch("http://localhost:8000/api/post_to_instagram/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          idRequest: idRequest,
+          accessToken: accessToken,
+        }),
+      });
+
+      const data = await response.json();
+      if (data.message === "success") {
+        closeModal("request");
+        loadRequests();
+        toast.success("¡Publicación exitosa!");
+      } else {
+        toast.success("Hubo un error al publicar en Instagram.");
+      }
+    } catch (error) {
+      console.error("Error during fetch:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -507,16 +520,6 @@ const Dashboard = () => {
                               style={{ maxWidth: "100%", maxHeight: "300px" }}
                             />
                           )}
-                          <h3>Link de la vacante:</h3>
-                          <p>
-                            <a
-                              href={vacancy.vacancyLink}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              {vacancy.vacancyLink}
-                            </a>
-                          </p>
                           <h3>Redes sociales a publicar:</h3>
                           <ul>
                             {vacancy.selectedSocials ? (
@@ -554,25 +557,23 @@ const Dashboard = () => {
               </button>
             </div>
             <EditVacancyModal
-              userType = {userType}
-              activeButton = {activeButton }
-              loadVacancys = {loadVacancys}
-              activeVacancy = {activeVacancy}
-              isEditVacancyModalOpen = {isEditVacancyModalOpen}
-              setIsEditVacancyModalOpen = {setIsEditVacancyModalOpen}
-              handleFileChange = {handleFileChange}
-              preview = {preview}
-              socialNetworks = {socialNetworks}
-              selectedSocials = {selectedSocials}
-              file = {file}
-              setFile = {setFile}
-              vacancyName = {vacancyName}
-              setVacancyName = {setVacancyName}
-              vacancyDescription = {vacancyDescription}
-              setVacancyDescrition = {setVacancyDescription}
-              vacancyLink = {vacancyLink}
-              setVacancyLink = {setVacancyLink}
-              handleSocialClick = {handleSocialClick}
+              userType={userType}
+              activeButton={activeButton}
+              loadVacancys={loadVacancys}
+              activeVacancy={activeVacancy}
+              isEditVacancyModalOpen={isEditVacancyModalOpen}
+              setIsEditVacancyModalOpen={setIsEditVacancyModalOpen}
+              handleFileChange={handleFileChange}
+              preview={preview}
+              socialNetworks={socialNetworks}
+              selectedSocials={selectedSocials}
+              file={file}
+              setFile={setFile}
+              vacancyName={vacancyName}
+              setVacancyName={setVacancyName}
+              vacancyDescription={vacancyDescription}
+              setVacancyDescrition={setVacancyDescription}
+              handleSocialClick={handleSocialClick}
               uploadToCloudinary={uploadToCloudinary}
             />
             <Modal
@@ -645,15 +646,6 @@ const Dashboard = () => {
                     </div>
                   )}
                 </div>
-                <div className="addVacancyLink">
-                  <h2>Link:</h2>
-                  <textarea
-                    className="StyledTextareaVacancy"
-                    value={vacancyLink}
-                    onChange={(e) => setVacancyLink(e.target.value)}
-                    placeholder="https://tuvacante.com"
-                  />
-                </div>
                 <div className="addVacancySocialMedia">
                   <h2>Selecciona las redes sociales a las que quieres publicar:</h2>
                   <div className="social-options">
@@ -689,8 +681,19 @@ const Dashboard = () => {
               </div>
               <div className="vacancyModalFoot">
                 <button className="saveButton" onClick={handleVacancy}>
-                  Guardar
+                  {loading ? (
+                    <div className="wrapper">
+                      <div className="circle"></div>
+                      <div className="circle"></div>
+                      <div className="circle"></div>
+                    </div>
+                  ) : (
+                    <>
+                      Guardar
+                    </>
+                  )}
                 </button>
+
                 <button
                   className="cancelButton"
                   onClick={() => closeModal("addVacancy")}
@@ -703,8 +706,33 @@ const Dashboard = () => {
         ) : activeButton === "misSolicitudes" ? (
           <div className="cuerpo_ventana">
             <div className="requests">
+              <div className="vacanciesMenu">
+                <button
+                  className={`buttonVacancies ${activeFilter === "review" ? "active" : ""}`}
+                  onClick={() => setActiveFilter("review")}
+                >
+                  En revisión
+                </button>
+                <button
+                  className={`buttonVacancies ${activeFilter === "update" ? "active" : ""}`}
+                  onClick={() => setActiveFilter("update")}
+                >
+                  Actualizar
+                </button>
+                <button
+                  className={`buttonVacancies ${activeFilter === "published" ? "active" : ""}`}
+                  onClick={() => setActiveFilter("published")}
+                >
+                  Publicadas
+                </button>
+              </div>
               {userRequests.length > 0 ? (
-                userRequests.map((request) => (
+                userRequests.filter(request => {
+                  if (activeFilter === "review") return request.requestState === "review";
+                  if (activeFilter === "update") return request.requestState === "update";
+                  if (activeFilter === "published") return request.requestState === "published";
+                  return true;
+                }).map((request) => (
                   <div
                     key={request.idRequest}
                     className="requestCard"
@@ -796,16 +824,6 @@ const Dashboard = () => {
                     <p>No disponible</p>
                   )}
                 </div>
-                <div className="addVacancyLink">
-                  <h2>Link:</h2>
-                  <a
-                    href={request?.vacancyLink || "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {request?.vacancyLink || "No disponible"}
-                  </a>
-                </div>
                 <div className="addVacancySocialMedia">
                   <h2>Redes sociales a publicar:</h2>
                   <ul>
@@ -844,7 +862,17 @@ const Dashboard = () => {
                       className="publishButton"
                       onClick={handlePublish}
                     >
-                      Publicar
+                      {loading ? (
+                        <div className="wrapper">
+                          <div className="circle"></div>
+                          <div className="circle"></div>
+                          <div className="circle"></div>
+                        </div>
+                      ) : (
+                        <>
+                          Publicar
+                        </>
+                      )}
                     </button>
                     <button
                       className="suggestEditButton"

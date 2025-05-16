@@ -20,13 +20,11 @@ const EditVacancyModal = ({
 
     const [newName, setNewName] = useState("");
     const [newDescription, setNewDescription] = useState("");
-    const [newLink, setNewLink] = useState("");
 
     useEffect(() => {
         if (activeVacancy) {
             setNewName(activeVacancy.vacancyName || "");
             setNewDescription(activeVacancy.vacancyDescription || "");
-            setNewLink(activeVacancy.vacancyLink || "");
         }
     }, [activeVacancy]);
 
@@ -47,10 +45,6 @@ const EditVacancyModal = ({
         if (activeVacancy.vacancyDescription != newDescription) {
             fields_to_edit.push("vacancyDescription");
             edits.push(newDescription);
-        }
-        if (activeVacancy.vacancyLink != newLink) {
-            fields_to_edit.push("vacancyLink");
-            edits.push(newLink);
         }
         if (file) {
             let fileUrl = await uploadToCloudinary(file);
@@ -179,15 +173,6 @@ const EditVacancyModal = ({
                             )}
                         </div>
                     )}
-                </div>
-                <div className="addVacancyLink">
-                    <h2>Link:</h2>
-                    <textarea
-                        className="StyledTextareaVacancy"
-                        value={newLink}
-                        onChange={(e) => setNewLink(e.target.value)}
-                        placeholder="https://tuvacante.com"
-                    />
                 </div>
                 <div className="addVacancySocialMedia">
                     <div className="selected-socials">
