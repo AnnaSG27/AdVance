@@ -3,3 +3,4 @@ django-cors-headers
 django-sslserver
 mysqlclient
 python-dotenv
+requests
