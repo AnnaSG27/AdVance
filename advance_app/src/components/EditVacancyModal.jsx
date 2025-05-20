@@ -102,6 +102,12 @@ const EditVacancyModal = ({
                 <h1>Editar Vacante</h1>
             </div>
             <div className="vacancyModalBody">
+                <div className="addVacancySocialMedia">
+                    <div className="selected-socials">
+                        <h3>Edición sugerida:</h3>
+                        <p>{activeVacancy.suggestEdit}</p>
+                    </div>
+                </div>
                 <div className="addVacancyName">
                     <h2>Nombre de la vacante:</h2>
                     <textarea
@@ -188,12 +194,6 @@ const EditVacancyModal = ({
                                 <li>No especificado</li>
                             )}
                         </ul>
-                    </div>
-                </div>
-                <div className="addVacancySocialMedia">
-                    <div className="selected-socials">
-                        <h3>Edición sugerida:</h3>
-                        <p>{activeVacancy.suggestEdit}</p>
                     </div>
                 </div>
             </div>
