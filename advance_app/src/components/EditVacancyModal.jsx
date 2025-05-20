@@ -190,6 +190,12 @@ const EditVacancyModal = ({
                         </ul>
                     </div>
                 </div>
+                <div className="addVacancySocialMedia">
+                    <div className="selected-socials">
+                        <h3>Edición sugerida:</h3>
+                        <p>{activeVacancy.suggestEdit}</p>
+                    </div>
+                </div>
             </div>
             <div className="vacancyModalFoot">
                 <button className="saveButton" onClick={handleEditVacancy}>
