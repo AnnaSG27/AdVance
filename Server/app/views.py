@@ -417,3 +417,41 @@ def handle_edit_vacancy(request):
     
     print("Invalid request method")
     return JsonResponse({"message": "Invalid request method"}, status=405)
+
+@csrf_exempt
+def delete_vacancy(request):
+    if request.method == 'POST':
+        try:
+            db = get_db_connection()
+            cursor = db.cursor()
+
+            data = json.loads(request.body)
+            vacancyId = data.get("vacancyId")
+                
+            adminRequestQuery = 'DELETE FROM adminRequest WHERE idVacante = %s'
+            cursor.execute(adminRequestQuery, (vacancyId,))
+            db.commit()
+
+            if cursor.rowcount > 0:
+                vancancyQuery = 'DELETE FROM vacancy WHERE idVacante = %s'
+                cursor.execute(vancancyQuery, (vacancyId,))
+                db.commit()
+
+                if cursor.rowcount > 0:
+                    return JsonResponse({"message": "success"}, status=201)
+                else:
+                    return JsonResponse({"message": "failed"}, status=401)
+            else:
+                return JsonResponse({"message": "failed"}, status=401)
+        except json.JSONDecodeError as e:
+            print(f"Error decoding JSON: {e}")
+            return JsonResponse({"message": "Invalid JSON"}, status=400)
+        except Exception as e:
+            print(f"Unexpected error: {e}")
+            return JsonResponse({"message": "Internal server error"}, status=500)
+        finally:
+            if db:
+                db.close()
+    
+    print("Invalid request method")
+    return JsonResponse({"message": "Invalid request method"}, status=405)
