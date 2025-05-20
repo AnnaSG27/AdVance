@@ -15,6 +15,7 @@ const EditVacancyModal = ({
     preview,
     file,
     uploadToCloudinary,
+    deleteVacancy
 }) => {
     const navigate = useNavigate();
 
@@ -200,6 +201,16 @@ const EditVacancyModal = ({
             <div className="vacancyModalFoot">
                 <button className="saveButton" onClick={handleEditVacancy}>
                     Guardar
+                </button>
+                <button
+                    className="cancelButton"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        deleteVacancy(activeVacancy.vacancyId);
+                        closeEditVacanacyModal();
+                    }}
+                >
+                    Eliminar vacante
                 </button>
                 <button
                     className="cancelButton"
