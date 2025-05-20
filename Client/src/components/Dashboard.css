@@ -648,22 +648,23 @@ html {
   bottom: 3vh;
   right: 3vw;
   z-index: 100;
+  width: 60px;
+  height: 60px;
 }
 
 .addAdButton {
-  width: 55px;
-  height: 55px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   background: var(--primary);
   color: white;
-  font-size: 1.5em;
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .addAdButton:hover {
