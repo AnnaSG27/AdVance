@@ -11,4 +11,5 @@ urlpatterns = [
     path("suggest_edit/", suggest_edit, name="suggest_edit"),
     path("post_to_instagram/", post_to_instagram, name="post_to_instagram"),
     path("handle_edit_vacancy/", handle_edit_vacancy, name="handle_edit_vacancy"),
+    path("delete_vacancy/", delete_vacancy, name="delete_vacancy"),
 ]
