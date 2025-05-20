@@ -352,6 +352,35 @@ const Dashboard = () => {
     }
   };
 
+  const deleteVacancy = async (vacancyId) => {
+    try {
+
+      const response = await fetch("http://localhost:8000/api/delete_vacancy/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          vacancyId: vacancyId,
+        }),
+      });
+
+      const data = await response.json();
+      if (data.message === "success") {
+        setUserVacancys(prevVacancys => prevVacancys.filter(v => v.vacancyId !== vacancyId));
+        loadVacancys();
+        if (expandedVacancy === vacancyId) {
+          setExpandedVacancy(null);
+        }
+        toast.success("¡Vacante eliminada!");
+      } else {
+        toast.error("Hubo un error al eliminar la vacante");
+      }
+    } catch (error) {
+      console.error("Error during fetch:", error);
+    }
+  };
+
   return (
     <div className="Desktop1">
       <MenuBar
@@ -536,6 +565,18 @@ const Dashboard = () => {
                               <p>{vacancy.suggestEdit}</p>
                             </div>
                           )}
+
+                          {vacancy.vacancyState === "review" && (
+                            <button
+                              className="cancelButton"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                deleteVacancy(vacancy.vacancyId);
+                              }}
+                            >
+                              Eliminar vacante
+                            </button>
+                          )}
                         </div>
                       )}
                     </div>
@@ -573,6 +614,7 @@ const Dashboard = () => {
               setVacancyDescrition={setVacancyDescription}
               handleSocialClick={handleSocialClick}
               uploadToCloudinary={uploadToCloudinary}
+              deleteVacancy = {deleteVacancy}
             />
             <Modal
               isOpen={isAddVacancyModalOpen}
