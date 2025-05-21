@@ -8,6 +8,7 @@ import requests
 from django.http import JsonResponse
 
 
+# Función para establecer la conexión a la base de datos
 def get_db_connection():
     return MySQLdb.connect(
         host=settings.DATABASES['default']['HOST'],
@@ -16,31 +17,40 @@ def get_db_connection():
         db=settings.DATABASES['default']['NAME']
     )
 
+# Función de login
 @csrf_exempt
 def login_view(request):
     if request.method == 'POST':
         try:
+            # se traen los datos del request del cliente
             data = json.loads(request.body)
             email = data.get('email')
             password = data.get('password')
-            print(f"Email: {email}, Password: {password}")
             
             db = get_db_connection()
             cursor = db.cursor()
             
-
+            # Se verifica que el usuario (email) si exista
             checkEmailQuery = "SELECT * FROM user WHERE email = %s"
             cursor.execute(checkEmailQuery, (email,))
             resultEmail = cursor.fetchone()
             if not resultEmail:
                 return JsonResponse({"message": "Email does not exists"}, status=400)
             
+            # Se verifica que el usuario coincida con la contraseña
             query = "SELECT * FROM user WHERE email = %s AND password = %s"
             cursor.execute(query, (email, password))
             result = cursor.fetchone()
         
+            # si los creedenciales coinciden, se manda una respuesta 200
             if result:
-                return JsonResponse({"message": "Login successful", "id": result[0], "email": result[1], "password": result[2], "description": result[3], "nombreEmpresa": result[4], "userType": result[5]}, status=200)
+                return JsonResponse({"message": "Login successful", 
+                                     "id": result[0], "email": result[1], 
+                                     "password": result[2], 
+                                     "description": result[3], 
+                                     "nombreEmpresa": result[4], 
+                                     "userType": result[5]}, 
+                                     status=200)
             else:
                 return JsonResponse({"message": "Invalid password"}, status=400)
             
@@ -54,9 +64,9 @@ def login_view(request):
             if db:
                 db.close()
     
-    print("Invalid request method")
     return JsonResponse({"message": "Invalid request method"}, status=405)
 
+# Función de registro de un usuario
 @csrf_exempt
 def register_view(request):
     if request.method == 'POST':
@@ -99,6 +109,7 @@ def register_view(request):
     print("Invalid request method")
     return JsonResponse({"message": "Invalid request method"}, status=405)
 
+# Función para editar el perfil
 @csrf_exempt
 def edit_profile(request):
     if request.method == 'PATCH':
@@ -140,6 +151,7 @@ def edit_profile(request):
     print("Invalid request method")
     return JsonResponse({"message": "Invalid request method"}, status=405)
 
+# Función para crear y guardar una vacante
 @csrf_exempt
 def handle_vacancy(request):
     if request.method == 'POST':
@@ -189,6 +201,7 @@ def handle_vacancy(request):
     print("Invalid request method")
     return JsonResponse({"message": "Invalid request method"}, status=405)
 
+# Función que devuelve las vacantes creadas por un usuario
 @csrf_exempt
 def load_vacancys(request):
     if request.method == 'GET':
@@ -227,6 +240,7 @@ def load_vacancys(request):
     
     print("Invalid request method")
     return JsonResponse({"message": "Invalid request method"}, status=405)
+
 
 @csrf_exempt
 def load_requests(request):
