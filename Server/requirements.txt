@@ -4,3 +4,6 @@ django-sslserver
 mysqlclient
 python-dotenv
 requests
+gunicorn
+dj-database--url
+whitenoise
