@@ -2,5 +2,5 @@ venv/
 *.pyc
 advance_backend/__pycache__/
 db.sqlite3
-*.env
+advance_backend/.env
 /staticfiles/
