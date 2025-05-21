@@ -32,9 +32,6 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 DEBUG = os.getenv('DJANGO_DEBUG') == 'True'
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
-print(SECRET_KEY)
-print(DEBUG)
-print(ALLOWED_HOSTS)
 
 # Application definition
 
