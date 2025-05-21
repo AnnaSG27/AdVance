@@ -39,5 +39,10 @@
      ```
 
 **Importante**:
+- Es importante tener instalado Node.js, en caso de no tenerlo instalarlo desde:
+	```bash
+     https://nodejs.org/es/download
+     ```
+     Y luego utilizar los comandos indicados anteriormente.
 - Ambos procesos deben permanecer ejecutándose en terminales separadas
 - El orden de ejecución puede ser indistinto (servidor primero o cliente primero)
