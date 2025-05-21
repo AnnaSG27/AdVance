@@ -38,39 +38,6 @@
      npm run electron-dev
      ```
 
-2. **Preparar el servidor (Backend)**:
-   - En una nueva terminal, abre la carpeta del proyecto y navega a la carpeta `Server`:
-     ```bash
-     # Mac y Windows
-     cd Server
-     ```
-   - Crea y activa el entorno virtual
-	   ```bash
-     # Mac
-     python3 -m venv (Nombre_entorno)
-     ```
-     ```bash
-     source (Nombre_entorno)/bin/activate
-     ```
-   
-     ```bash
-     # Windows
-     python -m venv (Nombre_entorno)
-     ```
-     ```bash
-     (Nombre_entorno)\Scripts\activate
-     ```
-   - Instala las dependencias de Python:
-     ```bash
-     # Mac y Windows
-     pip install -r requirements.txt
-     ```
-   - Inicia el servidor de desarrollo:
-     ```bash
-     # Mac y Windows
-     py manage.py runserver
-     ```
-
 **Importante**:
 - Ambos procesos deben permanecer ejecutándose en terminales separadas
 - El orden de ejecución puede ser indistinto (servidor primero o cliente primero)
