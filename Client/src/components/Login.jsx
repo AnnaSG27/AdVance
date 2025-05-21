@@ -35,7 +35,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:8000/api/login/", {
+      const response = await fetch("https://advance-2uy7.onrender.com/api/login/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -85,7 +85,7 @@ const Login = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:8000/api/register/", {
+      const response = await fetch("https://advance-2uy7.onrender.com/api/register/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

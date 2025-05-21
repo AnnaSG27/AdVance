@@ -200,7 +200,7 @@ const Dashboard = () => {
         }
       }
 
-      const response = await fetch("http://localhost:8000/api/handle_vacancy/", {
+      const response = await fetch("https://advance-2uy7.onrender.com/api/handle_vacancy/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -236,7 +236,7 @@ const Dashboard = () => {
 
   const loadVacancys = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/api/load_vacancys/?userId=${userId}`, {
+      const response = await fetch(`https://advance-2uy7.onrender.com/api/load_vacancys/?userId=${userId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -257,7 +257,7 @@ const Dashboard = () => {
 
   const loadRequests = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/api/load_requests/?userId=${userId}`, {
+      const response = await fetch(`https://advance-2uy7.onrender.com/api/load_requests/?userId=${userId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -287,7 +287,7 @@ const Dashboard = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:8000/api/suggest_edit/", {
+      const response = await fetch("https://advance-2uy7.onrender.com/api/suggest_edit/", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -327,7 +327,7 @@ const Dashboard = () => {
 
     try {
 
-      const response = await fetch("http://localhost:8000/api/post_to_instagram/", {
+      const response = await fetch("https://advance-2uy7.onrender.com/api/post_to_instagram/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -355,7 +355,7 @@ const Dashboard = () => {
   const deleteVacancy = async (vacancyId) => {
     try {
 
-      const response = await fetch("http://localhost:8000/api/delete_vacancy/", {
+      const response = await fetch("https://advance-2uy7.onrender.com/api/delete_vacancy/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

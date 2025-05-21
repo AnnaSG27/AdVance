@@ -56,7 +56,7 @@ const EditVacancyModal = ({
 
         console.log(fields_to_edit);
         try {
-            const response = await fetch("http://localhost:8000/api/handle_edit_vacancy/", {
+            const response = await fetch("https://advance-2uy7.onrender.comapi/handle_edit_vacancy/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
