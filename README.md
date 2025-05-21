@@ -62,10 +62,12 @@
      ```
    - Instala las dependencias de Python:
      ```bash
+     # Mac y Windows
      pip install -r requirements.txt
      ```
    - Inicia el servidor de desarrollo:
      ```bash
+     # Mac y Windows
      py manage.py runserver
      ```
 
