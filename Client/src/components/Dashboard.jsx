@@ -115,7 +115,7 @@ const Dashboard = () => {
 
   const handleEdit = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/edit_profile/", {
+      const response = await fetch("https://advance-2uy7.onrender.com/api/edit_profile/", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
